@@ -6,6 +6,7 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/switchMap'
 import { User } from '../user-model/user'
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class UserService {
@@ -13,8 +14,13 @@ export class UserService {
   ///////////////
   // Variables //
   ///////////////
-  public userObervable: Observable<User>
-  public user: User = new User('bihhc6mTKZbZXmJ7Sf9e7mSriQ53','','','')
+  public user: User = new User('','','','')
+  private authState: Observable<firebase.User>;
+
+  //////////////
+  // Subjects //
+  //////////////
+  public userSubject: Subject<User> = new Subject<User>()
 
   //////////////////
   // Constructors //
@@ -24,10 +30,14 @@ export class UserService {
     private angularFireStore: AngularFirestore,
     private router: Router
   ) {
-    this.userObervable = this.angularFireAuth.authState.switchMap(user => {
+
+    this.angularFireAuth.authState.subscribe(user => {
       if (user) {
-        this.user = new User(user.uid, user.email, user.photoURL, user.displayName)
-        return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges()
+        return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( cUser => {
+          sessionStorage.setItem('userId', user.uid)
+          this.user = new User(cUser.userId, cUser.email, cUser.photoURL, cUser.displayName)
+          this.userSubject.next(this.user)
+        })
       } else {
         return Observable.of(null)
       }
@@ -35,7 +45,7 @@ export class UserService {
   }
 
   ///////////////
-  // Functions //
+  // Functions // 
   ///////////////
   public googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
@@ -49,8 +59,6 @@ export class UserService {
   }
 
   private updateUserData(user) {
-    console.log('_______________________________________________')
-    console.log(user)
     const userRef: AngularFirestoreDocument<any> = this.angularFireStore.doc(`users/${user.uid}`)
     const data: any = {
       userId: user.uid,
@@ -58,10 +66,12 @@ export class UserService {
       displayName: user.displayName,
       photoURL: user.photoURL,
     }
+    this.setUser(new User(user.uid, user.email, user.displayName, user.photoURL))
     return userRef.set(data, { merge: true })
   }
 
   public signOut() {
+    this.user = new User('','','','')
     this.angularFireAuth.auth.signOut().then( () => {
         this.router.navigate(['/'])
     })
@@ -79,6 +89,7 @@ export class UserService {
   /////////////
   public setUser(user: User): void {
     this.user = user
+    this.userSubject.next(user)
   }
 
 }

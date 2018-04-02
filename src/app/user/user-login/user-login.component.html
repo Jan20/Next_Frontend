@@ -1,24 +1,27 @@
-{{userService.user | json}}
-<div *ngIf="userService.userObservable | async; then authenticated else guest"></div>
+<div *ngIf="user.getUserId() != ''; then authenticated else guest"></div>
 <!-- User NOT logged in -->
 <ng-template #guest>
-    <h3>Howdy, GUEST</h3>
-    <p>Login to get started...</p>
-    
-    <button (click)="userService.googleLogin()">
-        <i class="fa fa-google"></i> Connect Google
-    </button>
-
+    <div class='banner'>
+        <div class='wrapper'>
+            <h1>Log In</h1>
+            <button mat-raised-button (click)="userService.googleLogin()" class='control-button'>
+                <i class="fa fa-google"></i> Connect Google
+            </button>        
+        </div>
+    </div>
 </ng-template>
-
 
 <!-- User logged in -->
 <ng-template #authenticated>
-    <div *ngIf="userService.userObservable | async as user">
-        <h3>Howdy, {{ user.displayName }}</h3>
-        <img  [src]="user.photoURL">
-        <p>UID: {{ user.uid }}</p>
-        <p>Favorite Color: {{ user?.favoriteColor }} </p>
-        <button (click)="userService.signOut()">Logout</button>
+    <div class='banner'>
+        <div class='wrapper'>
+            <img [src]="user.getPhotoURL()" class='profile-picture'>
+            <h1>{{ user.getDisplayName() }}</h1>
+            <button mat-raised-button (click)="userService.signOut()" class='control-button'>Logout</button>
+        </div>
     </div>
 </ng-template>
+
+
+
+  

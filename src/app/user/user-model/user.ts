@@ -38,7 +38,7 @@ export class User {
         return this.photoURL;
     }
 
-    public getdisplayName(): string {
+    public getDisplayName(): string {
         return this.displayName
     }
 

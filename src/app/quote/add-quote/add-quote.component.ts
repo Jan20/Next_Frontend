@@ -65,21 +65,17 @@ export class AddQuoteComponent implements OnInit {
   // Functions //
   ///////////////
   public addQuote(): void {
-
     this.toggleInAddMode()
-
     const data: any = {
       category: this.category.name,
       quote: this.quote, 
       author: this.author,
       score: 0
     }
-
     this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/quotes').add(data)
 
     this.quoteFormControl.reset()
     this.authorFormControl.reset()
-
   }
 
   public toggleInAddMode() {

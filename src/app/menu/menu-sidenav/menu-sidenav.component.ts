@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { MenuService } from '../menu-service/menu.service'
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore'
-
 // Models
 import { Quote } from '../../quote/quote-model/quote'
-
 // Services
 import { UserService } from '../../user/user-service/user.service'
 import { QuoteService } from '../../quote/quote-service/quote.service'
 import { ProjectService } from '../../project/project-service/project.service';
 import { Project } from '../../project/project-model/project';
-
 
 @Component({
   selector: 'app-menu-sidenav',
@@ -37,17 +34,18 @@ export class MenuSidenavComponent implements OnInit {
     private userService: UserService,
     private quoteService: QuoteService,
     private projectService: ProjectService,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.menuService.stateSubject.subscribe(state => { this.state = state })
+    this.menuService.stateSubject.subscribe(state => this.state = state)
     this.quoteService.quoteSubject.subscribe(quote => this.quote = quote)
 
-    this.quoteCollection = this.angularFirestore.collection('/users/'+ this.userService.getUser().getUserId() + '/quotes')
-    this.quoteCollection.valueChanges().subscribe(quotes => {
-      this.quotes = []
-      quotes.forEach( quote => { this.quotes.push(new Quote(quote.id, quote.author, quote.category, quote.quote, quote.score)) })
+    this.userService.userSubject.subscribe( user => {
+      this.quoteCollection = this.angularFirestore.collection('/users/'+ user.getUserId() + '/quotes')
+      this.quoteCollection.valueChanges().subscribe(quotes => {
+        this.quotes = []
+        quotes.forEach( quote => { this.quotes.push(new Quote(quote.id, quote.author, quote.category, quote.quote, quote.score)) })
+      })
     })
 
   }
