@@ -3,11 +3,10 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { FormControl } from '@angular/forms'
 
 // Services
-import { UserService } from '../../auth/user/user.service'
+import { UserService } from '../../user/user-service/user.service'
 
 // Models
 import { Quote } from '../quote-model/quote'
-import { User } from '../../auth/user/user'
 import { Category } from '../../category/category-model/category';
 
 @Component({
@@ -32,8 +31,8 @@ export class AddQuoteComponent implements OnInit {
   public authorFormControl: FormControl = new FormControl()
 
   // Firestore
-  private categoriesCollection: AngularFirestoreCollection<Category> = this.angularFirestore.collection('users/'+ this.userService.getUser().userId +'/categories')
-  private quotesCollection: AngularFirestoreCollection<Quote> = this.angularFirestore.collection('users/'+ this.userService.getUser().userId +'/quotes')
+  private categoriesCollection: AngularFirestoreCollection<Category> = this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/categories')
+  private quotesCollection: AngularFirestoreCollection<Quote> = this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/quotes')
 
   //////////////////
   // Constructors //
@@ -76,7 +75,7 @@ export class AddQuoteComponent implements OnInit {
       score: 0
     }
 
-    this.angularFirestore.collection('users/'+ this.userService.getUser().userId +'/quotes').add(data)
+    this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/quotes').add(data)
 
     this.quoteFormControl.reset()
     this.authorFormControl.reset()

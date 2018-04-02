@@ -4,37 +4,24 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 // Login
-import { LoginComponent } from './login/login.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
-// Auth
-import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './auth/auth.guard';
-
-import { UserService } from './user/user.service';
+// Services
+import { UserService } from './user-service/user.service';
 
 @NgModule({
   imports: [ 
-    
     CommonModule,
     AngularFireAuthModule,
     AngularFirestoreModule
-  
   ],
   declarations: [
-
-    LoginComponent
-
+    UserLoginComponent
   ],
   providers: [
-    
-    AuthService,
-    AuthGuard,
-    UserService
-
+    UserService,
   ],
   exports: [
-
-
   ]
 })
-export class AuthModule { }
+export class UserModule { }

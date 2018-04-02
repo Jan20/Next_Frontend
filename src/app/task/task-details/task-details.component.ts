@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../task-model/task';
-import { UserService } from '../../auth/user/user.service';
+import { UserService } from '../../user/user-service/user.service';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../menu/menu-service/menu.service';
@@ -42,7 +42,7 @@ export class TaskDetailsComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
       this.projectId = params['projectId']
       this.taskId = params['taskId']
-      this.taskDocument = this.angularFirestore.doc('users/'+ this.userService.getUser().userId +'/projects/' + this.projectId + '/tasks/' + this.taskId)
+      this.taskDocument = this.angularFirestore.doc('users/'+ this.userService.getUser().getUserId() +'/projects/' + this.projectId + '/tasks/' + this.taskId)
       this.taskDocument.valueChanges().subscribe(
         task => {this.task = task
       

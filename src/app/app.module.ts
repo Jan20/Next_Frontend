@@ -14,7 +14,7 @@ import { AppComponent } from './app.component'
 
 // Custom Modules
 import { ConfigModule } from './config/config.module'
-import { AuthModule } from './auth/auth.module'
+import { UserModule } from './user/user.module'
 import { MenuModule } from './menu/menu.module'
 import { QuoteModule } from './quote/quote.module'
 import { TaskModule } from './task/task.module'
@@ -26,11 +26,8 @@ import { ProfileModule } from './profile/profile.module'
 @NgModule({
   
   declarations: [
-    
     AppComponent,
-
   ], imports: [
-  
     MaterialModule,
     BrowserModule,
     FormsModule,
@@ -38,7 +35,7 @@ import { ProfileModule } from './profile/profile.module'
     HttpModule,
     BrowserAnimationsModule,
     ConfigModule,
-    AuthModule,
+    UserModule,
     MenuModule,
     QuoteModule,
     TaskModule,
@@ -46,15 +43,10 @@ import { ProfileModule } from './profile/profile.module'
     CategoryModule,
     StatsModule,
     ProfileModule,
-
   ], providers: [
-  
     {provide: APP_BASE_HREF, useValue : '/' }
-  
   ], bootstrap: [
-    
     AppComponent
-  
   ]
 })
 export class AppModule { }

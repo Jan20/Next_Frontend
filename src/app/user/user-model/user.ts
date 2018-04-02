@@ -12,61 +12,53 @@ export class User {
     // Constructors //
     //////////////////
     public constructor(
-        
         userId: string, 
         email: string, 
         photoURL?: string,
         displayName?: string,
-    
     ) {
-
         this.userId = userId;
         this.email = email;
         this.photoURL = photoURL;
         this.displayName = displayName;
-
     }
 
     /////////////
     // Getters //
     /////////////
-    // public getUid(): string {
+    public getUserId(): string {
+        return this.userId;
+    }
 
-    //     return this.uid;
+    public getEmail(): string {
+        return this.email;
+    }
 
-    // }
+    public getPhotoURL(): string {
+        return this.photoURL;
+    }
 
-    // public getEmail(): string {
-
-    //     return this.email;
-
-    // }
-
-    // public getName(): string {
-
-    //     return this.name;
-
-    // }
+    public getdisplayName(): string {
+        return this.displayName
+    }
 
     /////////////
     // Setters //
     /////////////
-    // public setUid(uid: string): void {
+    public setUserId(userId: string): void {
+        this.userId = userId;
+    }
 
-    //     this.uid = uid;
+    public setEmail(email: string): void {
+        this.email = email;
+    }
 
-    // }
+    public setPhotoURL(photoURL: string): void {
+        this.photoURL = photoURL;
+    }
 
-    // public setEmail(email: string): void {
-
-    //     this.email = email;
-
-    // }
-
-    // public setName(name: string): void {
-
-    //     this.name = name;
-
-    // }
+    public setDisplayName(displayName: string): void {
+        this.displayName = displayName
+    }
 
 }

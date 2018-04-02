@@ -6,7 +6,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Quote } from '../../quote/quote-model/quote'
 
 // Services
-import { UserService } from '../../auth/user/user.service'
+import { UserService } from '../../user/user-service/user.service'
 import { QuoteService } from '../../quote/quote-service/quote.service'
 import { ProjectService } from '../../project/project-service/project.service';
 import { Project } from '../../project/project-model/project';
@@ -44,7 +44,7 @@ export class MenuSidenavComponent implements OnInit {
     this.menuService.stateSubject.subscribe(state => { this.state = state })
     this.quoteService.quoteSubject.subscribe(quote => this.quote = quote)
 
-    this.quoteCollection = this.angularFirestore.collection('/users/'+ this.userService.getUser().userId + '/quotes')
+    this.quoteCollection = this.angularFirestore.collection('/users/'+ this.userService.getUser().getUserId() + '/quotes')
     this.quoteCollection.valueChanges().subscribe(quotes => {
       this.quotes = []
       quotes.forEach( quote => { this.quotes.push(new Quote(quote.id, quote.author, quote.category, quote.quote, quote.score)) })

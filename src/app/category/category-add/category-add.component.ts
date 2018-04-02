@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore'
-import { UserService } from '../../auth/user/user.service'
+import { UserService } from '../../user/user-service/user.service'
 import { CategoryService } from '../category-service/category.service'
 import { Category } from '../category-model/category'
 
@@ -17,7 +17,7 @@ export class CategoryAddComponent implements OnInit {
   ///////////////
   public title = 'Add Category'
   public inAddMode: boolean = false
-  public categoriesCollection: AngularFirestoreCollection<Category> = this.angularFirestore.collection('users/' + this.userService.getUser().userId + '/categories')
+  public categoriesCollection: AngularFirestoreCollection<Category> = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/categories')
   public categories: Category[]
 
   // Category

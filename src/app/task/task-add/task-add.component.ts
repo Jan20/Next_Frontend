@@ -10,7 +10,7 @@ import { ProjectService } from "../../project/project-service/project.service";
 import { Category } from "../../category/category-model/category";
 import { Project } from "../../project/project-model/project";
 import { Task } from "../task-model/task";
-import { UserService } from "../../auth/user/user.service";
+import { UserService } from "../../user/user-service/user.service";
 
 @Component({
   selector: 'app-task-add',
@@ -60,8 +60,8 @@ export class TaskAddComponent implements OnInit {
 
   ngOnInit() {
 
-    this.categoriesFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().userId + '/categories')
-    this.tasksFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().userId + '/projects/' + this.projectService.getProject().id + '/tasks')
+    this.categoriesFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/categories')
+    this.tasksFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/projects/' + this.projectService.getProject().id + '/tasks')
 
     this.taskService.inAddModeSubject.subscribe( inAddMode => { this.inAddMode = inAddMode; })
     this.projectService.projectSubject.subscribe( project => { this.project = project })

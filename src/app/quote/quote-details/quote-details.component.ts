@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Quote } from '../quote-model/quote';
-import { UserService } from '../../auth/user/user.service';
+import { UserService } from '../../user/user-service/user.service';
 import { QuoteService } from '../quote-service/quote.service';
 import { MenuService } from '../../menu/menu-service/menu.service';
 
@@ -35,7 +35,7 @@ export class QuoteDetailsComponent implements OnInit {
   ngOnInit() {
     
     this.quoteService.inUpdateModeSubject.subscribe(inUpdateMode => this.inUpdateMode = inUpdateMode)
-    this.quoteCollection = this.angularFirestore.collection('users/'+ this.userService.getUser().userId +'/quotes/') 
+    this.quoteCollection = this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/quotes/') 
     
     this.route.params.subscribe(params => {
       this.quoteId = params['quoteId']

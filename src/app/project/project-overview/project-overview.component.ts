@@ -3,7 +3,6 @@ import { Router } from '@angular/router'
 import { Project } from '../project-model/project'
 import { Observable } from 'rxjs/Observable'
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore'
-import { AuthService } from '../../auth/auth/auth.service'
 import { MenuService } from '../../menu/menu-service/menu.service'
 import { MatDrawer } from '@angular/material/sidenav'
 import { ProjectService } from '../project-service/project.service';

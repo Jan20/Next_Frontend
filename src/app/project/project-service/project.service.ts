@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Subject } from 'rxjs/Subject'
 import { Project } from '../project-model/project'
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { UserService } from '../../auth/user/user.service';
+import { UserService } from '../../user/user-service/user.service';
 import { Router } from '@angular/router';
 import { MenuService } from '../../menu/menu-service/menu.service';
 
@@ -41,7 +41,7 @@ export class ProjectService {
   }
 
   public deleteProject(): void {
-    this.projectFirestoreDocument = this.angularFirestore.doc('users/'+ this.userService.getUser().userId +'/projects/' + this.project.id)
+    this.projectFirestoreDocument = this.angularFirestore.doc('users/'+ this.userService.getUser().getUserId() +'/projects/' + this.project.id)
     this.projectFirestoreDocument.delete()
     this.router.navigate(['/projects'])
     this.menuService.setMenuFlag(false)

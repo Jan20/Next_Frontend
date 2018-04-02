@@ -5,7 +5,7 @@ import { ProjectService } from '../project-service/project.service'
 import { Category } from '../../category/category-model/category'
 import { CategoryService } from '../../category/category-service/category.service'
 import { Project } from '../project-model/project'
-import { UserService } from '../../auth/user/user.service';
+import { UserService } from '../../user/user-service/user.service';
 
 @Component({
   selector: 'app-project-add',
@@ -76,7 +76,7 @@ export class ProjectAddComponent implements OnInit {
   ///////////////
   public addProject(): void {
 
-    this.projectFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().userId + '/projects')
+    this.projectFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/projects')
 
     this.projectService.toggleInAddMode()
 

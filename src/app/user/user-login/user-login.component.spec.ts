@@ -5,7 +5,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 
 // Routes
-import { ROUTES } from './../routing/routing.config';
 import { RouterModule, Routes } from '@angular/router';
 
 
@@ -15,24 +14,20 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 // Custom Components
-import { LoginComponent } from './../login/login.component';
+import { UserLoginComponent } from './../user-login/user-login.component';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+  let component: UserLoginComponent;
+  let fixture: ComponentFixture<UserLoginComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        LoginComponent,
+        UserLoginComponent,
        ],
       imports: [
         FormsModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(
-          ROUTES,
-          { enableTracing: true }
-        ),
         FormsModule,
         AngularFireDatabaseModule,
       ],
@@ -45,7 +40,7 @@ describe('LoginComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(UserLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

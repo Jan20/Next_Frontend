@@ -3,11 +3,10 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { FormControl } from '@angular/forms'
 
 // Services
-import { UserService } from '../../auth/user/user.service'
+import { UserService } from '../../user/user-service/user.service'
 
 // Models
 import { Quote } from '../quote-model/quote'
-import { User } from '../../auth/user/user'
 import { Category } from '../../category/category-model/category';
 import { QuoteService } from '../quote-service/quote.service';
 import { MenuService } from '../../menu/menu-service/menu.service';
@@ -34,8 +33,8 @@ export class QuoteUpdateComponent implements OnInit {
   public authorFormControl: FormControl = new FormControl()
 
   // Firestore
-  private categoriesCollection: AngularFirestoreCollection<Category> = this.angularFirestore.collection('users/'+ this.userService.getUser().userId +'/categories')
-  private quotesCollection: AngularFirestoreCollection<Quote> = this.angularFirestore.collection('users/'+ this.userService.getUser().userId +'/quotes')
+  private categoriesCollection: AngularFirestoreCollection<Category> = this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/categories')
+  private quotesCollection: AngularFirestoreCollection<Quote> = this.angularFirestore.collection('users/'+ this.userService.getUser().getUserId() +'/quotes')
 
   //////////////////
   // Constructors //
@@ -81,7 +80,7 @@ export class QuoteUpdateComponent implements OnInit {
       score: 0
     }
 
-    this.angularFirestore.doc('users/'+ this.userService.getUser().userId +'/quotes/' + this.quoteService.getQuote().id).update(data)
+    this.angularFirestore.doc('users/'+ this.userService.getUser().getUserId() +'/quotes/' + this.quoteService.getQuote().id).update(data)
 
     this.quoteFormControl.reset()
     this.authorFormControl.reset()
@@ -89,7 +88,7 @@ export class QuoteUpdateComponent implements OnInit {
   }
 
   public deleteQuote(): void {
-    this.angularFirestore.doc('users/'+ this.userService.getUser().userId +'/quotes/' + this.quoteService.getQuote().id).delete()
+    this.angularFirestore.doc('users/'+ this.userService.getUser().getUserId() +'/quotes/' + this.quoteService.getQuote().id).delete()
   }
 
   public addCategory(category: Category): void {

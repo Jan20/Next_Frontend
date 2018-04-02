@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Quote } from './../quote-model/quote'
 
 // Services
-import { UserService } from '../../auth/user/user.service'
+import { UserService } from '../../user/user-service/user.service'
 import { QuoteService } from '../quote-service/quote.service'
 
 @Component({

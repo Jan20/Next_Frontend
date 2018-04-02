@@ -9,7 +9,7 @@ import { ProjectService } from '../../project/project-service/project.service';
 import { Project } from '../../project/project-model/project';
 import { Time } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../auth/user/user.service';
+import { UserService } from '../../user/user-service/user.service';
 
 @Component({
   selector: 'app-task-overview',
@@ -42,7 +42,7 @@ export class TaskOverviewComponent implements OnInit {
   ngOnInit() {
 
     this.activeRoute.params.subscribe(params => {
-      this.tasksFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().userId + '/projects/' + this.projectService.getProject().id + '/tasks')
+      this.tasksFirestoreCollection = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/projects/' + this.projectService.getProject().id + '/tasks')
     })
 
     this.tasksFirestoreCollection.valueChanges().subscribe( tasks => {

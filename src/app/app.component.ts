@@ -10,23 +10,20 @@ import { MatSidenavContainer, MatDrawer } from '@angular/material/sidenav'
 })
 export class AppComponent{
 
+  ///////////////
+  // Variables //
+  ///////////////
   @ViewChild(MatDrawer) matDrawer: MatDrawer
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
-
     private menuService: MenuService,
-
   ) {
-
     this.menuService.menuFlagSubject.subscribe( menuFlag => {
-
       menuFlag === true ? this.matDrawer.open() : this.matDrawer.close()
-  
     })
-
   }
 
 }
