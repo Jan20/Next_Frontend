@@ -1,0 +1,14 @@
+<div class='outline' *ngIf='inUpdateMode == false'>
+  <div class='banner'>
+    <button mat-button class='hidden-button' (mouseover)='menuService.toggleMenuFlag()'></button>
+    <h1>{{quote.quote}}</h1>
+    <h2>{{quote.author}}</h2>
+  </div>
+</div>
+
+<div class='outline' *ngIf='inUpdateMode == true'>
+  <div class='banner'>
+    <button mat-button class='hidden-button' (mouseover)='menuService.toggleMenuFlag()'></button>
+    <app-quote-update></app-quote-update>
+  </div>
+</div>

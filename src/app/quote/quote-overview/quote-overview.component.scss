@@ -1,0 +1,60 @@
+h1 {
+
+    padding-top: 32px;
+    text-align: center;
+    font-size: 36px;
+
+}
+
+.banner {
+
+    margin: none;   
+    width: 100%;
+    height: 100px;
+    border-bottom: 0.5px solid rgb(237, 237, 237);
+    background: linear-gradient(to right bottom, #FF9800,#EF6C00);
+}
+
+.major-section {
+
+    width: 100%;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 20px;
+    font-weight: 400;
+    color: rgb(20, 20, 20);
+    text-align: center;
+    box-shadow: none;
+}
+
+.minor-section {
+
+    width: 100px;
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 400;
+    color: rgb(128, 128, 128);
+    float:left;
+    text-align: center;
+    margin-left: -1px;
+
+}
+
+
+.control-section {
+
+    width: 100px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 17px;
+    padding-bottom: 14px;
+    font-weight: 400;
+    color: rgb(128, 128, 128);
+    float:left;
+    text-align: center;
+    margin-left: -1px;
+    color: green;
+    
+}

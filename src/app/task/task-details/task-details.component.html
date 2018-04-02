@@ -1,0 +1,11 @@
+<div class='outline'>
+  <div class='banner'>
+    <button mat-button class='hidden-button' (mouseover)='menuService.toggleMenuFlag()'></button>
+    <h1 class='timer' *ngIf='pastTime.getHours()>0'>{{pastTime | date:'HH:mm:ss'}}</h1>
+    <h1 class='timer' *ngIf='pastTime.getHours()==0'>{{pastTime | date:'mm:ss'}}</h1>
+    <h1>{{task.task}}</h1>
+    <div class='control-wrapper'>
+      <button mat-button class='control-button' (click)='finishTask()'>Finish Task</button>
+    </div>
+  </div>
+</div>

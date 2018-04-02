@@ -1,0 +1,35 @@
+<div class='add-button-container' *ngIf='categoryService.getInAddMode() == false'>
+
+  <button mat-fab class='add-button' color='warning' (click)='categoryService.toggleInAddMode()'>
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>
+
+<section>
+  <section class='add-category-section' *ngIf='categoryService.getInAddMode() == true'>
+
+    <h2>{{title}}</h2>
+  
+    <form class='example-form'>
+
+      <mat-form-field class='full-width'>
+        <input matInput placeholder='Name' aria-label='Name' [formControl]='nameFormControl'>
+      </mat-form-field>
+
+      <mat-form-field class='full-width'>
+        <input matInput placeholder='Color Scheme' aria-label='Color Scheme' [formControl]='colorSchemeFormControl'>
+      </mat-form-field>
+
+    </form>
+  
+    <button mat-raised-button (click)='abortInputDialog()'>
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <button mat-raised-button (click)='addCategory()'>
+      <mat-icon>done</mat-icon>
+    </button>
+  
+  </section>  
+</section>

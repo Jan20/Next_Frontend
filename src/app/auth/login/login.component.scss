@@ -1,0 +1,60 @@
+// -------------------------------
+//          Mat Card
+// -------------------------------
+
+@media (max-width: 680px) {
+    mat-card {
+        height: 180px;
+        width: 80%;
+    }
+}
+
+@media (min-width: 680px) {
+    mat-card {
+        height: 180px;
+        width: 500px;
+        
+    }
+}
+
+@media (max-width: 680px) {
+    .card-button-container {
+        
+        width: 80%;
+        margin: auto;
+        
+    }
+}
+
+@media (min-width: 680px) {
+    .card-button-container  {
+        
+        width: 550px;
+        margin: auto;
+        
+    }
+
+}
+
+.mat-raised-button {
+    padding: 0;
+}
+
+.fab-button-container{
+
+    z-index: 12;
+    margin-top: -29px;
+    margin-left: 60%;
+    position: absolute;
+
+}
+
+.large-tile {
+    
+    height: 30px;    
+
+}
+
+.tiny-space {
+    margin-top: -5px; 
+}

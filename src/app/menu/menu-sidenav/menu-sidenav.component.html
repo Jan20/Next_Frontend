@@ -1,0 +1,18 @@
+
+<div *ngIf='menuService.getState() === "quote"'>
+    <button mat-button class='control-button' (click)='viewNextQuote()'>
+        <mat-icon>navigate_next</mat-icon>
+    </button>
+    <button mat-button class='control-button' (click)='viewPreviewsQuote()'>
+        <mat-icon>navigate_before</mat-icon>
+    </button>
+    <button mat-button class='control-button' (click)='changeQuote()'>
+        <mat-icon>mode_edit</mat-icon>  
+    </button>
+</div>
+
+<div *ngIf='menuService.getState() === "project"'>
+    <button mat-button class='control-button' (click)='projectService.deleteProject()'>
+        <mat-icon>delete</mat-icon>  
+    </button>
+</div>

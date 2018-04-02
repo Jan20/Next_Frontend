@@ -1,0 +1,10 @@
+<div class='outline'>
+    <div class='banner'>
+        <h1>{{title}}</h1>
+    </div>
+</div>
+<button class='project-tile' mat-raised-button *ngFor='let project of projects' (click)='showDetails(project)'> 
+    <h1>{{project.name}}</h1>
+    <h3>{{project.category}}</h3>
+</button>
+<app-project-add></app-project-add>
