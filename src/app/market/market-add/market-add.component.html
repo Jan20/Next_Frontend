@@ -1,10 +1,10 @@
-<div class='add-button-container' *ngIf='marketService.addMarketFlag() === false'>
+<div class='add-button-container' *ngIf='marketService.addMarketFlag === false'>
   <button mat-fab class='add-button' (click)='marketService.toggleAddMarketFlag()'>
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div class='outline' *ngIf='marketService.addMarketFlag() === true'>
+<div class='outline' *ngIf='marketService.addMarketFlag === true'>
   
   <!-- Form Title -->
   <h2>{{title}}</h2>
@@ -15,7 +15,7 @@
       <input matInput placeholder='Name' [formControl]='nameFormControl'>
     </mat-form-field>
     <mat-form-field class='full-width'>
-      <input matInput placeholder='Class' [formControl]='classFormControl'>
+      <input matInput placeholder='category' [formControl]='categoryFormControl'>
     </mat-form-field>
   </form>
 

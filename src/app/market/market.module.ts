@@ -4,7 +4,7 @@ import { MaterialModule } from '../material/material.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 // Modules
-import { TaskModule } from '../task/task.module'
+// import { TaskModule } from '../task/task.module'
 
 // Components
 import { MarketOverviewComponent } from './market-overview/market-overview.component'
@@ -20,7 +20,7 @@ import { MarketService } from './market-service/market.service'
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    TaskModule
+    // TaskModule
   ], declarations: [
     MarketOverviewComponent, 
     MarketDetailsComponent,

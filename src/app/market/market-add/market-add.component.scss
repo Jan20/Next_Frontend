@@ -21,23 +21,26 @@ h2 {
 
 @media (min-width: 600px) {
     .outline {
-        height: 150px;
+        height: 200px;
         width: 600px;
         padding: 20px;
         border: 0.5px solid rgb(237, 237, 237);
         margin: auto;
         margin-top: 50px;
+        margin-bottom: 50px;
     }
 }
 
 @media (max-width: 600px) {
     .outline {
-        height: 150px;
+        height: 200px;
         width: 320px;
         padding: 20px;
         border: 0.5px solid rgb(237, 237, 237);
         margin: auto;
         margin-top: 50px;
+        margin-bottom: 50px;
+
     }
 }
 

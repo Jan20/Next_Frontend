@@ -1,12 +1,12 @@
 <!-- Banner -->
 <div class='banner'>
-    <h1>{{title}}</h1>
+    <h1 class='title'>{{title}}</h1>
 </div>
 
 <!-- Cards -->
 <button mat-raised-button *ngFor='let market of markets' (click)='marketService.showMarketDetails(market)' class='card'> 
-    <h1>{{market.name}}</h1>
-    <h3>{{market.category}}</h3>
+    <h1>{{market.getName()}}</h1>
+    <h2>{{market.getCategory()}}</h2>
 </button>
 
 <!-- Add Market -->

@@ -6,7 +6,7 @@ import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Routes
-import { ROUTES } from './routing.config';
+import { ROUTES } from './../config/routing.config';
 import { RouterModule, Routes } from '@angular/router';
 
 // Menu

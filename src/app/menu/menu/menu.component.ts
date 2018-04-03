@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: String = 'Flow';
+  public title: String = 'Next';
   public items: MenuItem[];
 
   //////////////////
@@ -34,8 +34,8 @@ export class MenuComponent implements OnInit {
     this.items.push(
       new MenuItem('Tasks', 'check_circle', '/tasks'),
       new MenuItem('Quotes', 'format_quote', '/quotes'),
-      new MenuItem('Project', 'grain', '/projects'),
-      new MenuItem('User', 'lock_open', '/login'),
+      new MenuItem('Markets', 'grain', '/markets'),
+      new MenuItem('User', 'lock_open', '/user'),
     );
   
   }

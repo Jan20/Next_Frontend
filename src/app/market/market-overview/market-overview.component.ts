@@ -22,5 +22,13 @@ export class MarketOverviewComponent implements OnInit {
     public marketService: MarketService,
   ) {}
 
-  public ngOnInit() {}
+  public ngOnInit() {
+    
+    this.marketService.fetchMarkets()
+
+    this.marketService.marketsSubject.subscribe(markets => {
+      this.markets = markets
+    })
+
+  }
 } 

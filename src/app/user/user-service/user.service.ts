@@ -4,7 +4,6 @@ import * as firebase from 'firebase/app'
 import { AngularFireAuth } from 'angularfire2/auth'
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore'
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/switchMap'
 import { User } from '../user-model/user'
 import { Subject } from 'rxjs/Subject';
 
@@ -14,7 +13,7 @@ export class UserService {
   ///////////////
   // Variables //
   ///////////////
-  public user: User = new User('','','','')
+  public user: User = new User('1','','','')
   private authState: Observable<firebase.User>;
 
   //////////////
@@ -34,7 +33,6 @@ export class UserService {
     this.angularFireAuth.authState.subscribe(user => {
       if (user) {
         return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( cUser => {
-          sessionStorage.setItem('userId', user.uid)
           this.user = new User(cUser.userId, cUser.email, cUser.photoURL, cUser.displayName)
           this.userSubject.next(this.user)
         })
@@ -81,6 +79,20 @@ export class UserService {
   // Getters //
   /////////////
   public getUser(): User {
+    if (this.user.getUserId() != '1') {
+      return this.user
+    } else {
+      this.angularFireAuth.authState.subscribe(user => {
+        if (user) {
+          return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( cUser => {
+            this.user = new User(cUser.userId, cUser.email, cUser.photoURL, cUser.displayName)
+            this.userSubject.next(this.user)
+          })
+        } else {
+          return Observable.of(null)
+        }
+      })
+    }
     return this.user
   }
 
