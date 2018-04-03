@@ -1,0 +1,37 @@
+.major-section {
+
+    width: 100%;
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 400;
+    color: rgb(128, 128, 128);
+    float:left;
+    text-align: center;
+    margin-left: -1px;
+
+}
+
+.control-section {
+
+    width: 10%;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 17px;
+    padding-bottom: 14px;
+    font-weight: 400;
+    color: rgb(128, 128, 128);
+    float:left;
+    text-align: center;
+    margin-left: -1px;
+    
+}
+
+.mat-raised-button {
+
+    height: 60px;
+    box-shadow: none;
+    padding: 0;
+    border-left: 1px solid rgb(238, 238, 238);
+
+}

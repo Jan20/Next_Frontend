@@ -14,7 +14,6 @@ export class MarketDetailsComponent implements OnInit {
   // Variables //
   ///////////////
   public market: Market = new Market('', '', '')
-  public marketId: string
 
   //////////////////
   // Constructors //
@@ -31,8 +30,8 @@ export class MarketDetailsComponent implements OnInit {
     })
 
     this.activatedRoute.params.subscribe(params => {
-      this.marketId = params['marketId']
-      this.marketService.fetchMarket(this.marketId)
+      this.marketService.setMarketId(params['marketId'])
+      this.marketService.fetchMarket(params['marketId'])
     })
   }
 

@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject'
 import { Market } from '../market-model/market'
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { UserService } from '../../user/user-service/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class MarketService {
@@ -11,6 +11,7 @@ export class MarketService {
   ///////////////
   // Variables //
   ///////////////
+  private marketId: string
   private market: Market = new Market('', '', '')
   private markets: Market[] = []
   private marketCollection: AngularFirestoreCollection<Market> = this.angularFirestore.collection('users/'+1+'/markets')
@@ -19,6 +20,7 @@ export class MarketService {
   //////////////
   // Subjects //
   //////////////
+  public marketIdSubject: Subject<string> = new Subject<string>()
   public marketSubject: Subject<Market> = new Subject<Market>()
   public marketsSubject: Subject<any> = new Subject<any>()
   public addMarketFlagSubject: Subject<boolean> = new Subject<boolean>()
@@ -30,6 +32,7 @@ export class MarketService {
     private userService: UserService,
     private angularFirestore: AngularFirestore,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
 
   }
@@ -38,17 +41,13 @@ export class MarketService {
   // Functions //
   ///////////////
   public showMarketDetails(market: Market): void {
+    this.setMarket(market)
+    this.setMarketId(market.getMarketId())
     this.router.navigate(['/markets', market.getMarketId()]);
   }
 
   public toggleAddMarketFlag(): void {
-    if( this.addMarketFlag === false) {
-      this.addMarketFlag = true
-      this.addMarketFlagSubject.next(true)
-    } else {
-      this.addMarketFlag = false
-      this.addMarketFlagSubject.next(false)
-    }
+    this.addMarketFlag === false ? this.setAddMarketFlag(true) : this.setAddMarketFlag(false)
   }
 
   /////////////////////
@@ -62,18 +61,15 @@ export class MarketService {
   }
 
   public fetchMarkets(): void {
-    console.log('fetchMarkets')
-      this.marketCollection = this.angularFirestore.collection('users/'+this.userService.getUser().getUserId()+'/markets')
-      this.marketCollection.valueChanges().subscribe(markets => {
-        let m: Market[] = []
-        markets.forEach(market => {
-          m.push(new Market(market.marketId, market.name, market.category))
-        })
-        console.log('________________________________________________?')
-        console.log(m)
-        this.marketsSubject.next(m) 
-        this.setMarkets(m)
+    this.marketCollection = this.angularFirestore.collection('users/'+this.userService.getUser().getUserId()+'/markets')
+    this.marketCollection.valueChanges().subscribe(markets => {
+      let m: Market[] = []
+      markets.forEach(market => {
+        m.push(new Market(market.marketId, market.name, market.category))
       })
+      this.marketsSubject.next(m) 
+      this.setMarkets(m)
+    })
   }
 
   public addMarket(name: string, category: string): void {
@@ -92,51 +88,41 @@ export class MarketService {
   }
 
   public deleteMarket(market: Market): void {
-    this.angularFirestore.doc('users/'+this.userService.getUser().getUserId()+'/markets/'+market.getMarketId()).delete()
+    this.angularFirestore.doc('users/' + this.userService.getUser().getUserId() + '/markets/' + market.getMarketId()).delete()
     this.router.navigate(['/markets']);
   }
 
   /////////////
   // Getters //
   /////////////
-  public getMarket(marketId: string): Market {
-    console.log('getMarket?')
-    console.log('________________________________________________?')
-    console.log(marketId)
-    if (this.market.name == '') {
-      this.fetchMarket(marketId)
-      return this.market
-    } else {
-      console.log(this.market)
-      return this.market
-    }
+  public getMarketId(): string {
+    return this.marketId
+  }
+
+  public getMarket(): Market {
+    return this.market
   }
 
   public getMarkets(): Market[] {
-    console.log('getMarkets?')
-
-    if (this.markets == []) {
-      this.fetchMarkets()
-      return this.markets
-    } else {
-      return this.markets
-    }
+    return this.markets
   }
-
 
   /////////////
   // Setters //
   /////////////
+  public setMarketId(marketId: string): void {
+    this.marketId = this.marketId
+    this.marketIdSubject.next(this.marketId)
+  }
+
   public setMarket(market: Market): void {
     this.market = market
-    console.log(market)
     this.marketSubject.next(market)
   }
 
   public setMarkets(markets: Market[]): void {
     this.markets = markets
     this.marketsSubject.next(markets)
-    console.log(markets)
   }
 
   public setAddMarketFlag(addMarketFlag: boolean): void {

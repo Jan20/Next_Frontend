@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { Market } from '../market-model/market';
 import { MarketService } from '../market-service/market.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-market-overview',
@@ -23,12 +24,10 @@ export class MarketOverviewComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    
-    this.marketService.fetchMarkets()
 
+    this.marketService.fetchMarkets()
     this.marketService.marketsSubject.subscribe(markets => {
       this.markets = markets
     })
-
   }
 } 

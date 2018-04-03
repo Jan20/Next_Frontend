@@ -1,0 +1,11 @@
+<div *ngFor='let asset of assets'>
+  
+  <button class='major-section' mat-raised-button (click)='assetService.showAssetDetails(asset.assetId)'>{{asset.name}}</button>
+  
+  <!-- <button class='control-section' mat-raised-button (click)='assetService.showAssetDetails(asset.assetId)'>
+    <mat-icon>play_circle_filled</mat-icon>
+  </button> -->
+</div>
+
+<app-asset-add></app-asset-add>
+  

@@ -1,0 +1,33 @@
+<div class='add-button-container' *ngIf='assetService.inAddMode === false'>
+    <button mat-fab class='add-button' (click)='assetService.toggleInAddMode()'>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  
+  <div class='outline' *ngIf='assetService.inAddMode === true'>
+    
+    <!-- Form Title -->
+    <h2>{{title}}</h2>
+    
+    <!-- Form -->
+    <form class='form'>
+      <mat-form-field class='full-width'>
+        <input matInput placeholder='Name' [formControl]='nameFormControl'>
+      </mat-form-field>
+      <mat-form-field class='full-width'>
+        <input matInput placeholder='Symbol' [formControl]='symbolFormControl'>
+      </mat-form-field>
+    </form>
+  
+    <!-- Control Buttons -->
+    <div class='wrapper'>
+      <button mat-raised-button (click)='addAsset()' class='control-button submit-button'>
+        <mat-icon>done</mat-icon>
+      </button>    
+      <button mat-raised-button (click)='assetService.setInAddMode(false)' class='control-button cancel-button'>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  
+  </div>
+  
