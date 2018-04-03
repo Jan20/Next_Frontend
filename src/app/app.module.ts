@@ -18,7 +18,7 @@ import { UserModule } from './user/user.module'
 import { MenuModule } from './menu/menu.module'
 import { QuoteModule } from './quote/quote.module'
 import { TaskModule } from './task/task.module'
-import { ProjectModule } from './project/project.module'
+import { MarketModule } from './market/market.module'
 import { CategoryModule } from './category/category.module'
 import { StatsModule } from './stats/stats.module'
 import { ProfileModule } from './profile/profile.module'
@@ -39,7 +39,7 @@ import { ProfileModule } from './profile/profile.module'
     MenuModule,
     QuoteModule,
     TaskModule,
-    ProjectModule,
+    MarketModule,
     CategoryModule,
     StatsModule,
     ProfileModule,

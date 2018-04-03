@@ -8,8 +8,11 @@ mat-toolbar {
 }	
 
 span {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
 	color: rgb(128, 128, 128);
 }
+
 
 @media (min-width: 600px) {
 	.mobile-menu {

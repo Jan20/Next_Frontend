@@ -6,8 +6,6 @@ import { Quote } from '../../quote/quote-model/quote'
 // Services
 import { UserService } from '../../user/user-service/user.service'
 import { QuoteService } from '../../quote/quote-service/quote.service'
-import { ProjectService } from '../../project/project-service/project.service';
-import { Project } from '../../project/project-model/project';
 
 @Component({
   selector: 'app-menu-sidenav',
@@ -23,7 +21,6 @@ export class MenuSidenavComponent implements OnInit {
   public quotes: Quote[]
   public quote: Quote
   public quoteCollection: AngularFirestoreCollection<Quote>
-  public project: Project = this.projectService.getProject()
 
   //////////////////
   // Constructors //
@@ -33,7 +30,6 @@ export class MenuSidenavComponent implements OnInit {
     private angularFirestore: AngularFirestore,
     private userService: UserService,
     private quoteService: QuoteService,
-    private projectService: ProjectService,
   ) {}
 
   ngOnInit() {

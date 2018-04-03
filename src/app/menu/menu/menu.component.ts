@@ -35,9 +35,7 @@ export class MenuComponent implements OnInit {
       new MenuItem('Tasks', 'check_circle', '/tasks'),
       new MenuItem('Quotes', 'format_quote', '/quotes'),
       new MenuItem('Project', 'grain', '/projects'),
-      new MenuItem('Profile', 'account_circle', '/profile'),
-      new MenuItem('Stats', 'timeline', '/stats'),
-      new MenuItem('Login', 'lock_open', '/login'),
+      new MenuItem('User', 'lock_open', '/login'),
     );
   
   }
