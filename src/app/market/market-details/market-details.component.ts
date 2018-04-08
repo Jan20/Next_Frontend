@@ -13,7 +13,7 @@ export class MarketDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private market: Market = this.marketService.getMarket()
+  public market: Market = this.marketService.getMarket()
 
   //////////////////
   // Constructors //
@@ -29,19 +29,4 @@ export class MarketDetailsComponent implements OnInit {
       this.marketService.fetchMarket(params['marketId'])
     })
   }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getMarket(): Market {
-    return this.market
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setMarket(market: Market): void {
-    this.market = market
-  }
-
 }

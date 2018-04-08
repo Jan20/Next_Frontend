@@ -15,7 +15,7 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private asset: Asset = this.assetService.getAsset()
+  public asset: Asset = this.assetService.getAsset()
 
   //////////////////
   // Constructors //
@@ -44,20 +44,4 @@ export class AssetDetailsComponent implements OnInit {
       this.router.navigate([`/markets/${params['marketId']}`])
     })
   }
-
-
-  /////////////
-  // Getters //
-  /////////////
-  public getAsset(): Asset {
-    return this.asset
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setAsset(asset: Asset): void {
-    this.asset = asset
-  }
-
 }

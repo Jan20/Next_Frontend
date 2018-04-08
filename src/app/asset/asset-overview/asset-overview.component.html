@@ -1,8 +1,8 @@
-<!-- <div *ngIf='inAddMode === false'> -->
+<div *ngIf='assetService.inAddMode === false'>
   <div *ngFor='let asset of assets'>
     <button class='major-section' mat-raised-button (click)='showAssetDetails(asset.assetId)'>{{asset.name}}</button>
     <button class='major-section' mat-raised-button (click)='showAssetDetails(asset.assetId)'>{{asset.symbol}}</button>
   </div>
-<!-- </div> -->
+</div>
 <app-asset-add></app-asset-add>
   

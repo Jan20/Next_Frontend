@@ -14,14 +14,14 @@ export class MarketService {
   private markets: Market[] = []
   private marketCollection: AngularFirestoreCollection<Market>
   private marketDocument: AngularFirestoreDocument<Market>
-  private addMarketFlag: boolean = false
+  private inAddMode: boolean = false
 
   //////////////
   // Subjects //
   //////////////
   public marketSubject: Subject<Market> = new Subject<Market>()
   public marketsSubject: Subject<any> = new Subject<any>()
-  public addMarketFlagSubject: Subject<boolean> = new Subject<boolean>()
+  public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
 
   //////////////////
   // Constructors //
@@ -34,8 +34,8 @@ export class MarketService {
   ///////////////
   // Functions //
   ///////////////
-  public toggleAddMarketFlag(): void {
-    this.addMarketFlag === false ? this.setAddMarketFlag(true) : this.setAddMarketFlag(false)
+  public toggleInAddMode(): void {
+    this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
   }
 
   /////////////////////
@@ -80,7 +80,7 @@ export class MarketService {
         })
       })
     })
-    this.setAddMarketFlag(false)
+    this.setInAddMode(false)
   }
 
   public deleteMarket(market: Market): void {
@@ -98,8 +98,8 @@ export class MarketService {
     return this.markets
   }
 
-  public getAddMarketFlag(): boolean {
-    return this.addMarketFlag
+  public getInAddMode(): boolean {
+    return this.inAddMode
   }
 
   /////////////
@@ -115,9 +115,9 @@ export class MarketService {
     this.marketsSubject.next(markets)
   }
 
-  public setAddMarketFlag(addMarketFlag: boolean): void {
-    this.addMarketFlag = addMarketFlag
-    this.addMarketFlagSubject.next(addMarketFlag)
+  public setInAddMode(inAddMode: boolean): void {
+    this.inAddMode = inAddMode
+    this.inAddModeSubject.next(inAddMode)
   }
 }
 

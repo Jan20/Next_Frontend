@@ -15,17 +15,15 @@ export class AssetOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   private marketId: string
-  private inAddMode: boolean = false
-  private assets: Asset[] = this.assetService.getAssets()
+  public assets: Asset[] = this.assetService.getAssets()
       
-
   //////////////////
   // Constructors //
   //////////////////
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private assetService: AssetService,
+    public assetService: AssetService,
   ) {}
 
   ngOnInit() {
@@ -43,36 +41,4 @@ export class AssetOverviewComponent implements OnInit {
       this.router.navigate([`/markets/${params['marketId']}/assets/${assetId}`]);
     })
   }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getMarketId(): string {
-    return this.marketId
-  }
-
-  public getInAddMode(): boolean {
-    return this.inAddMode
-  }
-
-  public getAssets(): Asset[] {
-    return this.assets
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setMarketId(marketId: string): void {
-    this.marketId = marketId
-  }
-
-  public setInAddMode(inAddMode: boolean): void {
-    this.inAddMode = inAddMode
-    this.assetService.inAddModeSubject.next(inAddMode)
-  }
-
-  public setAssets(assets: Asset[]): void {
-    this.assets = assets
-  }
-
 }

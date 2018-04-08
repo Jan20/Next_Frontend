@@ -13,7 +13,7 @@ export class UserService {
   ///////////////
   // Variables //
   ///////////////
-  public user: User
+  public user: User = new User('', '', '', '')
   private authState: Observable<firebase.User>;
 
   //////////////

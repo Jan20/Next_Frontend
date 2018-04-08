@@ -13,8 +13,8 @@ export class MarketOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private title: string = 'Markets'
-  private markets: Market[] = this.marketService.getMarkets()
+  public title: string = 'Markets'
+  public markets: Market[] = this.marketService.getMarkets()
 
   //////////////////
   // Constructors //
@@ -39,27 +39,4 @@ export class MarketOverviewComponent implements OnInit {
     this.marketService.setMarket(market)
     this.router.navigate(['/markets', market.getMarketId()]);
   }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getTitle(): string {
-    return this.title
-  }
-  
-  public getMarkets(): Market[] {
-    return this.markets
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setTitle(title: string): void {
-    this.title = title
-  }
-
-  public setMarkets(markets: Market[]): void {
-    this.markets = markets
-  }
-
 } 
