@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
 // Angular Material
-import { MaterialModule } from '../material/material.module'
+import { MaterialModule } from '../config/material.module'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatSidenavModule } from '@angular/material/sidenav'

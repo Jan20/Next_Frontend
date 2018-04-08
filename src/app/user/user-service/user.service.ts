@@ -13,7 +13,7 @@ export class UserService {
   ///////////////
   // Variables //
   ///////////////
-  public user: User = new User('1','','','')
+  public user: User
   private authState: Observable<firebase.User>;
 
   //////////////
@@ -29,12 +29,10 @@ export class UserService {
     private angularFireStore: AngularFirestore,
     private router: Router
   ) {
-
     this.angularFireAuth.authState.subscribe(user => {
       if (user) {
-        return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( cUser => {
-          this.user = new User(cUser.userId, cUser.email, cUser.photoURL, cUser.displayName)
-          this.userSubject.next(this.user)
+        return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( newUser => {
+          this.setUser(new User(newUser.userId, newUser.email, newUser.photoURL, newUser.displayName))
         })
       } else {
         return Observable.of(null)
@@ -78,21 +76,7 @@ export class UserService {
   /////////////
   // Getters //
   /////////////
-  public getUser(): User {
-    if (this.user.getUserId() != '1') {
-      return this.user
-    } else {
-      this.angularFireAuth.authState.subscribe(user => {
-        if (user) {
-          return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( cUser => {
-            this.user = new User(cUser.userId, cUser.email, cUser.photoURL, cUser.displayName)
-            this.userSubject.next(this.user)
-          })
-        } else {
-          return Observable.of(null)
-        }
-      })
-    }
+  public getUser(): any {
     return this.user
   }
 

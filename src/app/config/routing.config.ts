@@ -18,7 +18,6 @@ export const ROUTES: Routes = [
   { path: 'quotes/:quoteId', component: QuoteDetailsComponent},
   { path: 'markets', component: MarketOverviewComponent},
   { path: 'markets/:marketId', component: MarketDetailsComponent},
-  { path: 'markets/:marketId/assets', component: AssetOverviewComponent},
   { path: 'markets/:marketId/assets/:assetId', component: AssetDetailsComponent},
   { path: 'profile', component: ProfileOverviewComponent},
   { path: 'stats', component: StatsOverviewComponent},

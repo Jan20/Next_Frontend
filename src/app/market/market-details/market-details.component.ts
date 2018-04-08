@@ -13,26 +13,35 @@ export class MarketDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public market: Market = new Market('', '', '')
+  private market: Market = this.marketService.getMarket()
 
   //////////////////
   // Constructors //
   //////////////////
   constructor(
     private activatedRoute: ActivatedRoute,
-    public marketService: MarketService,
+    private marketService: MarketService,
   ) {}
 
   ngOnInit() {
-
-    this.marketService.marketSubject.subscribe(market => {
-      this.market = market
-    })
-
     this.activatedRoute.params.subscribe(params => {
-      this.marketService.setMarketId(params['marketId'])
+      this.marketService.marketSubject.subscribe(market => this.market = market)
       this.marketService.fetchMarket(params['marketId'])
     })
+  }
+
+  /////////////
+  // Getters //
+  /////////////
+  public getMarket(): Market {
+    return this.market
+  }
+
+  /////////////
+  // Setters //
+  /////////////
+  public setMarket(market: Market): void {
+    this.market = market
   }
 
 }

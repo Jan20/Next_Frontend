@@ -43,7 +43,7 @@ export class AssetAddComponent implements OnInit {
   ///////////////
   public addAsset(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.assetService.addAsset(this.name, this.symbol)
+      this.assetService.addAsset(params['marketId'], this.name, this.symbol)
       this.nameFormControl.reset()
       this.symbolFormControl.reset()
     })

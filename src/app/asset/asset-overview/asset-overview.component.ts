@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../user/user-service/user.service';
 import { AssetService } from '../asset-service/asset.service';
 import { Asset } from '../asset-model/asset';
@@ -14,23 +14,65 @@ export class AssetOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public assets: Asset[] = []
+  private marketId: string
+  private inAddMode: boolean = false
+  private assets: Asset[] = this.assetService.getAssets()
+      
 
   //////////////////
   // Constructors //
   //////////////////
   constructor(
-    public assetService: AssetService,
-    private activatedRoute: ActivatedRoute
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private assetService: AssetService,
   ) {}
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.assetService.setMarketId(params['marketId'])
-      this.assetService.fetchAssets()
-      this.assetService.assetsSubject.subscribe(assets => {
-        this.assets = assets
-      })
+      this.assetService.assetsSubject.subscribe(assets => { this.assets = assets })
+      this.assetService.fetchAssets(params['marketId'])
     })
   }
+
+  ///////////////
+  // Functions //
+  ///////////////
+  public showAssetDetails(assetId: string): void {
+    this.activatedRoute.params.subscribe(params => {
+      this.router.navigate([`/markets/${params['marketId']}/assets/${assetId}`]);
+    })
+  }
+
+  /////////////
+  // Getters //
+  /////////////
+  public getMarketId(): string {
+    return this.marketId
+  }
+
+  public getInAddMode(): boolean {
+    return this.inAddMode
+  }
+
+  public getAssets(): Asset[] {
+    return this.assets
+  }
+
+  /////////////
+  // Setters //
+  /////////////
+  public setMarketId(marketId: string): void {
+    this.marketId = marketId
+  }
+
+  public setInAddMode(inAddMode: boolean): void {
+    this.inAddMode = inAddMode
+    this.assetService.inAddModeSubject.next(inAddMode)
+  }
+
+  public setAssets(assets: Asset[]): void {
+    this.assets = assets
+  }
+
 }

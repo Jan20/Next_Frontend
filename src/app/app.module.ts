@@ -4,9 +4,10 @@ import { NgModule } from '@angular/core'
 import { HttpModule } from '@angular/http'
 import { BrowserModule } from '@angular/platform-browser'
 import { APP_BASE_HREF } from '@angular/common'
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material
-import { MaterialModule } from './material/material.module'
+import { MaterialModule } from './config/material.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 // Custom Components
@@ -33,6 +34,7 @@ import { ProfileModule } from './profile/profile.module'
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ConfigModule,
     UserModule,

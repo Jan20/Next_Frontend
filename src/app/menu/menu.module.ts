@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Angular Material
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '../config/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Routes

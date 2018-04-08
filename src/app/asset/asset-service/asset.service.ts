@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Asset } from '../asset-model/asset';
-import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { UserService } from '../../user/user-service/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MarketService } from '../../market/market-service/market.service';
-import { Market } from '../../market/market-model/market';
+import { Injectable } from '@angular/core'
+import { Subject } from 'rxjs/Subject'
+import { Asset } from '../asset-model/asset'
+import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore'
+import { UserService } from '../../user/user-service/user.service'
+import { Router, ActivatedRoute } from '@angular/router'
+import { MarketService } from '../../market/market-service/market.service'
+import { Market } from '../../market/market-model/market'
 
 @Injectable()
 export class AssetService {
@@ -13,7 +13,6 @@ export class AssetService {
   ///////////////
   // Variables //
   ///////////////
-  private marketId: string
   private market: Market
   private asset: Asset = new Asset('', '', '', '')
   private assets: Asset[] = []
@@ -38,20 +37,11 @@ export class AssetService {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private marketService: MarketService
-  ) {
-
-  }
+  ) {}
 
   ///////////////
   // Functions //
   ///////////////
-  public showAssetOverview(): void {
-    this.router.navigate(['/markets', this.marketId, '/assets']);
-  }
-
-  public showAssetDetails(assetId: string): void {
-    this.router.navigate(['/markets', this.marketId, '/assets', assetId]);
-  }
 
   public toggleInAddMode(): void {
     this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
@@ -60,28 +50,36 @@ export class AssetService {
   /////////////////////
   // CRUD Operations //
   /////////////////////
-  public fetchAsset(assetId: string): any {
-    this.assetDocument = this.angularFirestore.doc('users/' + this.userService.getUser().getUserId() + '/markets/' + this.marketId + '/assets/' + assetId)
-    this.assetDocument.valueChanges().subscribe(asset => this.setAsset(asset))
+  public fetchAsset(marketId: string, assetId: string): any {
+    console.log('___________________________________________')
+    console.log(this.userService.getUser().getUserId())
+    console.log(marketId)
+    console.log(assetId)
+    console.log('___________________________________________')
+    this.assetDocument = this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets/${assetId}`)
+    this.assetDocument.valueChanges().subscribe( asset => {
+      console.log('___________________________________________')
+      console.log(asset)
+      console.log('___________________________________________')
+      this.setAsset(asset)
+      this.assetSubject.next(asset)
+    })
   }
 
-  public fetchAssets(): void {
-    this.assetCollection = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/markets/' + this.marketId + '/assets/')
+  public fetchAssets(marketId: string): void {
+    this.assetCollection = this.angularFirestore.collection(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets`)
     this.assetCollection.valueChanges().subscribe(assets => {
       let assetsToAdd: Asset[] = []
       assets.forEach(asset => { assetsToAdd.push(new Asset(asset.assetId, asset.name, asset.symbol, asset.market)) })
       this.setAssets(assetsToAdd)
+      this.assetsSubject.next(assetsToAdd)
     })
   }
 
-  public addAsset(name: string, symbol: string): void {
-    this.marketService.fetchMarket(this.getMarketId())
-    this.marketDocument = this.angularFirestore.doc('users/' + this.userService.getUser().getUserId() + '/markets/' + this.getMarketId())
+  public addAsset(marketId: string, name: string, symbol: string): void {
+    this.marketDocument = this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/${marketId}`)
     this.marketDocument.valueChanges().subscribe(market => {
-      this.market = market
-      console.log(this.market)
-      const asset: any = { name: name, symbol: symbol, market: this.market.name }
-      this.assetCollection = this.angularFirestore.collection('users/' + this.userService.getUser().getUserId() + '/markets/' + this.market.marketId + '/assets/')
+      const asset: any = { name: name, symbol: symbol, market: market.name }
       this.assetCollection.add(asset)
       this.assetCollection.valueChanges().subscribe( assets => {
         assets.forEach(asset => { 
@@ -91,26 +89,20 @@ export class AssetService {
             })
           })
         })
-      })
-      this.setInAddMode(false)
+        this.setInAddMode(false)
+      })   
     })
-   
-
   }
 
-  public deleteAsset(assetId: string): void {
-    this.angularFirestore.doc('users/' + this.userService.getUser().getUserId() + '/markets/' + this.marketService.getMarketId() + '/assets/' + assetId).delete()
-    this.router.navigate(['/markets', this.marketService.getMarket().getMarketId()]);
+  public deleteAsset(marketId: string, assetId: string): void {
+    this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/'${marketId}/assets/${assetId}`).delete()
+    this.router.navigate([`/markets/${marketId}`])
   }
 
   /////////////
   // Getters //
   /////////////
-  public getMarketId(): string {
-    return this.marketId
-  }
-
-  public getAsset(assetId: string): Asset {
+  public getAsset(): Asset {
     return this.asset
   }
 
@@ -118,14 +110,13 @@ export class AssetService {
     return this.assets
   }
 
+  public getInAddMode(): boolean {
+    return this.inAddMode
+  }
 
   /////////////
   // Setters //
   /////////////
-  public setMarketId(marketId: string): void {
-    this.marketId = marketId
-  }
-
   public setAsset(asset: Asset): void {
     this.asset = asset
     this.assetSubject.next(asset)
