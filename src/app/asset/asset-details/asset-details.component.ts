@@ -32,6 +32,8 @@ export class AssetDetailsComponent implements OnInit {
       this.assetService.assetSubject.subscribe(asset => this.asset = asset)
       this.assetService.fetchAsset(params['marketId'], params['assetId'])
     })
+
+    this.backendService.connectToBackend()
   }
 
   ///////////////

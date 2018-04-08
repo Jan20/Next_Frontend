@@ -19,7 +19,7 @@ export class BackendService {
     // public seedService: SeedService
 
   ) {
-
+    this.connectToBackend()
     // this.seeds = this.seedService.getDax();
 
   }
