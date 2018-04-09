@@ -6,6 +6,7 @@ import { UserService } from '../../user/user-service/user.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MarketService } from '../../market/market-service/market.service'
 import { Market } from '../../market/market-model/market'
+import { Entry } from '../asset-model/entry';
 
 @Injectable()
 export class AssetService {
@@ -14,10 +15,12 @@ export class AssetService {
   // Variables //
   ///////////////
   private market: Market
+  private timeSeries: Entry[]
   private asset: Asset = new Asset('', '', '', '')
   private assets: Asset[] = []
   private assetDocument: AngularFirestoreDocument<Asset>
   private assetCollection: AngularFirestoreCollection<Asset>
+  private seriesCollection: AngularFirestoreCollection<Entry>
   private marketDocument: AngularFirestoreDocument<Market>
   public inAddMode: boolean = false
 
@@ -26,6 +29,7 @@ export class AssetService {
   //////////////
   public assetSubject: Subject<Asset> = new Subject<Asset>()
   public assetsSubject: Subject<any> = new Subject<any>()
+  public timeSeriesSubject: Subject<any> = new Subject<any>()
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
 
   //////////////////
@@ -51,18 +55,28 @@ export class AssetService {
   // CRUD Operations //
   /////////////////////
   public fetchAsset(marketId: string, assetId: string): any {
-    console.log('___________________________________________')
-    console.log(this.userService.getUser().getUserId())
-    console.log(marketId)
-    console.log(assetId)
-    console.log('___________________________________________')
     this.assetDocument = this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets/${assetId}`)
     this.assetDocument.valueChanges().subscribe( asset => {
-      console.log('___________________________________________')
-      console.log(asset)
-      console.log('___________________________________________')
-      this.setAsset(asset)
-      this.assetSubject.next(asset)
+        this.setAsset(asset)
+        this.assetsSubject.next(asset)
+    })
+  }
+
+  public fetchTimeSeries(marketId: string, assetId: string): any {
+    this.seriesCollection = this.angularFirestore.collection(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets/${assetId}/series`)
+    this.seriesCollection.valueChanges().subscribe(entries => {
+      // console.log('______________________________________________')
+      // console.log(entries)
+      // console.log('______________________________________________')
+      let series: Entry[] = []
+      entries.forEach(entry => {
+        console.log('______________________________________________')
+        console.log(entry)
+        console.log('______________________________________________')
+        series.push(new Entry(entry.name, entry.symbol, entry.close, entry.date))
+      })
+      this.setTimeSeries(series)
+      this.timeSeriesSubject.next(series)
     })
   }
 
@@ -114,6 +128,10 @@ export class AssetService {
     return this.inAddMode
   }
 
+  public getTimeSeries(): Entry[] {
+    return this.timeSeries
+  }
+
   /////////////
   // Setters //
   /////////////
@@ -131,4 +149,10 @@ export class AssetService {
     this.inAddMode = inAddMode
     this.inAddModeSubject.next(inAddMode)
   }
+ 
+  public setTimeSeries(timeSeries: Entry[]): void {
+    this.timeSeries = timeSeries
+    this.timeSeriesSubject.next(timeSeries)
+  }
+
 }

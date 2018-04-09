@@ -19,7 +19,7 @@ export class BackendService {
     // public seedService: SeedService
 
   ) {
-    this.connectToBackend()
+    // this.connectToBackend()
     // this.seeds = this.seedService.getDax();
 
   }
@@ -28,7 +28,17 @@ export class BackendService {
   // Functions //
   ///////////////
   public connectToBackend(): void {
-    console.log(this.httpClient.get('https://us-central1-next-001.cloudfunctions.net/stocks'))
+    console.log('______________________________________________________')
+    console.log('connection request started')
+    console.log('______________________________________________________')
+    this.httpClient.get('https://us-central1-next-001.cloudfunctions.net/stocks').subscribe(res => {
+      console.log('______________________________________________________')
+      console.log(res)
+      console.log('______________________________________________________')    })
+    console.log('______________________________________________________')
+    console.log('function has been executed')
+    console.log('______________________________________________________')
+
   }
 
 

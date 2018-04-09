@@ -24,11 +24,16 @@ import { CategoryModule } from './category/category.module'
 import { StatsModule } from './stats/stats.module'
 import { ProfileModule } from './profile/profile.module'
 
+// Directives
+import { ChartsModule } from 'ng2-charts';
+
+
 @NgModule({
   
   declarations: [
     AppComponent,
   ], imports: [
+    ChartsModule,
     MaterialModule,
     BrowserModule,
     FormsModule,

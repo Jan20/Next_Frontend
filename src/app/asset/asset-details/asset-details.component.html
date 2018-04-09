@@ -1,6 +1,17 @@
 <div class='banner'>
   <h1>{{asset.name}}</h1>
-  <div class='wrapper'>
-    <button mat-button class='control-button' (click)='showAssetOverview()'>Go Back</button>
-  </div>
 </div>
+
+<div class='wrapper'>
+    <canvas baseChart width="3" height="1"
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    [legend]="lineChartLegend"
+    [chartType]="lineChartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"></canvas>
+</div>
+
+<button mat-button class='control-button' (click)='showAssetOverview()'>Go Back</button>

@@ -1,5 +1,6 @@
 import { Time } from '@angular/common'
 import { Optional } from '@angular/core';
+import { Entry } from './entry'
 
 export class Asset {
 
@@ -10,6 +11,7 @@ export class Asset {
     public name: string
     public symbol: string
     public market: string
+    public series: Entry[]
 
     //////////////////
     // Constructors //
@@ -45,6 +47,10 @@ export class Asset {
         return this.market
     }
 
+    public getSeries(): Entry[] {
+        return this.series
+    }
+
     /////////////
     // Setters //
     /////////////
@@ -62,6 +68,10 @@ export class Asset {
 
     public setMarket(market: string): void {
         this.market = market
+    }
+
+    public setSeries(series: Entry[]): void {
+        this.series = series
     }
 
 }

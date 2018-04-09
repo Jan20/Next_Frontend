@@ -15,6 +15,10 @@ import { AssetAddComponent } from './asset-add/asset-add.component'
 // Custom Services
 import { AssetService } from './asset-service/asset.service'
 
+// Directives
+import { ChartsModule } from 'ng2-charts';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,10 +27,11 @@ import { AssetService } from './asset-service/asset.service'
     MatAutocompleteModule,
     FormsModule,
     MatSidenavModule,
+    ChartsModule,
   ], declarations: [
     AssetOverviewComponent,
     AssetDetailsComponent,
-    AssetAddComponent
+    AssetAddComponent,
   ], providers: [
     AssetService,
   ], exports: [
