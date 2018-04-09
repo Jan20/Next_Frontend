@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject'
 import { Market } from '../market-model/market'
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { UserService } from '../../user/user-service/user.service';
+import { User } from '../../user/user-model/user';
 
 @Injectable()
 export class MarketService {
@@ -10,17 +11,10 @@ export class MarketService {
   ///////////////
   // Variables //
   ///////////////
-  private market: Market = new Market('', '', '')
-  private markets: Market[] = []
-  private marketCollection: AngularFirestoreCollection<Market>
-  private marketDocument: AngularFirestoreDocument<Market>
-  private inAddMode: boolean = false
-
-  //////////////
-  // Subjects //
-  //////////////
-  public marketSubject: Subject<Market> = new Subject<Market>()
-  public marketsSubject: Subject<any> = new Subject<any>()
+  private user: User
+  private market: Market
+  private markets: Market[]
+  public inAddMode: boolean = false
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
 
   //////////////////
@@ -41,63 +35,36 @@ export class MarketService {
   /////////////////////
   // CRUD Operations //
   /////////////////////
-  public fetchMarket(marketId: string): any {
-    this.userService.userSubject.subscribe(user => {
-      this.marketDocument = this.angularFirestore.doc(`users/${user.getUserId()}/markets/${marketId}`)
-      this.marketDocument.valueChanges().subscribe(market => {
-        this.setMarket(market)
-        this.marketSubject.next(market)
-      })
-    })
-
+  public async fetchMarket(marketId: string): Promise<Market> {
+    await this.userService.getUser().then(user => this.user = user)
+    return new Promise<Market>(resolve => this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => resolve(market)))
   }
 
-  public fetchMarkets(): void {
-    this.userService.userSubject.subscribe(user => {
-      this.marketCollection = this.angularFirestore.collection(`users/${user.getUserId()}/markets`)
-      this.marketCollection.valueChanges().subscribe(markets => {
-        console.log('______________________________________________________________')
-        console.log(markets)
-        console.log('______________________________________________________________')
-        let newMarkets: Market[] = []
-        markets.forEach(market => newMarkets.push(new Market(market.marketId, market.name, market.category)))
-        this.setMarkets(newMarkets)
-        this.marketsSubject.next(newMarkets)
-      })
-    })
-    
+  public async fetchMarkets(): Promise<Market[]> {
+    await this.userService.getUser().then(user => this.user = user)
+    return new Promise<Market[]>(resolve => this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => resolve(markets)))
   }
 
   public addMarket(name: string, category: string): void {
-    const market: any = { name: name, category: category }
-    this.marketCollection.add(market)
-    this.marketCollection.valueChanges().subscribe( markets => {
-      markets.forEach(market => { 
-        this.marketCollection.ref.where('name', '==', market.name).get().then( m => {
-          m.docs.forEach(m => {
-            this.marketCollection.doc(m.id).update({ marketId: m.id })  
-          })
-        })
-      })
-    })
+    const object: any = {name: name, category: category}
+    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).add(object)
+    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe( markets => markets.forEach(market => 
+      this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).ref.where('name', '==', market.name).get().then( m =>
+          m.docs.forEach(m => { this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).doc(m.id).update({ marketId: m.id }) })
+        )
+      )
+    )
     this.setInAddMode(false)
   }
 
-  public deleteMarket(market: Market): void {
-    this.angularFirestore.doc('users/' + this.userService.getUser().getUserId() + '/markets/' + market.getMarketId()).delete()
+  public async deleteMarket(market: Market): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc(`users/${this.user.userId}/markets/${market.getMarketId()}`).delete()
   }
 
   /////////////
   // Getters //
   /////////////
-  public getMarket(): Market {
-    return this.market
-  }
-
-  public getMarkets(): Market[] {
-    return this.markets
-  }
-
   public getInAddMode(): boolean {
     return this.inAddMode
   }
@@ -105,16 +72,6 @@ export class MarketService {
   /////////////
   // Setters //
   /////////////
-  public setMarket(market: Market): void {
-    this.market = market
-    this.marketSubject.next(market)
-  }
-
-  public setMarkets(markets: Market[]): void {
-    this.markets = markets
-    this.marketsSubject.next(markets)
-  }
-
   public setInAddMode(inAddMode: boolean): void {
     this.inAddMode = inAddMode
     this.inAddModeSubject.next(inAddMode)

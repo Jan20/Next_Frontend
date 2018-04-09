@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { MarketService } from '../../market/market-service/market.service'
 import { Market } from '../../market/market-model/market'
 import { Entry } from '../asset-model/entry';
+import { User } from '../../user/user-model/user';
 
 @Injectable()
 export class AssetService {
@@ -14,6 +15,7 @@ export class AssetService {
   ///////////////
   // Variables //
   ///////////////
+  private user: User
   private market: Market
   private timeSeries: Entry[]
   private asset: Asset = new Asset('', '', '', '')
@@ -54,25 +56,21 @@ export class AssetService {
   /////////////////////
   // CRUD Operations //
   /////////////////////
-  public fetchAsset(marketId: string, assetId: string): any {
-    this.assetDocument = this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets/${assetId}`)
+  public async fetchAsset(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.assetDocument = this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}`)
     this.assetDocument.valueChanges().subscribe( asset => {
         this.setAsset(asset)
         this.assetsSubject.next(asset)
     })
   }
 
-  public fetchTimeSeries(marketId: string, assetId: string): any {
-    this.seriesCollection = this.angularFirestore.collection(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets/${assetId}/series`)
+  public async fetchTimeSeries(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.seriesCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/series`)
     this.seriesCollection.valueChanges().subscribe(entries => {
-      // console.log('______________________________________________')
-      // console.log(entries)
-      // console.log('______________________________________________')
       let series: Entry[] = []
       entries.forEach(entry => {
-        console.log('______________________________________________')
-        console.log(entry)
-        console.log('______________________________________________')
         series.push(new Entry(entry.name, entry.symbol, entry.close, entry.date))
       })
       this.setTimeSeries(series)
@@ -80,8 +78,9 @@ export class AssetService {
     })
   }
 
-  public fetchAssets(marketId: string): void {
-    this.assetCollection = this.angularFirestore.collection(`users/${this.userService.getUser().getUserId()}/markets/${marketId}/assets`)
+  public async fetchAssets(marketId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.assetCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets`)
     this.assetCollection.valueChanges().subscribe(assets => {
       let assetsToAdd: Asset[] = []
       assets.forEach(asset => { assetsToAdd.push(new Asset(asset.assetId, asset.name, asset.symbol, asset.market)) })
@@ -90,8 +89,9 @@ export class AssetService {
     })
   }
 
-  public addAsset(marketId: string, name: string, symbol: string): void {
-    this.marketDocument = this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/${marketId}`)
+  public async addAsset(marketId: string, name: string, symbol: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.marketDocument = this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}`)
     this.marketDocument.valueChanges().subscribe(market => {
       const asset: any = { name: name, symbol: symbol, market: market.name }
       this.assetCollection.add(asset)
@@ -108,8 +108,9 @@ export class AssetService {
     })
   }
 
-  public deleteAsset(marketId: string, assetId: string): void {
-    this.angularFirestore.doc(`users/${this.userService.getUser().getUserId()}/markets/'${marketId}/assets/${assetId}`).delete()
+  public async deleteAsset(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc(`users/${this.user.userId}/markets/'${marketId}/assets/${assetId}`).delete()
     this.router.navigate([`/markets/${marketId}`])
   }
 

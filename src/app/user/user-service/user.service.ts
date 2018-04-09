@@ -76,8 +76,23 @@ export class UserService {
   /////////////
   // Getters //
   /////////////
-  public getUser(): any {
-    return this.user
+  async getUser(): Promise<any> {
+    // await this.angularFireAuth.authState.subscribe(user => {
+    //   if (user) {
+    //     return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( newUser => {
+    //       this.setUser(new User(newUser.userId, newUser.email, newUser.photoURL, newUser.displayName))
+    //     })
+    //   } else {
+    //     return Observable.of(null)
+    //   }
+    // })
+    return new Promise( resolve => {
+      this.angularFireAuth.authState.subscribe(user => {
+          this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( newUser => {
+            resolve(newUser)
+          })
+      })
+    })
   }
 
   /////////////

@@ -1,10 +1,10 @@
-<div class='add-button-container' *ngIf='marketService.getInAddMode() === false'>
+<div class='add-button-container' *ngIf='marketService.inAddMode === false'>
   <button mat-fab class='add-button' (click)='marketService.toggleInAddMode()'>
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div class='outline' *ngIf='marketService.getInAddMode() === true'>
+<div class='outline' *ngIf='marketService.inAddMode === true'>
   
   <!-- Form Title -->
   <h2>{{title}}</h2>

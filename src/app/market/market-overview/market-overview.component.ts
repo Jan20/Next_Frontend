@@ -14,7 +14,7 @@ export class MarketOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   public title: string = 'Markets'
-  public markets: Market[] = this.marketService.getMarkets()
+  public markets: Market[] = []
 
   //////////////////
   // Constructors //
@@ -25,18 +25,13 @@ export class MarketOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.marketService.marketsSubject.subscribe(markets => {
-      this.markets = markets
-    })
-    this.markets = this.marketService.getMarkets()
-    this.marketService.fetchMarkets()
+    this.marketService.fetchMarkets().then(markets => this.markets = markets)
   }
 
   ///////////////
   // Functions //
   ///////////////
   public showMarketDetails(market: Market): void {
-    this.marketService.setMarket(market)
-    this.router.navigate(['/markets', market.getMarketId()]);
+    this.router.navigate(['/markets', market.marketId]);
   }
 } 

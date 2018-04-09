@@ -13,7 +13,8 @@ export class MarketDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public market: Market = this.marketService.getMarket()
+  public market: Market = new Market('', '', '')
+  private marketId: string
 
   //////////////////
   // Constructors //
@@ -23,10 +24,7 @@ export class MarketDetailsComponent implements OnInit {
     private marketService: MarketService,
   ) {}
 
-  ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.marketService.marketSubject.subscribe(market => this.market = market)
-      this.marketService.fetchMarket(params['marketId'])
-    })
+  async ngOnInit() {
+    await this.activatedRoute.params.subscribe(params => this.marketService.fetchMarket(params['marketId']).then( market => this.market = market))
   }
 }

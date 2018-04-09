@@ -5,8 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from '../user-service/user.service';
 import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../user-model/user';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { MenuService } from '../../menu/menu-service/menu.service';
 
 @Component({
   selector: 'app-user-login',
@@ -19,19 +17,17 @@ export class UserLoginComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public user: User
+  public user: User = new User('', '', '', '')
 
   //////////////////
   // Constructors //
   //////////////////
   constructor(
     public userService: UserService,
-    private angularFireStore: AngularFirestore,
   ) {}
 
-  ngOnInit(): void {
-    this.user = this.userService.getUser()
-    this.userService.userSubject.subscribe(user => this.user = user)
+  async ngOnInit(): Promise<void> {    
+    await this.userService.getUser().then(user => this.user = user)
   }
 
 }
