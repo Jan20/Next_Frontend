@@ -16,11 +16,6 @@ export class UserService {
   public user: User = new User('', '', '', '')
   private authState: Observable<firebase.User>;
 
-  //////////////
-  // Subjects //
-  //////////////
-  public userSubject: Subject<User> = new Subject<User>()
-
   //////////////////
   // Constructors //
   //////////////////
@@ -77,22 +72,15 @@ export class UserService {
   // Getters //
   /////////////
   async getUser(): Promise<any> {
-    // await this.angularFireAuth.authState.subscribe(user => {
-    //   if (user) {
-    //     return this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( newUser => {
-    //       this.setUser(new User(newUser.userId, newUser.email, newUser.photoURL, newUser.displayName))
-    //     })
-    //   } else {
-    //     return Observable.of(null)
-    //   }
-    // })
-    return new Promise( resolve => {
-      this.angularFireAuth.authState.subscribe(user => {
-          this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( newUser => {
-            resolve(newUser)
-          })
+    if (this.user.getUserId() != '') {
+      return new Promise(resolve => resolve(this.user))
+    } else {
+      return new Promise( resolve => {
+        this.angularFireAuth.authState.subscribe(user => {
+          this.angularFireStore.doc<User>(`users/${user.uid}`).valueChanges().subscribe( newUser => resolve(newUser))
+        })
       })
-    })
+    }
   }
 
   /////////////
@@ -100,7 +88,6 @@ export class UserService {
   /////////////
   public setUser(user: User): void {
     this.user = user
-    this.userSubject.next(user)
   }
 
 }

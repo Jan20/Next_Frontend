@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddQuoteComponent } from './add-quote.component';
+import { MarketSettingsComponent } from './market-settings.component';
 
-describe('AddQuoteComponent', () => {
-  let component: AddQuoteComponent;
-  let fixture: ComponentFixture<AddQuoteComponent>;
+describe('MarketSettingsComponent', () => {
+  let component: MarketSettingsComponent;
+  let fixture: ComponentFixture<MarketSettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddQuoteComponent ]
+      declarations: [ MarketSettingsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddQuoteComponent);
+    fixture = TestBed.createComponent(MarketSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

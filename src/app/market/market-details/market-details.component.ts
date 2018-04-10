@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Market } from '../market-model/market';
 import { MarketService } from '../market-service/market.service';
 
@@ -20,11 +20,30 @@ export class MarketDetailsComponent implements OnInit {
   // Constructors //
   //////////////////
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private marketService: MarketService,
   ) {}
 
-  async ngOnInit() {
-    await this.activatedRoute.params.subscribe(params => this.marketService.fetchMarket(params['marketId']).then( market => this.market = market))
+  public ngOnInit() {
+    this.activatedRoute.params.subscribe(params => this.marketService.fetchMarket(params['marketId']).then( market => this.market = market))
   }
+  
+  ///////////////
+  // Functions //
+  ///////////////
+  public test(): void {
+    this.router.navigate([`/markets/JSarXOg0DPIfidrarzMz/settings`])
+    console.log('HEY')
+  }
+  
+  public showMarketSettings(): void {
+    this.activatedRoute.params.subscribe(params => {
+      const marketId = params['marketId']
+      this.router.navigate([`/markets/${marketId}/settings`])
+    })
+  }
+
+
+
 }

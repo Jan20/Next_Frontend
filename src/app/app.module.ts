@@ -17,12 +17,8 @@ import { AppComponent } from './app.component'
 import { ConfigModule } from './config/config.module'
 import { UserModule } from './user/user.module'
 import { MenuModule } from './menu/menu.module'
-import { QuoteModule } from './quote/quote.module'
 import { AssetModule } from './asset/asset.module'
 import { MarketModule } from './market/market.module'
-import { CategoryModule } from './category/category.module'
-import { StatsModule } from './stats/stats.module'
-import { ProfileModule } from './profile/profile.module'
 
 // Directives
 import { ChartsModule } from 'ng2-charts';
@@ -44,12 +40,8 @@ import { ChartsModule } from 'ng2-charts';
     ConfigModule,
     UserModule,
     MenuModule,
-    QuoteModule,
     MarketModule,
     AssetModule,
-    CategoryModule,
-    StatsModule,
-    ProfileModule,
   ], providers: [
     {provide: APP_BASE_HREF, useValue : '/' }
   ], bootstrap: [

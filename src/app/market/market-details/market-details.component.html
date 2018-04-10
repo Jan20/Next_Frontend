@@ -1,7 +1,7 @@
 <!-- Banner -->
-<div class='banner' *ngIf='market.name != null'>
+<button mat-raised-button class='banner' (click)='showMarketSettings()'>
   <h1>{{market.name}}</h1>
-</div>
+</button>
 
 <!-- Asset Overview -->
 <app-asset-overview></app-asset-overview>

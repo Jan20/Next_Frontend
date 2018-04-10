@@ -45,21 +45,23 @@ export class MarketService {
     return new Promise<Market[]>(resolve => this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => resolve(markets)))
   }
 
-  public addMarket(name: string, category: string): void {
+  public async addMarket(name: string, category: string): Promise<void> {
+    const marketCollection = this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`)
+    await this.userService.getUser().then(user => this.user = user)
     const object: any = {name: name, category: category}
-    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).add(object)
-    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe( markets => markets.forEach(market => 
-      this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).ref.where('name', '==', market.name).get().then( m =>
-          m.docs.forEach(m => { this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).doc(m.id).update({ marketId: m.id }) })
+    marketCollection.add(object)
+    marketCollection.valueChanges().subscribe( markets => markets.forEach(market => 
+      marketCollection.ref.where('name', '==', name).get().then( m =>
+          m.docs.forEach(m => { marketCollection.doc(m.id).update({ marketId: m.id }) })
         )
       )
     )
     this.setInAddMode(false)
   }
 
-  public async deleteMarket(market: Market): Promise<void> {
+  public async deleteMarket(marketId: string): Promise<void> {
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc(`users/${this.user.userId}/markets/${market.getMarketId()}`).delete()
+    this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}`).delete()
   }
 
   /////////////
@@ -69,6 +71,10 @@ export class MarketService {
     return this.inAddMode
   }
 
+  // public getMarkets(): Market[] {
+  //   return this.markets
+  // }
+
   /////////////
   // Setters //
   /////////////
@@ -76,5 +82,11 @@ export class MarketService {
     this.inAddMode = inAddMode
     this.inAddModeSubject.next(inAddMode)
   }
+
+  // public setMarkets(markets: Market[]): void {
+  //   this.markets = this.markets
+  //   this.marketsSubject.next(markets)
+  // }
+
 }
 

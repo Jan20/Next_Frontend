@@ -26,6 +26,9 @@ export class MarketOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.marketService.fetchMarkets().then(markets => this.markets = markets)
+    this.marketService.inAddModeSubject.subscribe(inAddMode => {
+      this.marketService.fetchMarkets().then(markets => this.markets = markets)
+    })
   }
 
   ///////////////

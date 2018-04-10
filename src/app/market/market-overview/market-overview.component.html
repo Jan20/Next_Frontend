@@ -4,10 +4,12 @@
 </div>
 
 <!-- Cards -->
-<button mat-raised-button *ngFor='let market of markets' (click)='showMarketDetails(market)' class='card'> 
-    <h1>{{market.name}}</h1>
-    <h2>{{market.category}}</h2>
-</button>
+<div *ngIf='marketService.inAddMode === false'>
+    <button mat-raised-button *ngFor='let market of markets' (click)='showMarketDetails(market)' class='card'> 
+        <h1>{{market.name}}</h1>
+        <h2>{{market.category}}</h2>
+    </button>
+</div>
 
 <!-- Add Market -->
 <app-market-add></app-market-add>
