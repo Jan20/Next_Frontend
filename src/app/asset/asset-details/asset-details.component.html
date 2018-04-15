@@ -3,15 +3,20 @@
 </div>
 
 <div class='wrapper'>
-    <canvas baseChart width="3" height="1"
-    [datasets]="lineChartData"
-    [labels]="lineChartLabels"
-    [options]="lineChartOptions"
-    [colors]="lineChartColors"
-    [legend]="lineChartLegend"
-    [chartType]="lineChartType"
-    (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)"></canvas>
+  <ngx-charts-line-chart
+    [scheme]="colorScheme"
+    [results]="multi"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="hideLegend"
+    [showXAxisLabel]="hideXAxisLabel"
+    [showYAxisLabel]="hideYAxisLabel"
+    [showGridLines]="showGridLines"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [autoScale]="autoScale"
+    [timeline]="timeline"
+    (select)="onSelect($event)">
+  </ngx-charts-line-chart>
 </div>
-
-<button mat-button class='control-button' (click)='showAssetOverview()'>Go Back</button>

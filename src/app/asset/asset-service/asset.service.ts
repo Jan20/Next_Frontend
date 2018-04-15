@@ -6,8 +6,10 @@ import { UserService } from '../../user/user-service/user.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MarketService } from '../../market/market-service/market.service'
 import { Market } from '../../market/market-model/market'
-import { Entry } from '../asset-model/entry';
-import { User } from '../../user/user-model/user';
+import { Entry } from '../asset-model/entry'
+import { Prediction } from '../asset-model/prediction'
+import { User } from '../../user/user-model/user'
+
 
 @Injectable()
 export class AssetService {
@@ -16,13 +18,17 @@ export class AssetService {
   // Variables //
   ///////////////
   private user: User
-  private market: Market
-  private timeSeries: Entry[]
   private asset: Asset = new Asset('', '', '', '')
   private assets: Asset[] = []
   private assetDocument: AngularFirestoreDocument<Asset>
   private assetCollection: AngularFirestoreCollection<Asset>
+  private timeSeries: Entry[]
   private seriesCollection: AngularFirestoreCollection<Entry>
+  private trainPredictions: Prediction[] = []
+  private trainPredictionsCollection: AngularFirestoreCollection<Prediction>
+  private testPredictions: Prediction[] = []
+  private testPredictionsCollection: AngularFirestoreCollection<Prediction>
+  private market: Market
   private marketDocument: AngularFirestoreDocument<Market>
   public inAddMode: boolean = false
 
@@ -33,6 +39,8 @@ export class AssetService {
   public assetsSubject: Subject<any> = new Subject<any>()
   public timeSeriesSubject: Subject<any> = new Subject<any>()
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
+  public trainPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
+  public testPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
 
   //////////////////
   // Constructors //
@@ -48,9 +56,30 @@ export class AssetService {
   ///////////////
   // Functions //
   ///////////////
-
   public toggleInAddMode(): void {
     this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
+  }
+
+  //////////////////////////
+  // Retrieve Predictions //
+  //////////////////////////
+  public async fetchTimeSeries(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.seriesCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/series`)
+    this.seriesCollection.valueChanges().subscribe(entries => this.setTimeSeries(entries))
+  }
+
+  public async fetchTrainPredictions(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.trainPredictionsCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/train_predictions`)
+    this.trainPredictionsCollection.valueChanges().subscribe(trainPredictions => {this.setTrainPredictions(trainPredictions)
+    })
+  }
+
+  public async fetchTestPredictions(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.testPredictionsCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/test_predictions`)
+    this.testPredictionsCollection.valueChanges().subscribe(testPredictions => this.setTestPredictions(testPredictions))
   }
 
   /////////////////////
@@ -59,34 +88,13 @@ export class AssetService {
   public async fetchAsset(marketId: string, assetId: string): Promise<void> {
     await this.userService.getUser().then(user => this.user = user)
     this.assetDocument = this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}`)
-    this.assetDocument.valueChanges().subscribe( asset => {
-        this.setAsset(asset)
-        this.assetsSubject.next(asset)
-    })
+    this.assetDocument.valueChanges().subscribe( asset => this.setAsset(asset))
   }
-
-  public async fetchTimeSeries(marketId: string, assetId: string): Promise<void> {
-    await this.userService.getUser().then(user => this.user = user)
-    this.seriesCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/series`)
-    this.seriesCollection.valueChanges().subscribe(entries => {
-      let series: Entry[] = []
-      entries.forEach(entry => {
-        series.push(new Entry(entry.name, entry.symbol, entry.close, entry.date))
-      })
-      this.setTimeSeries(series)
-      this.timeSeriesSubject.next(series)
-    })
-  }
-
+  
   public async fetchAssets(marketId: string): Promise<void> {
     await this.userService.getUser().then(user => this.user = user)
     this.assetCollection = this.angularFirestore.collection(`users/${this.user.userId}/markets/${marketId}/assets`)
-    this.assetCollection.valueChanges().subscribe(assets => {
-      let assetsToAdd: Asset[] = []
-      assets.forEach(asset => { assetsToAdd.push(new Asset(asset.assetId, asset.name, asset.symbol, asset.market)) })
-      this.setAssets(assetsToAdd)
-      this.assetsSubject.next(assetsToAdd)
-    })
+    this.assetCollection.valueChanges().subscribe(assets => this.setAssets(assets))
   }
 
   public async addAsset(marketId: string, name: string, symbol: string): Promise<void> {
@@ -133,6 +141,14 @@ export class AssetService {
     return this.timeSeries
   }
 
+  public getTrainPredictions(): Prediction[] {
+    return this.trainPredictions
+  }
+
+  public getTestPredictions(): Prediction[] {
+    return this.testPredictions
+  }
+
   /////////////
   // Setters //
   /////////////
@@ -154,6 +170,17 @@ export class AssetService {
   public setTimeSeries(timeSeries: Entry[]): void {
     this.timeSeries = timeSeries
     this.timeSeriesSubject.next(timeSeries)
+  }
+
+  public setTrainPredictions(trainPredictions: Prediction[]): void {
+    this.trainPredictions = trainPredictions
+    this.trainPredictionsSubject.next(trainPredictions)
+  }
+
+  public setTestPredictions(testPredictions: Prediction[]): void {
+    this.testPredictions = testPredictions
+    this.testPredictionsSubject.next(testPredictions)
+    console.log(testPredictions)
   }
 
 }

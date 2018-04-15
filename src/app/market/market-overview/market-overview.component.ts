@@ -21,14 +21,12 @@ export class MarketOverviewComponent implements OnInit {
   //////////////////
   public constructor(
     private router: Router,
-    private marketService: MarketService,
+    public marketService: MarketService,
   ) {}
 
   ngOnInit() {
-    this.marketService.fetchMarkets().then(markets => this.markets = markets)
-    this.marketService.inAddModeSubject.subscribe(inAddMode => {
-      this.marketService.fetchMarkets().then(markets => this.markets = markets)
-    })
+    this.marketService.fetchMarkets()
+    this.marketService.marketsSubject.subscribe(markets => this.markets = markets)
   }
 
   ///////////////

@@ -13,7 +13,7 @@ export class UserService {
   ///////////////
   // Variables //
   ///////////////
-  public user: User = new User('', '', '', '')
+  public user: User = new User('1', '', '', '')
   private authState: Observable<firebase.User>;
 
   //////////////////
@@ -72,7 +72,7 @@ export class UserService {
   // Getters //
   /////////////
   async getUser(): Promise<any> {
-    if (this.user.getUserId() != '') {
+    if (this.user.getUserId() != '1') {
       return new Promise(resolve => resolve(this.user))
     } else {
       return new Promise( resolve => {

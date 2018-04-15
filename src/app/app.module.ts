@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './config/material.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
+
 // Custom Components
 import { AppComponent } from './app.component'
 
@@ -21,7 +22,7 @@ import { AssetModule } from './asset/asset.module'
 import { MarketModule } from './market/market.module'
 
 // Directives
-import { ChartsModule } from 'ng2-charts';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -29,9 +30,9 @@ import { ChartsModule } from 'ng2-charts';
   declarations: [
     AppComponent,
   ], imports: [
-    ChartsModule,
     MaterialModule,
     BrowserModule,
+    NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,

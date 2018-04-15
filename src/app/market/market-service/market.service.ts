@@ -16,6 +16,8 @@ export class MarketService {
   private markets: Market[]
   public inAddMode: boolean = false
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
+  public marketSubject: Subject<Market> = new Subject<Market>()
+  public marketsSubject: Subject<any> = new Subject<any>()
 
   //////////////////
   // Constructors //
@@ -35,19 +37,19 @@ export class MarketService {
   /////////////////////
   // CRUD Operations //
   /////////////////////
-  public async fetchMarket(marketId: string): Promise<Market> {
+  public async fetchMarket(marketId: string): Promise<void> {
     await this.userService.getUser().then(user => this.user = user)
-    return new Promise<Market>(resolve => this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => resolve(market)))
+    this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => this.setMarket(market))
   }
 
-  public async fetchMarkets(): Promise<Market[]> {
+  public async fetchMarkets(): Promise<void> {
     await this.userService.getUser().then(user => this.user = user)
-    return new Promise<Market[]>(resolve => this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => resolve(markets)))
+    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => this.setMarkets(markets))
   }
 
   public async addMarket(name: string, category: string): Promise<void> {
-    const marketCollection = this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`)
     await this.userService.getUser().then(user => this.user = user)
+    const marketCollection = this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`)
     const object: any = {name: name, category: category}
     marketCollection.add(object)
     marketCollection.valueChanges().subscribe( markets => markets.forEach(market => 
@@ -67,26 +69,15 @@ export class MarketService {
   /////////////
   // Getters //
   /////////////
-  public getInAddMode(): boolean {
-    return this.inAddMode
-  }
-
-  // public getMarkets(): Market[] {
-  //   return this.markets
-  // }
-
+  public getMarket(): Market { return this.market }
+  public getMarkets(): Market[] { return this.markets }
+  public getInAddMode(): boolean { return this.inAddMode }
+  
   /////////////
   // Setters //
   /////////////
-  public setInAddMode(inAddMode: boolean): void {
-    this.inAddMode = inAddMode
-    this.inAddModeSubject.next(inAddMode)
-  }
-
-  // public setMarkets(markets: Market[]): void {
-  //   this.markets = this.markets
-  //   this.marketsSubject.next(markets)
-  // }
-
+  public setMarket(market): void { this.market = market; this.marketSubject.next(market)}
+  public setMarkets(markets: Market[]): void { this.markets = this.markets; this.marketsSubject.next(markets)}
+  public setInAddMode(inAddMode: boolean): void {this.inAddMode = inAddMode; this.inAddModeSubject.next(inAddMode)}
 }
 

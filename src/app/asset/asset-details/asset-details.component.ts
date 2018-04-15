@@ -16,13 +16,52 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+
   public asset: Asset = this.assetService.getAsset()
-  public timeSeries: Entry[] = []
-  public temp: number[] = []
-  public dates: any[] = []
+  public series: any[] = []
   private line_ChartData: any;
   private line_ChartOptions: any;
-  
+  public lineChartLabels:Array<any> = []
+
+  private timeSeries: any = null
+  private trainPredictions: any = null
+  private testPredictions: any = null
+
+  multi: any[] = [
+    {
+      name: 'Cyan',
+      series: [
+        {
+          name: 5,
+          value: 2650
+        },
+        {
+          name: 10,
+          value: 2800      },
+        {
+          name: 15,
+          value: 2000
+        }
+      ]
+    },
+    {
+      name: 'Yellow',
+      series: [
+        {
+          name: 5,
+          value: 2500
+        },
+        {
+          name: 10,
+          value: 3100
+        },
+        {
+          name: 15,
+          value: 2350
+        }
+      ]
+    }
+  ]
   //////////////////
   // Constructors //
   //////////////////
@@ -34,36 +73,31 @@ export class AssetDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => this.assetService.fetchAsset(params['marketId'], params['assetId']))
+    this.activatedRoute.params.subscribe(params => this.assetService.fetchTimeSeries(params['marketId'], params['assetId']))
+    this.activatedRoute.params.subscribe(params => this.assetService.fetchTrainPredictions(params['marketId'], params['assetId']))
+    this.activatedRoute.params.subscribe(params => this.assetService.fetchTestPredictions(params['marketId'], params['assetId']))
+    this.assetService.assetSubject.subscribe(asset => this.asset = asset)
 
-    this.activatedRoute.params.subscribe(params => {
-      this.assetService.assetSubject.subscribe(asset => this.asset = asset)
-      this.assetService.fetchAsset(params['marketId'], params['assetId'])
-    })
-  
-    this.activatedRoute.params.subscribe(params => {
-      this.timeSeries = []
-      this.assetService.timeSeriesSubject.subscribe(timeSeries => {
-        this.temp = []
-        this.dates = []
-        timeSeries.forEach(entry => {
-          this.temp.push(entry.close)
-          this.dates.push(entry.date)
-        });
-
-        var r = []
-        for (let i = this.temp.length-1; i > this.temp.length-20; i-- ){
-          r.push(this.temp[i])
-        }
-
-        this.lineChartData = [
-          {data: r, label: 'BMW'},
-        ];        
-      })
-      this.assetService.fetchTimeSeries(params['marketId'], params['assetId'])
-
+    this.assetService.timeSeriesSubject.subscribe(timeSeries => {
+      let series = []
+      timeSeries.forEach(value => series.push({ name: new Date(value.date), value: value.close }));
+      this.createGraph({ name: 'Time Series', series: series })
     })
 
-    // this.backendService.connectToBackend()
+    this.assetService.trainPredictionsSubject.subscribe(trainPredictions => {
+      let series = []
+      trainPredictions.forEach(value => series.push({ name: new Date(value.date), value: value.predicted_close }));
+      this.createGraph({ name: 'Train Predictions', series: series })
+    })
+
+    this.assetService.testPredictionsSubject.subscribe(testPredictions => {
+      let series = []
+      console.log('testPredictions')
+      testPredictions.forEach(value => series.push({ name: new Date(value.date), value: value.predicted_close }));
+      console.log({ name: 'Test Predictions', series: series })
+      this.createGraph({ name: 'Test Predictions', series: series })
+    })    
   }
 
   ///////////////
@@ -75,50 +109,48 @@ export class AssetDetailsComponent implements OnInit {
     })
   }
 
+  private createGraph(series: any): void {
+    
+    switch(series.name) {
+      case 'Test Predictions': this.testPredictions = series; break;
+      case 'Time Series': this.timeSeries = series; break;
+      case 'Train Predictions': this.trainPredictions = series; break;
+    }
+    console.log(this.timeSeries)
+    console.log(this.trainPredictions)
+    console.log(this.testPredictions)
+    if (this.timeSeries != null && this.trainPredictions != null && this.testPredictions != null) {
+      this.multi = [this.timeSeries, this.trainPredictions, this.testPredictions]
+    }
 
-  // lineChart
-  public lineChartData:Array<any> = [
-    {data: this.temp, label: 'Series A'},
-  ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  public lineChartOptions:any = {
-    responsive: true
+  }
+
+
+  view: any[] = [1274, 400];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = true;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Date';
+  showYAxisLabel = true;
+  yAxisLabel = 'Stock Price';
+  timeline = true;
+
+  colorScheme = {
+    domain: ['#dca042', '#A10A28', '#C7B42C', '#AAAAAA']
   };
-  public lineChartColors:Array<any> = [
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
 
-
-  public lineChartLegend:boolean = true;
-  public lineChartType:string = 'line';
-
-  public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-      }
-    }
-    this.lineChartData = _lineChartData;
+  // line, area
+  autoScale = true;
+  
+  
+  onSelect(event) {
+    console.log(event);
   }
-
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
-
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
-
+  
 }
 
 

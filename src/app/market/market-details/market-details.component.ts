@@ -26,17 +26,13 @@ export class MarketDetailsComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.activatedRoute.params.subscribe(params => this.marketService.fetchMarket(params['marketId']).then( market => this.market = market))
+    this.activatedRoute.params.subscribe(params => this.marketService.fetchMarket(params['marketId']))
+    this.marketService.marketSubject.subscribe(market => this.market = market)
   }
   
   ///////////////
   // Functions //
   ///////////////
-  public test(): void {
-    this.router.navigate([`/markets/JSarXOg0DPIfidrarzMz/settings`])
-    console.log('HEY')
-  }
-  
   public showMarketSettings(): void {
     this.activatedRoute.params.subscribe(params => {
       const marketId = params['marketId']
