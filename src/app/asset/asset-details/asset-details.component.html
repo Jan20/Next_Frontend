@@ -1,22 +1,23 @@
 <div class='banner'>
   <h1>{{asset.name}}</h1>
 </div>
-
 <div class='wrapper'>
-  <ngx-charts-line-chart
+  <!-- <ngx-charts-line-chart
     [scheme]="colorScheme"
     [results]="multi"
-    [gradient]="gradient"
     [xAxis]="showXAxis"
     [yAxis]="showYAxis"
     [legend]="hideLegend"
     [showXAxisLabel]="hideXAxisLabel"
     [showYAxisLabel]="hideYAxisLabel"
-    [showGridLines]="showGridLines"
+    [showGridLines]="hideGridLines"
     [xAxisLabel]="xAxisLabel"
     [yAxisLabel]="yAxisLabel"
     [autoScale]="autoScale"
-    [timeline]="timeline"
     (select)="onSelect($event)">
-  </ngx-charts-line-chart>
+  </ngx-charts-line-chart> -->
+  <google-chart [data]="pieChartData"></google-chart>
 </div>
+
+
+<!-- [timeline]="timeline" -->

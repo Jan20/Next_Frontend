@@ -20,9 +20,11 @@ import { UserModule } from './user/user.module'
 import { MenuModule } from './menu/menu.module'
 import { AssetModule } from './asset/asset.module'
 import { MarketModule } from './market/market.module'
+import { PortfolioModule } from './portfolio/portfolio.module'
 
 // Directives
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
 @NgModule({
@@ -43,6 +45,8 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     MenuModule,
     MarketModule,
     AssetModule,
+    Ng2GoogleChartsModule,
+    PortfolioModule
   ], providers: [
     {provide: APP_BASE_HREF, useValue : '/' }
   ], bootstrap: [

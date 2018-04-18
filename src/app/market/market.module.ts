@@ -13,7 +13,8 @@ import { MarketAddComponent } from './market-add/market-add.component'
 
 // Services
 import { MarketService } from './market-service/market.service'
-import { MarketSettingsComponent } from './market-settings/market-settings.component'
+import { MarketSettingsComponent } from './market-settings/market-settings.component';
+import { MarketStatsComponent } from './market-stats/market-stats.component'
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { MarketSettingsComponent } from './market-settings/market-settings.compo
     MarketOverviewComponent, 
     MarketDetailsComponent,
     MarketAddComponent,
-    MarketSettingsComponent, 
+    MarketSettingsComponent,
+    MarketStatsComponent, 
   ], providers: [
     MarketService
   ]
