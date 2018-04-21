@@ -16,8 +16,8 @@ export class PortfolioPredictionsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'Best Assets to invest in'
   private marketId: string
+  public title: string = 'Best Assets to invest in'
   public markets: Market[]
   public assets: Asset[] = []
       
@@ -25,20 +25,18 @@ export class PortfolioPredictionsComponent implements OnInit {
   // Constructors //
   //////////////////
   constructor(
+
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private marketService: MarketService,
     public assetService: AssetService,
-    private portfolioService: PortfolioService,
+    public portfolioService: PortfolioService,
+
   ) {}
 
   ngOnInit() {
 
-    // if ( this.assets == []) {
-
-      this.populateAssets()
-
-    // }
+    this.populateAssets()
 
   }
 
@@ -73,14 +71,7 @@ export class PortfolioPredictionsComponent implements OnInit {
 
   }
 
-
-  public addPortfolioMember(asset: Asset): void {
   
-    this.activatedRoute.params.subscribe(params => this.portfolioService.addPortfolioMember(params['marketId'], asset.assetId))
-  
-  }
-
-
   public showAssetDetails(asset: Asset): void {
 
     this.router.navigate([`/markets/${asset.marketId}/assets/${asset.assetId}`]);

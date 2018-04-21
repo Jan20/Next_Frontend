@@ -6,6 +6,12 @@ import { MaterialModule } from '../config/material.module'
 
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { PortfolioPredictionsComponent } from './portfolio-predictions/portfolio-predictions.component';
+import { PortfolioAddComponent } from './portfolio-add/portfolio-add.component';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+
+// Modules
+import { AssetModule } from '../asset/asset.module'
 
 
 @NgModule({
@@ -13,10 +19,12 @@ import { PortfolioPredictionsComponent } from './portfolio-predictions/portfolio
     CommonModule,
     Ng2GoogleChartsModule,
     MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     PortfolioOverviewComponent, 
-    PortfolioPredictionsComponent
+    PortfolioPredictionsComponent, PortfolioAddComponent
   ],
   providers: [
     PortfolioService

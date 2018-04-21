@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AssetService } from '../asset-service/asset.service'
 import { BackendService } from '../../config/backend/backend.service'
 import { Entry } from '../asset-model/entry'
+import { PortfolioService } from '../../portfolio/portfolio-service/portfolio.service';
 
 @Component({
   selector: 'app-asset-details',
@@ -15,6 +16,7 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+
   public seriesData: any =  {
     chartType: 'LineChart',
     dataTable: [
@@ -60,24 +62,29 @@ export class AssetDetailsComponent implements OnInit {
   // Constructors //
   //////////////////
   public constructor(
+
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private assetService: AssetService,
     private backendService: BackendService,
-  ) {
-
-  }
+    public portfolioService: PortfolioService,
+  
+  ) {}
 
   ngOnInit() {
+
+    this.activatedRoute.params.subscribe(params => {
+
+      this.assetService.fetchAsset(params['marketId'], params['assetId'])
+      this.assetService.fetchTimeSeries(params['marketId'], params['assetId'])
+      this.assetService.fetchShortTermPredictions(params['marketId'], params['assetId'])
+
+    })
     
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchAsset(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchTimeSeries(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchTrainPredictions(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchTestPredictions(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchShortTermPredictions(params['marketId'], params['assetId']))
     this.assetService.assetSubject.subscribe(asset => this.asset = asset)
 
     this.assetService.timeSeriesSubject.subscribe(timeSeries => {
+      this.asset.series = timeSeries
       let series: any[] = [['Date', 'Value']]
       timeSeries.forEach(value => series.push([new Date(value.date), +value.close]))
       this.seriesData =  {
@@ -125,6 +132,10 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
+  public showPortfioAddMode(asset: Asset): void {
+    this.router.navigate([`/portfolio/add/market/${asset.marketId}/asset/${asset.assetId}`])
+  }
+
   public showAssetOverview(): void {
     this.activatedRoute.params.subscribe( params => {
       this.router.navigate([`/markets/${params['marketId']}`])

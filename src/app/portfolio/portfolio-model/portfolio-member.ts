@@ -8,6 +8,7 @@ export class PortfolioMember {
     public portfolioMemberId: string
     public name: string
     public symbol: string
+    public marketId: string
     public market: string
     public series: Entry[]
     public buyDate: string
@@ -20,6 +21,7 @@ export class PortfolioMember {
         portfolioMemberId: string,
         name: string,
         symbol: string,
+        marketId: string,
         market: string,
         series: Entry[],
         buyDate: string,
@@ -28,6 +30,7 @@ export class PortfolioMember {
         this.portfolioMemberId = portfolioMemberId
         this.name = name
         this.symbol = symbol
+        this.marketId = marketId
         this.market = market
         this.series = series
         this.buyDate = buyDate

@@ -1,0 +1,29 @@
+<!-- Banner -->
+<button mat-raised-button class='banner'>
+  <h1 class='title'>{{title}}</h1>
+</button>
+
+
+<div class='outline'>
+
+  <!-- Form Title -->
+  <h2>Add {{asset.name}} to Portfolio</h2>
+
+  <!-- Form -->
+  <form class='form'>
+    <mat-form-field class='full-width'>
+      <input matInput placeholder='Quantity' [formControl]='quantityFormControl'>
+    </mat-form-field>
+  </form>
+
+  <!-- Control Buttons -->
+  <div class='wrapper'>
+    <button class='control-button submit-button' mat-raised-button (click)='addPortfolioMember()' >
+      <mat-icon>done</mat-icon>
+    </button>    
+    <button class='control-button cancel-button' mat-raised-button (click)='portfolioService.setInAddMode(false)' >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+</div>
