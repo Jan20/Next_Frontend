@@ -16,7 +16,6 @@ import { AssetAddComponent } from './asset-add/asset-add.component'
 import { AssetService } from './asset-service/asset.service'
 
 // Directives
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
@@ -28,7 +27,6 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     MatAutocompleteModule,
     FormsModule,
     MatSidenavModule,
-    NgxChartsModule,
     Ng2GoogleChartsModule,
   ], declarations: [
     AssetOverviewComponent,

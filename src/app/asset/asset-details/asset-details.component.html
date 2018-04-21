@@ -2,22 +2,6 @@
   <h1>{{asset.name}}</h1>
 </div>
 <div class='wrapper'>
-  <!-- <ngx-charts-line-chart
-    [scheme]="colorScheme"
-    [results]="multi"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="hideLegend"
-    [showXAxisLabel]="hideXAxisLabel"
-    [showYAxisLabel]="hideYAxisLabel"
-    [showGridLines]="hideGridLines"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [autoScale]="autoScale"
-    (select)="onSelect($event)">
-  </ngx-charts-line-chart> -->
-  <google-chart [data]="pieChartData"></google-chart>
+  <google-chart [data]="seriesData"></google-chart>
+  <google-chart [data]="predictionData"></google-chart>
 </div>
-
-
-<!-- [timeline]="timeline" -->

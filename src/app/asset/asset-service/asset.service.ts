@@ -10,7 +10,6 @@ import { Entry } from '../asset-model/entry'
 import { Prediction } from '../asset-model/prediction'
 import { User } from '../../user/user-model/user'
 
-
 @Injectable()
 export class AssetService {
 
@@ -31,16 +30,18 @@ export class AssetService {
   private market: Market
   private marketDocument: AngularFirestoreDocument<Market>
   public inAddMode: boolean = false
+  private shortTermPredictions: Prediction[]
 
   //////////////
   // Subjects //
   //////////////
   public assetSubject: Subject<Asset> = new Subject<Asset>()
-  public assetsSubject: Subject<any> = new Subject<any>()
-  public timeSeriesSubject: Subject<any> = new Subject<any>()
+  public assetsSubject: Subject<Asset[]> = new Subject<Asset[]>()
+  public timeSeriesSubject: Subject<Entry[]> = new Subject<Entry[]>()
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
   public trainPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public testPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
+  public shortTermPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
 
   //////////////////
   // Constructors //
@@ -78,6 +79,11 @@ export class AssetService {
     this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/test_predictions`).valueChanges().subscribe(testPredictions => this.setTestPredictions(testPredictions))
   }
 
+  public async fetchShortTermPredictions(marketId: string, assetId: string): Promise<void> {
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/short_term_predictions`).valueChanges().subscribe(shortTermPredictions => this.setShortTermPredictions(shortTermPredictions))
+  }
+
   /////////////////////
   // CRUD Operations //
   /////////////////////
@@ -94,13 +100,16 @@ export class AssetService {
   public async addAsset(marketId: string, name: string, symbol: string): Promise<void> {
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => {
-      const asset: any = { name: name, symbol: symbol, market: market.name }
-      this.assetCollection.add(asset)
-      this.assetCollection.valueChanges().subscribe( assets => {
+      const asset: any = { name: name, symbol: symbol, market: market.name, marketId: market.marketId }
+      const assetCollection = this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`)  
+      assetCollection.add(asset)
+      assetCollection.valueChanges().subscribe( assets => {
         assets.forEach(asset => { 
-          this.assetCollection.ref.where('name', '==', asset.name).get().then( assetToUpdate => {
+          assetCollection.ref.where('name', '==', asset.name).get().then( assetToUpdate => {
             assetToUpdate.docs.forEach(assetToUpdate => {
-              this.assetCollection.doc(assetToUpdate.id).update({ assetId: assetToUpdate.id })  
+              assetCollection.doc(assetToUpdate.id).update({ 
+                marketId: marketId,
+                assetId: assetToUpdate.id })  
             })
           })
         })
@@ -119,61 +128,97 @@ export class AssetService {
   // Getters //
   /////////////
   public getAsset(): Asset {
+  
     return this.asset
+  
   }
 
   public getAssets(): Asset[] {
+  
     return this.assets
+  
   }
 
   public getInAddMode(): boolean {
+
     return this.inAddMode
+
   }
 
   public getTimeSeries(): Entry[] {
+
     return this.timeSeries
+
   }
 
   public getTrainPredictions(): Prediction[] {
+
     return this.trainPredictions
+
   }
 
   public getTestPredictions(): Prediction[] {
+
     return this.testPredictions
+
+  }
+
+  public getShortTermPrediction(): Prediction[] {
+
+    return this.shortTermPredictions
+
   }
 
   /////////////
   // Setters //
   /////////////
   public setAsset(asset: Asset): void {
+  
     this.asset = asset
     this.assetSubject.next(asset)
+  
   }
 
   public setAssets(assets: Asset[]): void {
+  
     this.assets = assets
     this.assetsSubject.next(assets)
+  
   }
 
   public setInAddMode(inAddMode: boolean): void {
+  
     this.inAddMode = inAddMode
     this.inAddModeSubject.next(inAddMode)
+  
   }
  
   public setTimeSeries(timeSeries: Entry[]): void {
+  
     this.timeSeries = timeSeries
     this.timeSeriesSubject.next(timeSeries)
+  
   }
 
   public setTrainPredictions(trainPredictions: Prediction[]): void {
+  
     this.trainPredictions = trainPredictions
     this.trainPredictionsSubject.next(trainPredictions)
+  
   }
 
   public setTestPredictions(testPredictions: Prediction[]): void {
+  
     this.testPredictions = testPredictions
     this.testPredictionsSubject.next(testPredictions)
-    console.log(testPredictions)
+  
+  }
+
+  public setShortTermPredictions(shortTermPredictions: Prediction[]): void {
+  
+    this.shortTermPredictions = shortTermPredictions
+    this.shortTermPredictionsSubject.next(shortTermPredictions)
+  
   }
 
 }

@@ -1,24 +1,31 @@
 <!-- Banner -->
-<div class='banner'>
-  <h1 class='title'>Portfolio</h1>
+<button mat-raised-button class='banner'>
+  <h1 class='title'>{{title}}</h1>
+</button>
+
+
+
+<div *ngIf='true'>
+  <button mat-raised-button class='card'> 
+      <h1>2</h1>
+      <h2>test</h2>
+  </button>
+  <button mat-raised-button class='card'> 
+      <h1>4</h1>
+      <h2>test</h2>
+  </button>
+  <button mat-raised-button class='card'> 
+      <h1>7</h1>
+      <h2>test</h2>
+  </button>
+  <button mat-raised-button class='card'> 
+      <h1>3</h1>
+      <h2>test</h2>
+  </button>
 </div>
 
-<!-- Cards -->
-<!-- <div *ngIf='marketService.inAddMode === false'>
-  <button mat-raised-button *ngFor='let market of markets' (click)='showMarketDetails(market)' class='card'> 
-      <h1>{{market.name}}</h1>
-      <h2>{{market.category}}</h2>
-  </button>
-</div> -->
 
 
-<h1 class='secondary-headline'>Assets</h1>
+<google-chart [data]="pieChartData"></google-chart>
 
-<h1 class='secondary-headline'>Transactions</h1>
-
-<h1 class='secondary-headline'>Predictions</h1>
-
-
-
-<!-- Add Market -->
-<!-- <app-market-add></app-market-add> -->
+<app-portfolio-predictions></app-portfolio-predictions>

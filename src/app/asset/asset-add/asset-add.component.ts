@@ -28,9 +28,9 @@ export class AssetAddComponent implements OnInit {
   // Constructors //
   //////////////////
   public constructor(
-    public assetService: AssetService,
     private activatedRoute: ActivatedRoute,
-    public marketService: MarketService
+    private marketService: MarketService,
+    public assetService: AssetService,
   ) {}
 
   ngOnInit() {
