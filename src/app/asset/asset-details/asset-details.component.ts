@@ -16,47 +16,9 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-
-  public seriesData: any =  {
-    chartType: 'LineChart',
-    dataTable: [
-      ['Task', 'Hours per Day'],
-      ['Work',     1],
-    ],
-    options: {
-      animation: {easing: 'out'},
-      minorTicks: 5,
-      majorTicks: ['0', '1', '2', '3', '4', '5'],
-      backgroundColor: 'transparent',
-      colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-      legend: 'none',
-    }
-  }
-
-  public predictionData: any =  {
-    chartType: 'LineChart',
-    dataTable: [
-      ['Task', 'Hours per Day'],
-      ['Work',     1],
-    ],
-    options: {
-      animation: {easing: 'out'},
-      minorTicks: 5,
-      majorTicks: ['0', '1', '2', '3', '4', '5'],
-      backgroundColor: 'transparent',
-      colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-      legend: 'none',
-    }
-  }
-
   public asset: Asset = new Asset('', '', '', '',)
-  public series: any[] = []
-  private line_ChartData: any
-  private line_ChartOptions: any
-  public lineChartLabels:Array<any> = []
-  private timeSeries: any = null
-  private trainPredictions: any = null
-  private testPredictions: any = null
+  public quantity = 0
+  public prediction = 0
 
   //////////////////
   // Constructors //
@@ -66,8 +28,7 @@ export class AssetDetailsComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private assetService: AssetService,
-    private backendService: BackendService,
-    public portfolioService: PortfolioService,
+    private portfolioService: PortfolioService,
   
   ) {}
 
@@ -76,70 +37,51 @@ export class AssetDetailsComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
 
       this.assetService.fetchAsset(params['marketId'], params['assetId'])
-      this.assetService.fetchTimeSeries(params['marketId'], params['assetId'])
-      this.assetService.fetchShortTermPredictions(params['marketId'], params['assetId'])
+      this.assetService.assetSubject.subscribe(asset => {
+        
+        this.prediction = asset.short_term_prediction
+        this.asset = asset
 
+        this.portfolioService.fetchPortfolioMembers()
+        this.portfolioService.portfolioMembersSubject.subscribe(portfolioMembers => {
+
+          portfolioMembers.forEach(portfolioMember => {
+
+            if (portfolioMember.assetId === asset.assetId) {
+
+              this.quantity = portfolioMember.quantity
+
+            }
+          })
+        })
+
+      })
     })
     
-    this.assetService.assetSubject.subscribe(asset => this.asset = asset)
-
-    this.assetService.timeSeriesSubject.subscribe(timeSeries => {
-      this.asset.series = timeSeries
-      let series: any[] = [['Date', 'Value']]
-      timeSeries.forEach(value => series.push([new Date(value.date), +value.close]))
-      this.seriesData =  {
-        chartType: 'LineChart',
-        dataTable: series,
-        options: {
-          animation: {easing: 'out'},
-          minorTicks: 5,
-          majorTicks: ['0', '1', '2', '3', '4', '5'],
-          backgroundColor: 'transparent',
-          colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-          legend: 'none',
-        } ,
-        animation: {
-          duration: 1500,
-          easing: 'linear',
-          startup: true
-        },
-      }
-    })
-
-    this.assetService.shortTermPredictionsSubject.subscribe(shortTermPredictions => {
-      let prediction_series: any[] = [['Date', 'Value']]
-      shortTermPredictions.forEach(value => prediction_series.push([new Date(value.date), +value.predicted_close]))
-      this.predictionData =  {
-        chartType: 'LineChart',
-        dataTable: prediction_series,
-        options: {
-          animation: {easing: 'out'},
-          minorTicks: 5,
-          majorTicks: ['0', '1', '2', '3', '4', '5'],
-          backgroundColor: 'transparent',
-          colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-          legend: 'none',
-        } ,
-        animation: {
-          duration: 1500,
-          easing: 'linear',
-          startup: true
-        },
-      }
-    })
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public showPortfioAddMode(asset: Asset): void {
+  public buyAsset(asset: Asset): void {
+
+    this.portfolioService.buyAsset(asset, this.quantity)
     this.router.navigate([`/portfolio/add/market/${asset.marketId}/asset/${asset.assetId}`])
+
+  }
+
+  public sellAsset(asset: Asset): void {
+
+
+
   }
 
   public showAssetOverview(): void {
+  
     this.activatedRoute.params.subscribe( params => {
       this.router.navigate([`/markets/${params['marketId']}`])
     })
+  
   }
 
   

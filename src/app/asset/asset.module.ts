@@ -17,6 +17,7 @@ import { AssetService } from './asset-service/asset.service'
 
 // Directives
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { AssetGraphComponent } from './asset-graph/asset-graph.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     AssetOverviewComponent,
     AssetDetailsComponent,
     AssetAddComponent,
+    AssetGraphComponent,
   ], providers: [
     AssetService,
   ], exports: [

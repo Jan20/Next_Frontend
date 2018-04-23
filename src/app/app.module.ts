@@ -21,6 +21,7 @@ import { MenuModule } from './menu/menu.module'
 import { AssetModule } from './asset/asset.module'
 import { MarketModule } from './market/market.module'
 import { PortfolioModule } from './portfolio/portfolio.module'
+import { PortfolioMemberModule } from './portfolio-member/portfolio-member.module'
 
 // Directives
 import {NgxChartsModule} from '@swimlane/ngx-charts';
@@ -30,13 +31,17 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 @NgModule({
   
   declarations: [
+    
     AppComponent,
+  
   ], imports: [
+    
     MaterialModule,
     BrowserModule,
     NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
+    Ng2GoogleChartsModule,
     HttpModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -45,12 +50,17 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     MenuModule,
     MarketModule,
     AssetModule,
-    Ng2GoogleChartsModule,
-    PortfolioModule
+    PortfolioModule,
+    PortfolioMemberModule
+
   ], providers: [
+    
     {provide: APP_BASE_HREF, useValue : '/' }
+  
   ], bootstrap: [
+  
     AppComponent
+  
   ]
 })
 export class AppModule { }

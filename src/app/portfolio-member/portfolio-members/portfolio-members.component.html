@@ -1,0 +1,7 @@
+<h1 class='secondary-headline'>{{title}}</h1>
+
+<!-- Cards -->
+<button mat-raised-button *ngFor='let portfolioMember of portfolioMembers' (click)='showPortfolioMemberDetails(portfolioMember)' class='card'>
+  <h1>{{portfolioMember.name}}</h1>
+  <!-- <h2>{{asset.short_term_prediction | number: '1.1'}}</h2> -->
+</button>

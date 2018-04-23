@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PortfolioOverviewComponent } from './portfolio-overview/portfolio-overview.component';
-import { PortfolioService } from './portfolio-service/portfolio.service'
 import { MaterialModule } from '../config/material.module'
-
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+// Components
+import { AssetModule } from '../asset/asset.module';
+import { PortfolioOverviewComponent } from './portfolio-overview/portfolio-overview.component';
+import { PortfolioMembersComponent } from './portfolio-members/portfolio-members.component';
+import { PortfolioCashComponent } from './portfolio-cash/portfolio-cash.component';
 import { PortfolioPredictionsComponent } from './portfolio-predictions/portfolio-predictions.component';
 import { PortfolioAddComponent } from './portfolio-add/portfolio-add.component';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
-// Modules
-import { AssetModule } from '../asset/asset.module'
-
+// Serivces
+import { PortfolioService } from './portfolio-service/portfolio.service'
+import { PortfolioMemberService } from './portfolio-member-service/portfolio-member.service'
 
 @NgModule({
   imports: [
@@ -20,14 +20,17 @@ import { AssetModule } from '../asset/asset.module'
     Ng2GoogleChartsModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [
     PortfolioOverviewComponent, 
-    PortfolioPredictionsComponent, PortfolioAddComponent
+    PortfolioPredictionsComponent, 
+    PortfolioAddComponent, 
+    PortfolioMembersComponent, PortfolioCashComponent,
   ],
   providers: [
-    PortfolioService
+    PortfolioService,
+    PortfolioMemberService
   ]
 })
 export class PortfolioModule { }

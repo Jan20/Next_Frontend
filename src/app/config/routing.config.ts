@@ -9,6 +9,7 @@ import { MarketDetailsComponent } from './../market/market-details/market-detail
 import { MarketSettingsComponent } from './../market/market-settings/market-settings.component'
 import { PortfolioOverviewComponent } from './../portfolio/portfolio-overview/portfolio-overview.component'
 import { PortfolioAddComponent } from './../portfolio/portfolio-add/portfolio-add.component'
+import { PortfolioCashComponent } from './../portfolio/portfolio-cash/portfolio-cash.component'
 
 // Routing
 export const ROUTES: Routes = [
@@ -19,5 +20,6 @@ export const ROUTES: Routes = [
   { path: 'markets/:marketId/assets/:assetId', component: AssetDetailsComponent},
   { path: 'portfolio', component: PortfolioOverviewComponent},
   { path: 'portfolio/add/market/:marketId/asset/:assetId', component: PortfolioAddComponent},
+  { path: 'portfolio/cash', component: PortfolioCashComponent},
   { path: 'user', component: UserLoginComponent },
 ]

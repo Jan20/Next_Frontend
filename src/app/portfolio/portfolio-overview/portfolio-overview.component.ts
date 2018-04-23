@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Asset } from '../../asset/asset-model/asset'
 import { AssetService } from '../../asset/asset-service/asset.service'
+import { Portfolio } from '../portfolio-model/portfolio';
+import { PortfolioService } from '../portfolio-service/portfolio.service';
 
 @Component({
   selector: 'app-portfolio-overview',
@@ -41,27 +43,36 @@ export class PortfolioOverviewComponent implements OnInit {
   private timeSeries: any = null
   private trainPredictions: any = null
   private testPredictions: any = null
+  public portfolio: Portfolio = new Portfolio(0,0)
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
+
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private assetService: AssetService,
-    // private backendService: BackendService,
-  ) {
-
-  }
+    private portfolioService: PortfolioService,
+    
+  ) {}
 
   ngOnInit() {
     
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchAsset(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchTimeSeries(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchTrainPredictions(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchTestPredictions(params['marketId'], params['assetId']))
-    this.activatedRoute.params.subscribe(params => this.assetService.fetchShortTermPredictions(params['marketId'], params['assetId']))
+    this.portfolioService.fetchPortfolio()
+    this.portfolioService.portfolioSubject.subscribe(portfolio => this.portfolio = this.portfolio)
+
+    this.activatedRoute.params.subscribe(params => {
+      
+      this.assetService.fetchAsset(params['marketId'], params['assetId'])
+      this.assetService.fetchTimeSeries(params['marketId'], params['assetId'])
+      this.assetService.fetchShortTermPredictions(params['marketId'], params['assetId'])
+
+    })
+
     this.assetService.assetSubject.subscribe(asset => this.asset = asset)
+    
+    
     // this.assetService.timeSeriesSubject.subscribe(timeSeries => {
     //   let series: any[] = [['Date', 'Value']]
 
@@ -119,6 +130,13 @@ export class PortfolioOverviewComponent implements OnInit {
     this.activatedRoute.params.subscribe( params => {
       this.router.navigate([`/markets/${params['marketId']}`])
     })
+  }
+
+  
+  public showCash(): void {
+
+    this.router.navigate(['/portfolio/cash'])
+
   }
 
 

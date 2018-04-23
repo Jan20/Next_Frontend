@@ -15,15 +15,16 @@
   </button>
   <button mat-raised-button class='card'> 
       <h1>7</h1>
-      <h2>test</h2>
+      <h2>Assets</h2>
   </button>
-  <button mat-raised-button class='card'> 
-      <h1>3</h1>
-      <h2>test</h2>
+  <button mat-raised-button class='card' (click)='showCash()'> 
+      <h1>{{portfolio.cash}}</h1>
+      <h2>Cash</h2>
   </button>
 </div>
 
 
 <google-chart [data]="pieChartData"></google-chart>
 
+<app-portfolio-members></app-portfolio-members>
 <app-portfolio-predictions></app-portfolio-predictions>
