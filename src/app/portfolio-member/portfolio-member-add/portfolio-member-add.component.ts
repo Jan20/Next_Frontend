@@ -1,25 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms'
-import { PortfolioService } from '../portfolio-service/portfolio.service';
 import { Asset } from '../../asset/asset-model/asset';
 import { AssetService } from '../../asset/asset-service/asset.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PortfolioMemberService } from '../portfolio-member-service/portfolio-member.service';
 
 @Component({
-  selector: 'app-portfolio-add',
-  templateUrl: './portfolio-add.component.html',
-  styleUrls: ['./portfolio-add.component.scss']
+  selector: 'app-portfolio-member-add',
+  templateUrl: './portfolio-member-add.component.html',
+  styleUrls: ['./portfolio-member-add.component.scss']
 })
-export class PortfolioAddComponent implements OnInit {
+export class PortfolioMemberAddComponent implements OnInit {
 
   ///////////////
   // Variables //
   ///////////////
-  public title = 'Portfolio'
-  public formTitle: string = 'Add To Portfolio'
   private asset: Asset = new Asset('', '', '', '', 0, '')
   private assetName: string
   private quantity: number
+  public title = 'Portfolio'
   
   //////////////////
   // FormControls //
@@ -34,7 +33,7 @@ export class PortfolioAddComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public assetService: AssetService,
-    public portfolioService: PortfolioService,
+    public portfolioMemberService: PortfolioMemberService,
 
   ) {}
   
@@ -51,9 +50,9 @@ export class PortfolioAddComponent implements OnInit {
   ///////////////
   public addPortfolioMember(): void {
   
-    console.log(+this.quantity)
-    this.portfolioService.addPortfolioMember(this.asset, +this.quantity)
+    this.portfolioMemberService.buyAsset('default_portfolio', this.asset, +this.quantity)
     this.quantityFormControl.reset()
     this.router.navigate(['/portfolio'])
+  
   }
 }

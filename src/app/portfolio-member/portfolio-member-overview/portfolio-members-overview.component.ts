@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { PortfolioMember } from '../portfolio-model/portfolio-member';
+import { PortfolioMember } from '../portfolio-member-model/portfolio-member';
 import { Router } from '@angular/router';
-import { PortfolioService } from '../portfolio-service/portfolio.service';
+import { PortfolioMemberService } from '../portfolio-member-service/portfolio-member.service';
 
 @Component({
-  selector: 'app-portfolio-members',
-  templateUrl: './portfolio-members.component.html',
-  styleUrls: ['./portfolio-members.component.scss']
+  selector: 'app-portfolio-member-overview',
+  templateUrl: './portfolio-member-overview.component.html',
+  styleUrls: ['./portfolio-member-overview.component.scss']
 })
-export class PortfolioMembersComponent implements OnInit {
+export class PortfolioMemberOverviewComponent implements OnInit {
 
   ///////////////
   // Variables //
@@ -23,14 +23,14 @@ export class PortfolioMembersComponent implements OnInit {
   constructor(
 
     private router: Router,
-    public portfolioService: PortfolioService,
+    public portfolioMemberService: PortfolioMemberService,
 
   ) {}
 
   ngOnInit() {
 
-    this.portfolioService.fetchPortfolioMembers()
-    this.portfolioService.portfolioMembersSubject.subscribe(portfolioMembers => this.portfolioMembers = portfolioMembers)
+    this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
+    this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => this.portfolioMembers = portfolioMembers)
     
   }
 

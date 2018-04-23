@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AssetService } from '../asset-service/asset.service'
 import { BackendService } from '../../config/backend/backend.service'
 import { Entry } from '../asset-model/entry'
-import { PortfolioService } from '../../portfolio/portfolio-service/portfolio.service';
+import { PortfolioMemberService } from '../../portfolio-member/portfolio-member-service/portfolio-member.service';
 
 @Component({
   selector: 'app-asset-details',
@@ -28,7 +28,7 @@ export class AssetDetailsComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private assetService: AssetService,
-    private portfolioService: PortfolioService,
+    private portfolioMemberService: PortfolioMemberService,
   
   ) {}
 
@@ -37,24 +37,22 @@ export class AssetDetailsComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
 
       this.assetService.fetchAsset(params['marketId'], params['assetId'])
-      this.assetService.assetSubject.subscribe(asset => {
+      
+    })
+
+    this.assetService.assetSubject.subscribe(asset => {
         
-        this.prediction = asset.short_term_prediction
-        this.asset = asset
+      this.asset = asset
+      this.prediction = asset.short_term_prediction
 
-        this.portfolioService.fetchPortfolioMembers()
-        this.portfolioService.portfolioMembersSubject.subscribe(portfolioMembers => {
+      this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
+      this.portfolioMemberService.portfolioMembersSubject.subscribe( portfolioMembers => {
 
-          portfolioMembers.forEach(portfolioMember => {
+        portfolioMembers.forEach(portfolioMember => {
 
-            if (portfolioMember.assetId === asset.assetId) {
+          this.quantity = portfolioMember.assetId === asset.assetId ? portfolioMember.quantity : null
 
-              this.quantity = portfolioMember.quantity
-
-            }
-          })
         })
-
       })
     })
     
@@ -65,7 +63,7 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   public buyAsset(asset: Asset): void {
 
-    this.portfolioService.buyAsset(asset, this.quantity)
+    this.portfolioMemberService.buyAsset('default_portfolio', asset, this.quantity)
     this.router.navigate([`/portfolio/add/market/${asset.marketId}/asset/${asset.assetId}`])
 
   }

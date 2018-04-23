@@ -14,15 +14,17 @@ export class PortfolioCashComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private cash: number
+  public title = 'Deposits / Withdrawals'
   public portfolio: Portfolio = new Portfolio(0, 0)
-  public title = 'Portfolio - Cash'
+  public cash: number = 0
+
 
   //////////////////
   // FormControls //
   //////////////////
   public cashFormControl: FormControl = new FormControl()
   
+
   //////////////////
   // Constructors //
   //////////////////
@@ -35,19 +37,20 @@ export class PortfolioCashComponent implements OnInit {
 
   ngOnInit() {
 
-    this.portfolioService.fetchPortfolio()
+    this.portfolioService.fetchPortfolio('default_portfolio')
     this.portfolioService.portfolioSubject.subscribe(portfolio => this.portfolio = portfolio)
-    this.cashFormControl.valueChanges.subscribe(cash => this.cashFormControl = cash)
+    this.cashFormControl.valueChanges.subscribe(cash => this.cash = cash)
 
   }
+
 
   ///////////////
   // Functions //
   ///////////////
   public depositCash(): void {
 
-    const updatedCash = this.portfolio.cash + this.cash
-    this.portfolioService.updatePortfolio(updatedCash)
+    const updatedCash:number = +this.portfolio.cash + +this.cash
+    this.portfolioService.updatePortfolio('default_portfolio', updatedCash)
     this.cashFormControl.reset()
     this.router.navigate(['/portfolio'])
 
@@ -55,8 +58,9 @@ export class PortfolioCashComponent implements OnInit {
 
   public withdrawCash(): void {
 
-    const updatedCash = this.portfolio.cash - this.cash
-    this.portfolioService.updatePortfolio(updatedCash)
+    const updatedCash:number = +this.portfolio.cash - +this.cash
+
+    this.portfolioService.updatePortfolio('default_portfolio', updatedCash)
     this.cashFormControl.reset()
     this.router.navigate(['/portfolio'])
 
@@ -68,6 +72,5 @@ export class PortfolioCashComponent implements OnInit {
     this.router.navigate(['/portfolio'])
 
   }
-
 
 }

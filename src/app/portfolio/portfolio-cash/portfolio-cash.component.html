@@ -8,7 +8,7 @@
 
   <!-- Form Title -->
   <h2>Current Cash Account</h2>
-  <h2>{{portfolio.cash}}</h2>
+  <h2>{{portfolio.cash | currency:'EUR'}}</h2>
 
   <!-- Form -->
   <form class='form'>
@@ -20,10 +20,10 @@
   <!-- Control Buttons -->
   <div class='wrapper'>
     <button class='control-button submit-button' mat-raised-button (click)='depositCash()' >
-      <mat-icon>Deposit</mat-icon>
+      <mat-icon>vertical_align_bottom</mat-icon>
     </button>
     <button class='control-button submit-button' mat-raised-button (click)='withdrawCash()' >
-      <mat-icon>Withdraw</mat-icon>
+      <mat-icon>vertical_align_top</mat-icon>
     </button>    
     <button class='control-button cancel-button' mat-raised-button (click)='cancel()' >
       <mat-icon>close</mat-icon>

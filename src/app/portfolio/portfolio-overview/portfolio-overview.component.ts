@@ -44,6 +44,7 @@ export class PortfolioOverviewComponent implements OnInit {
   private trainPredictions: any = null
   private testPredictions: any = null
   public portfolio: Portfolio = new Portfolio(0,0)
+  public cash: number = 0
 
   //////////////////
   // Constructors //
@@ -59,8 +60,15 @@ export class PortfolioOverviewComponent implements OnInit {
 
   ngOnInit() {
     
-    this.portfolioService.fetchPortfolio()
-    this.portfolioService.portfolioSubject.subscribe(portfolio => this.portfolio = this.portfolio)
+    this.portfolioService.fetchPortfolio('default_portfolio')
+    this.portfolioService.portfolioSubject.subscribe(portfolio => {
+     
+      this.cash = +portfolio.cash
+      console.log('__________________________________')
+      console.log(portfolio.cash)
+      this.portfolio = this.portfolio
+      
+    })
 
     this.activatedRoute.params.subscribe(params => {
       
