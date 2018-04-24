@@ -17,7 +17,7 @@ export class PortfolioPredictionsComponent implements OnInit {
   // Variables //
   ///////////////
   private marketId: string
-  public title: string = 'Best Assets to invest in'
+  public title: string = 'Predictions'
   public markets: Market[]
   public assets: Asset[] = []
       
@@ -32,46 +32,41 @@ export class PortfolioPredictionsComponent implements OnInit {
     public assetService: AssetService,
     public portfolioService: PortfolioService,
 
-  ) {}
+  ) {
+
+   
+
+  }
 
   ngOnInit() {
 
-    this.populateAssets()
+    console.log('executed')
 
+    this.marketService.fetchMarkets().then(() => {
+      this.marketService.marketsSubject.subscribe( markets => {
+        markets.forEach( market => {console.log(market.marketId);this.assetService.fetchAssets(market.marketId).then(() => {
+          this.assets = []
+          this.assetService.assetsSubject.subscribe(assets => {
+            assets.forEach(asset => {
+              let flag = true
+              for (let i = 0 ; i < this.assets.length; i++) {
+                if (this.assets[i].assetId == asset.assetId) {
+                  flag = false
+                }
+              }
+              flag ? this.assets.push(asset) : null
+            })
+          })
+        })
+      })
+    })
+    })
   }
+      
 
   ///////////////
   // Functions //
   ///////////////
-  public async populateAssets() {
-
-    console.log('executed')
-    this.markets = []
-    this.assets = []
-
-    this.activatedRoute.params.subscribe(async params => {
-
-      await this.marketService.fetchMarkets()
-      
-      this.marketService.marketsSubject.subscribe(markets => {
-        
-        markets.forEach(market => {
-          this.assetService.fetchAssets(market.marketId)
-        })
-
-      })  
-
-      this.assetService.assetsSubject.subscribe(assets => {
-        
-        assets.forEach(asset => this.assets.push(asset))
-      
-      })
-      this.assets.sort(this.compareAssets)
-    })
-
-  }
-
-  
   public showAssetDetails(asset: Asset): void {
 
     this.router.navigate([`/markets/${asset.marketId}/assets/${asset.assetId}`]);

@@ -18,7 +18,7 @@ export class AssetService {
   ///////////////
   private user: User
   private asset: Asset = new Asset('', '', '', '')
-  private assets: Asset[] = []
+  private assets: Asset[]
   private assetDocument: AngularFirestoreDocument<Asset>
   private assetCollection: AngularFirestoreCollection<Asset>
   private timeSeries: Entry[]
@@ -32,6 +32,7 @@ export class AssetService {
   public inAddMode: boolean = false
   private shortTermPredictions: Prediction[]
 
+
   //////////////
   // Subjects //
   //////////////
@@ -43,22 +44,27 @@ export class AssetService {
   public testPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public shortTermPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
 
+
   //////////////////
   // Constructors //
   //////////////////
   constructor(
+  
     private userService: UserService,
     private angularFirestore: AngularFirestore,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private marketService: MarketService
+  
   ) {}
 
   ///////////////
   // Functions //
   ///////////////
   public toggleInAddMode(): void {
+  
     this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
+  
   }
 
   //////////////////////////
@@ -88,30 +94,31 @@ export class AssetService {
   // CRUD Operations //
   /////////////////////
   public async fetchAsset(marketId: string, assetId: string): Promise<void> {
+  
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.doc<Asset>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}`).valueChanges().subscribe( asset => this.setAsset(asset))
+  
   }
   
   public async fetchAssets(marketId: string): Promise<void> {
+  
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`).valueChanges().subscribe(assets => this.setAssets(assets))
+  
   }
 
   public async addAsset(marketId: string, name: string, symbol: string): Promise<void> {
+  
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => {
       const asset: any = { name: name, symbol: symbol, market: market.name, marketId: market.marketId }
       const assetCollection = this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`)  
       assetCollection.add(asset)
-      assetCollection.valueChanges().subscribe( assets => {
-        assets.forEach(asset => { 
-          assetCollection.ref.where('name', '==', asset.name).get().then( assetToUpdate => {
-            assetToUpdate.docs.forEach(assetToUpdate => {
-              assetCollection.doc(assetToUpdate.id).update({ 
-                marketId: marketId,
-                assetId: assetToUpdate.id })  
-            })
-          })
+      assetCollection.ref.where('name', '==', asset.name).get().then( assetToUpdate => {
+        assetToUpdate.docs.forEach(assetToUpdate => {
+          assetCollection.doc(assetToUpdate.id).update({ 
+            marketId: marketId,
+            assetId: assetToUpdate.id })  
         })
         this.setInAddMode(false)
       })   
@@ -133,11 +140,28 @@ export class AssetService {
   
   }
 
-  public getAssets(): Asset[] {
+
+  public async getAssets(marketId: string): Promise<Asset[]> {
   
-    return this.assets
+    if (this.assets !== null && this.assets !== undefined) {
+
+      console.log('this.assets')
+      console.log(this.assets)
+      return new Promise<Asset[]>( resolve => resolve(this.assets))
+
+    }
+
+    await this.fetchAssets(marketId)
+    this.assetsSubject.subscribe(assets => {
+      console.log('asset service')
+      console.log(assets)
+      return new Promise<Asset[]>( resolve => resolve(assets) )
+    })
+
+     
   
   }
+
 
   public getInAddMode(): boolean {
 
@@ -145,11 +169,13 @@ export class AssetService {
 
   }
 
+
   public getTimeSeries(): Entry[] {
 
     return this.timeSeries
 
   }
+
 
   public getTrainPredictions(): Prediction[] {
 
@@ -157,12 +183,14 @@ export class AssetService {
 
   }
 
+
   public getTestPredictions(): Prediction[] {
 
     return this.testPredictions
 
   }
 
+  
   public getShortTermPrediction(): Prediction[] {
 
     return this.shortTermPredictions
@@ -179,6 +207,7 @@ export class AssetService {
   
   }
 
+  
   public setAssets(assets: Asset[]): void {
   
     this.assets = assets
@@ -186,6 +215,7 @@ export class AssetService {
   
   }
 
+  
   public setInAddMode(inAddMode: boolean): void {
   
     this.inAddMode = inAddMode
@@ -193,6 +223,7 @@ export class AssetService {
   
   }
  
+  
   public setTimeSeries(timeSeries: Entry[]): void {
   
     this.timeSeries = timeSeries
@@ -200,6 +231,7 @@ export class AssetService {
   
   }
 
+  
   public setTrainPredictions(trainPredictions: Prediction[]): void {
   
     this.trainPredictions = trainPredictions
@@ -207,6 +239,7 @@ export class AssetService {
   
   }
 
+  
   public setTestPredictions(testPredictions: Prediction[]): void {
   
     this.testPredictions = testPredictions
@@ -214,6 +247,7 @@ export class AssetService {
   
   }
 
+  
   public setShortTermPredictions(shortTermPredictions: Prediction[]): void {
   
     this.shortTermPredictions = shortTermPredictions

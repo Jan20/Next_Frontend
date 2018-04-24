@@ -1,0 +1,137 @@
+h1 {
+    padding-top: 32px;
+    text-align: center;
+    font-size: 36px;
+    max-width: 800px;
+    margin: auto;
+    color: rgb(128, 128, 128);
+}
+
+
+.title {
+    padding-top: 8px;
+    text-align: center;
+    font-size: 36px;
+    max-width: 800px;
+    margin: auto;
+    color: white;
+}
+
+.banner {
+    width: 100%;
+    height: 100px;
+    border-bottom: 0.5px solid rgb(237, 237, 237);
+    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+button{
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+mat-raised-button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.banner {
+    width: 100%;
+    height: 100px;
+    border-bottom: 0.5px solid rgb(237, 237, 237);
+    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+}
+
+.card {
+    height: 100px;
+    width: 25%;
+    text-align: center;
+    border: 0.5px solid rgb(237, 237, 237);
+    box-shadow: none;
+    border-radius: 0%;
+    margin-right: -4px !important;
+}
+
+.title {
+    color: white;
+}
+
+.secondary-headline {
+    max-width: 100%;
+    width: 100%;
+    color: rgb(210, 145, 88);
+    border-top: 0.5px solid rgb(210, 145, 88);
+    border-bottom: 0.5px solid rgb(210, 145, 88);
+    padding-bottom: 30px;
+    margin-top: 100px;
+}
+
+
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    margin-bottom: 11px;
+    color: rgb(128, 128, 128);
+}
+
+.add-button-container {
+    margin: auto;
+    width: 54px;
+    padding: 10px;
+}
+
+.add-button {
+    margin-top: 50px;
+    border: 0.5px solid rgb(237, 237, 237);
+    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+    color: white;
+    box-shadow: none;
+}
+
+@media (min-width: 600px) {
+    .outline {
+        height: 200px;
+        width: 600px;
+        padding: 20px;
+        border: 0.5px solid rgb(237, 237, 237);
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .outline {
+        height: 200px;
+        width: 320px;
+        padding: 20px;
+        border: 0.5px solid rgb(237, 237, 237);
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+
+    }
+}
+
+.wrapper {
+    float: right;
+}
+
+.submit-button {
+    background: linear-gradient(to right bottom, rgb(120, 207, 85),rgb(55, 141, 55));
+    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+    color: white;
+}
+
+.cancel-button {
+    background: linear-gradient(to right bottom, rgb(235, 78, 30),rgb(233, 76, 37));
+    color: white;
+}

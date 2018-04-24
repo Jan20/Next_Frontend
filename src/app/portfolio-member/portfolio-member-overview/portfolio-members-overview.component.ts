@@ -30,7 +30,16 @@ export class PortfolioMemberOverviewComponent implements OnInit {
   ngOnInit() {
 
     this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
-    this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => this.portfolioMembers = portfolioMembers)
+    this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => {
+      
+      this.portfolioMembers = []
+      portfolioMembers.forEach(portfolioMember => {
+
+        portfolioMember.status != 'sold' ? this.portfolioMembers.push(portfolioMember) : 0
+
+      })
+    
+    })
     
   }
 

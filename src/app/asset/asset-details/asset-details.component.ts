@@ -16,6 +16,7 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+  private portfolioMemberId: string
   public asset: Asset = new Asset('', '', '', '',)
   public quantity = 0
   public prediction = 0
@@ -36,24 +37,41 @@ export class AssetDetailsComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
 
+      console.log('________ Asset Details _____________')
+      console.log(params['marketId'])
+      console.log(params['assetId'])
       this.assetService.fetchAsset(params['marketId'], params['assetId'])
       
     })
 
     this.assetService.assetSubject.subscribe(asset => {
-        
-      this.asset = asset
-      this.prediction = asset.short_term_prediction
+      
 
-      this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
-      this.portfolioMemberService.portfolioMembersSubject.subscribe( portfolioMembers => {
+      console.log('___________Asset______________')
+      console.log(asset)
+      
+      if (asset) {
 
-        portfolioMembers.forEach(portfolioMember => {
+        this.asset = asset
+        this.prediction = asset.short_term_prediction
 
-          this.quantity = portfolioMember.assetId === asset.assetId ? portfolioMember.quantity : null
+        this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
+        this.portfolioMemberService.portfolioMembersSubject.subscribe( portfolioMembers => {
 
+          portfolioMembers.forEach(portfolioMember => {
+
+            if (portfolioMember.assetId === asset.assetId) {
+
+              this.quantity = portfolioMember.quantity
+              this.portfolioMemberId = portfolioMember.portfolioMemberId
+
+            }
+          })
         })
-      })
+
+      }
+      
+      
     })
     
   }
@@ -63,25 +81,23 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   public buyAsset(asset: Asset): void {
 
-    this.portfolioMemberService.buyAsset('default_portfolio', asset, this.quantity)
-    this.router.navigate([`/portfolio/add/market/${asset.marketId}/asset/${asset.assetId}`])
-
+    console.log('___________Asset Details______________')
+    console.log(asset)
+    this.router.navigate([`portfolio/buy/market/${asset.marketId}/assets/${asset.assetId}`])
+    
   }
 
   public sellAsset(asset: Asset): void {
 
-
+    this.router.navigate([`portfolio/sell/${this.portfolioMemberId}`])
 
   }
 
   public showAssetOverview(): void {
   
-    this.activatedRoute.params.subscribe( params => {
-      this.router.navigate([`/markets/${params['marketId']}`])
-    })
+    this.activatedRoute.params.subscribe( params => this.router.navigate([`/markets/${params['marketId']}`]))
   
   }
-
   
 }
 

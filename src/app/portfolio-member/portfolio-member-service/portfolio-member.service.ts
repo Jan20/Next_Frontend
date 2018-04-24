@@ -73,29 +73,27 @@ export class PortfolioMemberService {
 
   public async buyAsset(portfolioId: string, asset: Asset, quantity: number): Promise<void> {
   
-    console.log('First Quantity')
-    console.log(quantity)
     await this.userService.getUser().then(user => this.user = user)
     const portfolioMember: any = { name: asset.name, symbol: asset.symbol, assetId: asset.assetId, marketId: asset.marketId, market: asset.market, quantity: quantity, buyDate: new Date().toDateString(), sellDate: '', status: 'active'}
     const portfolioMembersCollection = this.angularFirestore.collection<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members`)
     portfolioMembersCollection.valueChanges().subscribe(portfolioMembers => this.portfolioMembers = portfolioMembers)
   
-    let existingPortfolioMember: PortfolioMember = null
+    let existingPortfolioMember: PortfolioMember
     
     this.portfolioMembers.forEach( pM => {
 
-      pM.assetId === portfolioMember.assetId ? existingPortfolioMember = pM : null
+      existingPortfolioMember = pM.assetId === portfolioMember.assetId ? pM : null
     
     })
 
-    if (existingPortfolioMember !== null) {
+    if (existingPortfolioMember !== undefined && existingPortfolioMember !== null) {
 
-      const newQuantity = existingPortfolioMember.quantity + quantity
-      console.log('existingPortfolioMember.portfolioMemberId')
-      console.log(existingPortfolioMember.quantity)
-      console.log(quantity)
+      console.log('existingPortfolioMember')
+      console.log(existingPortfolioMember)
+      const newQuantity = +existingPortfolioMember.quantity + +quantity
+
       console.log(newQuantity)
-      console.log(existingPortfolioMember.portfolioMemberId)
+
       this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${existingPortfolioMember.portfolioMemberId}`).update({
 
         'quantity' : newQuantity
@@ -107,15 +105,11 @@ export class PortfolioMemberService {
     }  else {
 
       portfolioMembersCollection.add(portfolioMember)
-      portfolioMembersCollection.valueChanges().subscribe( portfolioMembers => {
-        portfolioMembers.forEach(portfolioMember => { 
-          portfolioMembersCollection.ref.where('name', '==', portfolioMember.name).get().then( portfolioMembersToUpdate => {
-            portfolioMembersToUpdate.docs.forEach(portfolioMemberToUpdate => {
-              portfolioMembersCollection.doc(portfolioMemberToUpdate.id).update({ portfolioMemberId: portfolioMemberToUpdate.id })  
-            })
-          })
-        this.setInAddMode(false)
-        })   
+      portfolioMembersCollection.ref.where('name', '==', portfolioMember.name).get().then( portfolioMembersToUpdate => {
+        portfolioMembersToUpdate.docs.forEach(portfolioMemberToUpdate => {
+          portfolioMembersCollection.doc(portfolioMemberToUpdate.id).update( { portfolioMemberId: portfolioMemberToUpdate.id } )  
+      })
+      this.setInAddMode(false)
       })
       console.log('a new portfolio member was created.')
 
@@ -123,6 +117,47 @@ export class PortfolioMemberService {
 
   }
 
+
+  public async sellAsset(portfolioId: string, portfolioMemberId: string, quantity: number): Promise<void> {
+  
+    await this.userService.getUser().then(user => this.user = user)
+    const portfolioMembersDocument = this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${portfolioMemberId}`)
+    portfolioMembersDocument.valueChanges().subscribe(portfolioMember => {
+      
+      if (portfolioMember.quantity < 0 ) {
+        return new Promise<void>(resolve => resolve(null))
+
+      }
+
+      const newQuantity = (+portfolioMember.quantity) - (+quantity)
+
+      console.log(newQuantity)
+
+      if (newQuantity === 0) {
+
+        portfolioMembersDocument.update({ quantity: newQuantity, status: 'sold', sellDate: new Date().toDateString()})
+        return new Promise<void>(resolve => resolve(null))
+
+      }
+
+      if (newQuantity > 0) {
+
+        portfolioMembersDocument.update( { quantity: newQuantity } )
+        return new Promise<void>(resolve => resolve(null))
+
+      } 
+
+      if (newQuantity < 0) {
+
+        portfolioMembersDocument.update({ quantity: newQuantity, status: 'sold', sellDate: new Date().toDateString()})
+        return new Promise<void>(resolve => resolve(null))
+
+      }
+
+    
+    })
+
+  }
   
   public async deletePortfolioMember(portfolioId: string, portfolioMemberId: string): Promise<void> {
   

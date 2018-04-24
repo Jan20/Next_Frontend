@@ -11,7 +11,7 @@ import { PortfolioCashComponent } from './portfolio-cash/portfolio-cash.componen
 import { PortfolioPredictionsComponent } from './portfolio-predictions/portfolio-predictions.component'
 import { PortfolioAddComponent } from './portfolio-add/portfolio-add.component'
 // Serivces
-import { PortfolioService } from './portfolio-service/portfolio.service'
+import { PortfolioService } from './portfolio-service/portfolio.service';
 
 @NgModule({
   imports: [
