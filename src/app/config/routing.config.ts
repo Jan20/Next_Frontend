@@ -15,7 +15,7 @@ import { PortfolioMemberSellComponent } from './../portfolio-member/portfolio-me
 
 // Routing
 export const ROUTES: Routes = [
-  { path: '', component: MarketOverviewComponent},
+  { path: '', component: PortfolioOverviewComponent},
   { path: 'markets', component: MarketOverviewComponent},
   { path: 'markets/:marketId', component: MarketDetailsComponent},
   { path: 'markets/:marketId/settings', component: MarketSettingsComponent},

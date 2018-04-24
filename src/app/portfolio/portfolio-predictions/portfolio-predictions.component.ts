@@ -41,32 +41,42 @@ export class PortfolioPredictionsComponent implements OnInit {
   ngOnInit() {
 
     console.log('executed')
+    
+    // this.assetService.getAllAssets().then(assets => this.assets = assets)
 
-    this.marketService.fetchMarkets().then(() => {
-      this.marketService.marketsSubject.subscribe( markets => {
-        markets.forEach( market => {console.log(market.marketId);this.assetService.fetchAssets(market.marketId).then(() => {
-          this.assets = []
-          this.assetService.assetsSubject.subscribe(assets => {
-            assets.forEach(asset => {
-              let flag = true
-              for (let i = 0 ; i < this.assets.length; i++) {
-                if (this.assets[i].assetId == asset.assetId) {
-                  flag = false
-                }
-              }
-              flag ? this.assets.push(asset) : null
-            })
-          })
-        })
-      })
-    })
-    })
+    this.initialize()
   }
       
 
   ///////////////
   // Functions //
   ///////////////
+  private async initialize() {
+
+    this.assets = []
+    this.markets = []
+    this.marketService.fetchMarkets()
+    this.marketService.marketsSubject.subscribe( markets => {markets.forEach( market => {
+      
+      this.assetService.fetchAssets(market.marketId)
+    
+      this.assetService.assetsSubject.subscribe(assets => {
+        assets.forEach(asset => {
+          console.log(asset)
+          let flag = true
+          for (let i = 0 ; i < this.assets.length; i++) {
+            if (this.assets[i].assetId === asset.assetId) {
+              flag = false
+            }
+          }
+          flag ? this.assets.push(asset) : console.log('already in')
+        })
+      })  
+    })
+  }) 
+  }
+
+  
   public showAssetDetails(asset: Asset): void {
 
     this.router.navigate([`/markets/${asset.marketId}/assets/${asset.assetId}`]);

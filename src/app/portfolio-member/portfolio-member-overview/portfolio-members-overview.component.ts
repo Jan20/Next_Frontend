@@ -29,23 +29,43 @@ export class PortfolioMemberOverviewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
-    this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => {
-      
-      this.portfolioMembers = []
-      portfolioMembers.forEach(portfolioMember => {
-
-        portfolioMember.status != 'sold' ? this.portfolioMembers.push(portfolioMember) : 0
-
-      })
-    
-    })
+    this.init2()
     
   }
 
   ///////////////
   // Functions //
   ///////////////
+  private async init2(): Promise<void>{
+    this.portfolioMembers = []
+    this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
+    this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => {
+      
+      portfolioMembers.forEach(portfolioMember => {
+
+        let flag = true
+
+        for (let i = 0; i < this.portfolioMembers.length; i++) {
+
+          if (this.portfolioMembers[i].assetId === portfolioMember.assetId) {
+
+            flag = false
+
+          }
+
+        }
+        
+        if (flag) {
+
+          portfolioMember.status !== 'sold' ? this.portfolioMembers.push(portfolioMember) : null
+
+        }        
+        console.log(this.portfolioMembers)
+      })
+    
+    })
+
+  }
 
   public showPortfolioMemberDetails(portfolioMember: PortfolioMember): void {
 

@@ -4,6 +4,8 @@ import { Asset } from '../../asset/asset-model/asset'
 import { AssetService } from '../../asset/asset-service/asset.service'
 import { Portfolio } from '../portfolio-model/portfolio';
 import { PortfolioService } from '../portfolio-service/portfolio.service';
+import { PortfolioMemberService } from '../../portfolio-member/portfolio-member-service/portfolio-member.service';
+import { PortfolioMember } from '../../portfolio-member/portfolio-member-model/portfolio-member';
 
 @Component({
   selector: 'app-portfolio-overview',
@@ -16,35 +18,10 @@ export class PortfolioOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'Portfolio'
-  public pieChartData: any =  {
-    chartType: 'LineChart',
-    dataTable: [
-      ['Task', 'Hours per Day'],
-      [4,     1],
-      [4,     2],
-      [4,     3],
-    ],
-    options: {
-      animation: {easing: 'out'},
-      minorTicks: 5,
-      majorTicks: ['0', '1', '2', '3', '4', '5'],
-      backgroundColor: 'transparent',
-      colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-      legend: 'none',
-    }
-  };
-
-  public asset: Asset = this.assetService.getAsset()
-  public series: any[] = []
-  private line_ChartData: any
-  private line_ChartOptions: any
-  public lineChartLabels:Array<any> = []
-  private timeSeries: any = null
-  private trainPredictions: any = null
-  private testPredictions: any = null
-  public portfolio: Portfolio = new Portfolio(0,0)
+  private portfolioMembers: PortfolioMember[]
+  public portfolio: Portfolio = new Portfolio(0, 0)
   public cash: number = 0
+  public assets: number = 0
 
   //////////////////
   // Constructors //
@@ -53,9 +30,9 @@ export class PortfolioOverviewComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private assetService: AssetService,
     private portfolioService: PortfolioService,
-    
+    private portfolioMemberService: PortfolioMemberService,
+
   ) {}
 
   ngOnInit() {
@@ -64,80 +41,38 @@ export class PortfolioOverviewComponent implements OnInit {
     this.portfolioService.portfolioSubject.subscribe(portfolio => {
      
       this.cash = +portfolio.cash
-      console.log('__________________________________')
-      console.log(portfolio.cash)
       this.portfolio = this.portfolio
       
     })
 
-    this.activatedRoute.params.subscribe(params => {
-      
-      this.assetService.fetchAsset(params['marketId'], params['assetId'])
-      this.assetService.fetchTimeSeries(params['marketId'], params['assetId'])
-      this.assetService.fetchShortTermPredictions(params['marketId'], params['assetId'])
+    this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
+    this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => {
+    
+      this.portfolioMembers = portfolioMembers
+      this.portfolioMembers.forEach(portfolioMember => {
+
+        if (portfolioMember.status !== 'sold') {
+
+          this.assets = this.assets + portfolioMember.quantity
+
+        }
+
+
+
+      })
+
 
     })
 
-    this.assetService.assetSubject.subscribe(asset => this.asset = asset)
-    
-    
-    // this.assetService.timeSeriesSubject.subscribe(timeSeries => {
-    //   let series: any[] = [['Date', 'Value']]
-
-    //   timeSeries.forEach(value => series.push([new Date(value.date), +value.close]))
-
-    //   this.assetService.shortTermPredictionsSubject.subscribe(shortTermPredictions => {
-        
-    //     shortTermPredictions.forEach(value => series.push([new Date(value.date), +value.predicted_close]))
-
-    //   console.log(series)
-    //   this.pieChartData =  {
-    //     chartType: 'LineChart',
-    //     dataTable: series,
-    //     options: {
-    //       animation: {easing: 'out'},
-    //       minorTicks: 5,
-    //       majorTicks: ['0', '1', '2', '3', '4', '5'],
-    //       backgroundColor: 'transparent',
-    //       colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-    //       legend: 'none',
-    //     } ,
-    //     animation: {
-    //       duration: 1500,
-    //       easing: 'linear',
-    //       startup: true
-    //     },
-    //   };
-    // })
-
-    // this.assetService.timeSeriesSubject.subscribe(timeSeries => {
-    //   let series = []
-    //   timeSeries.forEach(value => series.push({ name: new Date(value.date), value: +value.close }))
-    // })
-
-    // this.assetService.trainPredictionsSubject.subscribe(trainPredictions => {
-    //   let series = []
-    //   trainPredictions.forEach(value => series.push({ name: new Date(value.date), value: +value.predicted_close }))
-    // })
-
-    // this.assetService.testPredictionsSubject.subscribe(testPredictions => {
-    //   let series = []
-    //   console.log('testPredictions')
-    //   testPredictions.forEach(value => series.push({ name: new Date(value.date), value: +value.predicted_close }))
-    //   console.log({ name: 'Test Predictions', series: series })
-    // })    
-    // })
-      
-      
   }
 
   ///////////////
   // Functions //
   ///////////////
   public showAssetOverview(): void {
-    this.activatedRoute.params.subscribe( params => {
-      this.router.navigate([`/markets/${params['marketId']}`])
-    })
+
+    
+
   }
 
   

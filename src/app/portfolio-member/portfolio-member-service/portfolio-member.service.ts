@@ -19,7 +19,9 @@ export class PortfolioMemberService {
   private portfolio: Portfolio
   private portfolioMember: PortfolioMember
   private portfolioMembers: PortfolioMember[]
+  private existingPortfolioMembers: PortfolioMember[]
   public inAddMode: boolean = false
+  
   
 
   //////////////
@@ -71,91 +73,95 @@ export class PortfolioMemberService {
   }
 
 
-  public async buyAsset(portfolioId: string, asset: Asset, quantity: number): Promise<void> {
+  public async buyAsset(portfolioId: string, asset: Asset, quantity: number) {
   
     await this.userService.getUser().then(user => this.user = user)
     const portfolioMember: any = { name: asset.name, symbol: asset.symbol, assetId: asset.assetId, marketId: asset.marketId, market: asset.market, quantity: quantity, buyDate: new Date().toDateString(), sellDate: '', status: 'active'}
     const portfolioMembersCollection = this.angularFirestore.collection<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members`)
-    portfolioMembersCollection.valueChanges().subscribe(portfolioMembers => this.portfolioMembers = portfolioMembers)
-  
-    let existingPortfolioMember: PortfolioMember
     
-    this.portfolioMembers.forEach( pM => {
+    portfolioMembersCollection.valueChanges().subscribe(existingPortfolioMembers => {
+      
+      this.existingPortfolioMembers = existingPortfolioMembers
+      
+      let oldPortfolioMember: PortfolioMember
+      
+      this.existingPortfolioMembers.forEach( existingPortfolioMember => {
 
-      existingPortfolioMember = pM.assetId === portfolioMember.assetId ? pM : null
+        if( existingPortfolioMember.assetId === portfolioMember.assetId && existingPortfolioMember.status !== 'sold') {
+
+          oldPortfolioMember = existingPortfolioMember
+
+        }
+
+      })
+
+      console.log('____________________________________________________________________________________')
+      console.log(oldPortfolioMember)
+      if (oldPortfolioMember !== undefined && oldPortfolioMember !== null) {
+
+        const oldQuantity = +this.portfolioMember.quantity
+        const quantityChange = +quantity
+        const newQuantity = oldQuantity + quantityChange
+
+        this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${oldPortfolioMember.portfolioMemberId}`).update({
+
+          'quantity' : newQuantity
+
+        })
+
+        this.setInAddMode(false)
+        return
+
+      }  else {
+
+        portfolioMembersCollection.add(portfolioMember)
+        portfolioMembersCollection.ref.where('name', '==', portfolioMember.name).get().then( portfolioMembersToUpdate => {
+          portfolioMembersToUpdate.docs.forEach(portfolioMemberToUpdate => {
+            portfolioMembersCollection.doc(portfolioMemberToUpdate.id).update( { portfolioMemberId: portfolioMemberToUpdate.id } )  
+        })
+
+        this.setInAddMode(false)
+        })
+
+      }
+    
+      return
+
     
     })
-
-    if (existingPortfolioMember !== undefined && existingPortfolioMember !== null) {
-
-      console.log('existingPortfolioMember')
-      console.log(existingPortfolioMember)
-      const newQuantity = +existingPortfolioMember.quantity + +quantity
-
-      console.log(newQuantity)
-
-      this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${existingPortfolioMember.portfolioMemberId}`).update({
-
-        'quantity' : newQuantity
-
-      })
-      this.setInAddMode(false)
-      console.log('existing portfolio member was updated.')
-
-    }  else {
-
-      portfolioMembersCollection.add(portfolioMember)
-      portfolioMembersCollection.ref.where('name', '==', portfolioMember.name).get().then( portfolioMembersToUpdate => {
-        portfolioMembersToUpdate.docs.forEach(portfolioMemberToUpdate => {
-          portfolioMembersCollection.doc(portfolioMemberToUpdate.id).update( { portfolioMemberId: portfolioMemberToUpdate.id } )  
-      })
-      this.setInAddMode(false)
-      })
-      console.log('a new portfolio member was created.')
-
-    }
-
   }
-
 
   public async sellAsset(portfolioId: string, portfolioMemberId: string, quantity: number): Promise<void> {
   
     await this.userService.getUser().then(user => this.user = user)
     const portfolioMembersDocument = this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${portfolioMemberId}`)
-    portfolioMembersDocument.valueChanges().subscribe(portfolioMember => {
+    await portfolioMembersDocument.valueChanges().subscribe(portfolioMember => this.portfolioMember = portfolioMember)
       
-      if (portfolioMember.quantity < 0 ) {
-        return new Promise<void>(resolve => resolve(null))
+    const oldQuantity = +this.portfolioMember.quantity
+    const quantityChange = +quantity
+    let newQuantity = oldQuantity - quantityChange
 
-      }
+    if (newQuantity < 0) {
 
-      const newQuantity = (+portfolioMember.quantity) - (+quantity)
+      newQuantity = 0
 
-      console.log(newQuantity)
+    }
 
-      if (newQuantity === 0) {
+    console.log(newQuantity)
 
-        portfolioMembersDocument.update({ quantity: newQuantity, status: 'sold', sellDate: new Date().toDateString()})
-        return new Promise<void>(resolve => resolve(null))
+    if (newQuantity === 0) {
 
-      }
+      portfolioMembersDocument.update({ quantity: newQuantity, status: 'sold', sellDate: new Date().toDateString()})
+      return new Promise<void>(resolve => resolve(null))
 
-      if (newQuantity > 0) {
+    }
 
-        portfolioMembersDocument.update( { quantity: newQuantity } )
-        return new Promise<void>(resolve => resolve(null))
+    if (newQuantity > 0) {
 
-      } 
+      portfolioMembersDocument.update( { quantity: newQuantity } )
+      return new Promise<void>(resolve => resolve(null))
 
-      if (newQuantity < 0) {
-
-        portfolioMembersDocument.update({ quantity: newQuantity, status: 'sold', sellDate: new Date().toDateString()})
-        return new Promise<void>(resolve => resolve(null))
-
-      }
-
-    
-    })
+    }
 
   }
   

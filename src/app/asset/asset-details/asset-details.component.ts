@@ -35,22 +35,22 @@ export class AssetDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.activatedRoute.params.subscribe(params => {
-
-      console.log('________ Asset Details _____________')
-      console.log(params['marketId'])
-      console.log(params['assetId'])
-      this.assetService.fetchAsset(params['marketId'], params['assetId'])
+    this.initialize()
       
-    })
+    
+  }
+
+
+  ///////////////
+  // Functions //
+  ///////////////
+  private async initialize() {
+
+    await this.activatedRoute.params.subscribe(params => this.assetService.fetchAsset(params['marketId'], params['assetId']))
 
     this.assetService.assetSubject.subscribe(asset => {
       
-
-      console.log('___________Asset______________')
-      console.log(asset)
-      
-      if (asset) {
+      if (asset !== null && asset !== undefined) {
 
         this.asset = asset
         this.prediction = asset.short_term_prediction
@@ -60,7 +60,7 @@ export class AssetDetailsComponent implements OnInit {
 
           portfolioMembers.forEach(portfolioMember => {
 
-            if (portfolioMember.assetId === asset.assetId) {
+            if (portfolioMember.assetId === asset.assetId && portfolioMember.status !== 'sold') {
 
               this.quantity = portfolioMember.quantity
               this.portfolioMemberId = portfolioMember.portfolioMemberId
@@ -70,15 +70,11 @@ export class AssetDetailsComponent implements OnInit {
         })
 
       }
-      
-      
     })
-    
+
   }
 
-  ///////////////
-  // Functions //
-  ///////////////
+
   public buyAsset(asset: Asset): void {
 
     console.log('___________Asset Details______________')
@@ -88,7 +84,8 @@ export class AssetDetailsComponent implements OnInit {
   }
 
   public sellAsset(asset: Asset): void {
-
+    console.log('___________Asset Details______________')
+    console.log(asset)
     this.router.navigate([`portfolio/sell/${this.portfolioMemberId}`])
 
   }

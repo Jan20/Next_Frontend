@@ -1,0 +1,13 @@
+[debug] [2018-04-24T20:58:59.319Z] ----------------------------------------------------------------------
+[debug] [2018-04-24T20:58:59.322Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2018-04-24T20:58:59.322Z] CLI Version:   3.17.7
+[debug] [2018-04-24T20:58:59.322Z] Platform:      darwin
+[debug] [2018-04-24T20:58:59.322Z] Node Version:  v9.10.1
+[debug] [2018-04-24T20:58:59.323Z] Time:          Tue Apr 24 2018 22:58:59 GMT+0200 (CEST)
+[debug] [2018-04-24T20:58:59.323Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-24T20:58:59.336Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-24T20:58:59.336Z] > authorizing via signed-in user
+[debug] [2018-04-24T20:58:59.338Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/next-001  
+  
+ Tue Apr 24 2018 22:58:59 GMT+0200 (CEST)

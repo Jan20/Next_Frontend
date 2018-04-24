@@ -15,7 +15,7 @@ export class AssetOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   private marketId: string
-  public assets: Asset[] = this.assetService.getAssets()
+  public assets: Asset[] = []
       
   //////////////////
   // Constructors //
@@ -27,10 +27,10 @@ export class AssetOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.assetService.assetsSubject.subscribe(assets => { this.assets = assets })
-      this.assetService.fetchAssets(params['marketId'])
-    })
+    
+    this.activatedRoute.params.subscribe(params => this.assetService.fetchAssets(params['marketId']))
+    this.assetService.assetsSubject.subscribe(assets => { this.assets = assets })
+
   }
 
   ///////////////

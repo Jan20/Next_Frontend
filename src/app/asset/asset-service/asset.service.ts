@@ -13,6 +13,7 @@ import { User } from '../../user/user-model/user'
 @Injectable()
 export class AssetService {
 
+
   ///////////////
   // Variables //
   ///////////////
@@ -29,8 +30,8 @@ export class AssetService {
   private testPredictionsCollection: AngularFirestoreCollection<Prediction>
   private market: Market
   private marketDocument: AngularFirestoreDocument<Market>
-  public inAddMode: boolean = false
   private shortTermPredictions: Prediction[]
+  public inAddMode: boolean = false
 
 
   //////////////
@@ -71,23 +72,31 @@ export class AssetService {
   // Retrieve Predictions //
   //////////////////////////
   public async fetchTimeSeries(marketId: string, assetId: string): Promise<void> {
+
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.collection<Entry>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/series`).valueChanges().subscribe(entries => this.setTimeSeries(entries))
+
   }
 
   public async fetchTrainPredictions(marketId: string, assetId: string): Promise<void> {
+
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/train_predictions`).valueChanges().subscribe(trainPredictions => this.setTrainPredictions(trainPredictions))
+
   }
 
   public async fetchTestPredictions(marketId: string, assetId: string): Promise<void> {
+
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/test_predictions`).valueChanges().subscribe(testPredictions => this.setTestPredictions(testPredictions))
+
   }
 
   public async fetchShortTermPredictions(marketId: string, assetId: string): Promise<void> {
+
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/short_term_predictions`).valueChanges().subscribe(shortTermPredictions => this.setShortTermPredictions(shortTermPredictions))
+
   }
 
   /////////////////////
@@ -160,6 +169,33 @@ export class AssetService {
 
      
   
+  }
+
+  public async getAllAssets(): Promise<any>{
+
+    this.assets = []
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => {
+
+      markets.forEach(market => {
+
+
+          this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${market.marketId}/assets`).valueChanges().subscribe(assets => {
+            console.log(assets)
+
+            this.assets.forEach(existingAsset => {
+
+              this.assets.push(existingAsset)
+  
+            })
+            return new Promise(resolve => {
+              resolve(this.assets)
+
+  
+          })
+        })
+      })
+    })
   }
 
 

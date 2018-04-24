@@ -12,6 +12,7 @@ import { PortfolioPredictionsComponent } from './portfolio-predictions/portfolio
 import { PortfolioAddComponent } from './portfolio-add/portfolio-add.component'
 // Serivces
 import { PortfolioService } from './portfolio-service/portfolio.service';
+import { PortfolioGraphComponent } from './portfolio-graph/portfolio-graph.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,7 @@ import { PortfolioService } from './portfolio-service/portfolio.service';
     PortfolioOverviewComponent, 
     PortfolioPredictionsComponent, 
     PortfolioAddComponent, 
-    PortfolioCashComponent,
+    PortfolioCashComponent, PortfolioGraphComponent,
   
   ],
   providers: [
