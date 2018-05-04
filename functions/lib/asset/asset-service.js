@@ -36,24 +36,33 @@ class AssetService {
     */
     fetchAssetFromAlphaVantage(userId, marketId, asset) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield request(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${asset.symbol}&outputsize=compact&apikey=6404`, function (error, response, body) {
-                if (error && response.statusCode !== 200) {
-                    console.log('Asset data could not have been retrieved.');
-                    return;
-                }
-                const data = JSON.parse(body);
-                for (const key in data['Time Series (Daily)']) {
-                    if (data['Time Series (Daily)'].hasOwnProperty(key)) {
+            let chunks = [];
+            request.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${asset.symbol}&outputsize=compact&apikey=6404`).on('data', response => {
+                chunks.push(response);
+                // if (error && response.statusCode !== 200) {
+                //     console.log('Asset data could not have been retrieved.')
+                //     return;
+                // }
+            }).on('end', function () {
+                let e = Buffer.concat(chunks);
+                const f = e;
+                let values = JSON.parse(f);
+                console.log('values');
+                console.log(values);
+                console.log('____________________________Time Series (Daily)________________________________');
+                console.log(values["Time Series (Daily)"]);
+                for (const key in values["Time Series (Daily)"]) {
+                    if (values['Time Series (Daily)'].hasOwnProperty(key)) {
                         console.log('____________________________________________________');
                         console.log(asset.name);
-                        console.log(data['Meta Data']['2. Symbol']);
-                        console.log(data['Time Series (Daily)'][key]['4. close']);
+                        console.log(values['Meta Data']['2. Symbol']);
+                        console.log(values['Time Series (Daily)'][key]['4. close']);
                         console.log(key);
                         console.log('____________________________________________________');
                         firebase_1.fb.firestore().collection(`/users/${userId}/markets/${marketId}/assets/${asset.assetId}/series`).doc(key).set({
                             'name': asset.name,
-                            'symbol': data['Meta Data']['2. Symbol'],
-                            'close': data['Time Series (Daily)'][key]['4. close'],
+                            'symbol': values['Meta Data']['2. Symbol'],
+                            'close': values['Time Series (Daily)'][key]['4. close'],
                             'date': key,
                         });
                     }

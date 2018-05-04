@@ -34,21 +34,18 @@ class Exe {
             this.markets = [];
             yield this.userService.getUser(this.userId).then(user => this.user = new user_model_1.User(user.userId));
             yield this.marketService.getMarkets(this.user.userId).then(markets => markets.forEach(market => this.markets.push(new market_model_1.Market(market.marketId))));
-            this.markets.forEach(market => this.assetService.fetchAssetsFromAlphaVantage(this.user.userId, market.marketId));
+            yield this.markets.forEach(market => this.assetService.fetchAssetsFromAlphaVantage(this.user.userId, market.marketId));
         });
     }
 }
-function getStocks() {
+express_app.get("*", (req, res) => __awaiter(this, void 0, void 0, function* () {
     const exe = new Exe();
-    exe.callAlphaVantage()
-        .then(success => console.log('AlphaVantage API has been triggerd'))
+    yield exe.callAlphaVantage()
+        .then(success => console.log(success))
         .catch(err => console.log(err));
-}
-express_app.get("*", (req, res) => {
-    getStocks();
-    res.send('function has been executed');
-});
-exports.stocks = functions.https.onRequest((req, res) => {
+    res.send('stock cloud function executed 15');
+}));
+exports.fetchStockMarkets = functions.https.onRequest((req, res) => {
     !req.path ? req.url = `/${req.url}` : null;
     return express_app(req, res);
 });

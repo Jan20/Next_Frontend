@@ -16,9 +16,8 @@ export class PortfolioMemberBuyComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private asset: Asset = new Asset('', '', '', '', 0, '')
-  private assetName: string
   private quantity: number
+  public asset: Asset = new Asset('', '', '', '', 0, '')
   public title = 'Portfolio'
   
   //////////////////

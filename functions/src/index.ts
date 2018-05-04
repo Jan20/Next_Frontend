@@ -5,6 +5,7 @@ import { UserService } from './user/user-service'
 import { Market } from './market/market-model'
 import { MarketService } from './market/market-service'
 import { AssetService } from './asset/asset-service'
+import * as request from 'request'
 
 const express_app = express()
 
@@ -31,34 +32,32 @@ class Exe {
 	
 		await this.marketService.getMarkets(this.user.userId).then(markets => markets.forEach(
 			
-			market => this.markets.push( new Market(market.marketId))
+			market => this.markets.push( new Market( market.marketId ))
 		
 		))
-	
-		this.markets.forEach( market => this.assetService.fetchAssetsFromAlphaVantage(this.user.userId, market.marketId))
+
+		await this.markets.forEach( market => this.assetService.fetchAssetsFromAlphaVantage( this.user.userId, market.marketId ))
 	
 	}
 
 }
 
-function getStocks()  {
+express_app.get("*", async (req, res) => {
 
 	const exe = new Exe()
 
-	exe.callAlphaVantage()
-		.then( success => console.log('AlphaVantage API has been triggerd'))
+	await exe.callAlphaVantage()
+		.then( success => console.log(success))
 		.catch(err => console.log(err))
 
-}
+	res.send('stock cloud function executed 15')
 
-express_app.get("*", (req, res) => {
-	getStocks()
-	res.send('function has been executed')
 })
 
-export const stocks = functions.https.onRequest((req, res) => {
+export var fetchStockMarkets = functions.https.onRequest( (req, res) => {
 
 	!req.path ? req.url = `/${req.url}` : null
+
 	return express_app(req, res)
 
 });

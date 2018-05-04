@@ -22,6 +22,7 @@ export class PortfolioOverviewComponent implements OnInit {
   public portfolio: Portfolio = new Portfolio(0, 0)
   public cash: number = 0
   public assets: number = 0
+  public title: string = 'Portfolio'
 
   //////////////////
   // Constructors //
