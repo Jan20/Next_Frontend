@@ -7,10 +7,10 @@ import { UserService } from '../../user/user-service/user.service'
 import { AngularFirestore } from 'angularfire2/firestore'
 import { AssetService } from '../../asset/asset-service/asset.service'
 import { Asset } from '../../asset/asset-model/asset';
-
+import { GenericService } from '../../config/generic-service'
 
 @Injectable()
-export class PortfolioMemberService {
+export class PortfolioMemberService extends GenericService{
 
   ///////////////
   // Variables //
@@ -20,17 +20,12 @@ export class PortfolioMemberService {
   private portfolioMember: PortfolioMember
   private portfolioMembers: PortfolioMember[]
   private existingPortfolioMembers: PortfolioMember[]
-  public inAddMode: boolean = false
-  
-  
 
   //////////////
   // Subjects //
   //////////////
   public portfolioMemberSubject: Subject<PortfolioMember> = new Subject<PortfolioMember>()
   public portfolioMembersSubject: Subject<PortfolioMember[]> = new Subject<PortfolioMember[]>()
-  public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
-
 
   //////////////////
   // Constructors //
@@ -41,16 +36,65 @@ export class PortfolioMemberService {
     private userService: UserService,
     private assetService: AssetService
   
-  ) {}
-
+  ) { super() }
   
   ///////////////
   // Functions //
   ///////////////
-  public toggleInAddMode(): void {
+  public async openPosition(portfolioId: string, asset: Asset): Promise<void>  {
   
-    this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
+    await this.userService.getUser().then(user => this.user = user)
+    const portfolioMember: any = { name: asset.name, symbol: asset.symbol, assetId: asset.assetId, marketId: asset.marketId, market: asset.market, positionOpend: new Date().toDateString(), positionClosed: '', status: 'open'}
+    const portfolioMembersCollection = this.angularFirestore.collection<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members`)
+    
+    portfolioMembersCollection.valueChanges().subscribe(existingPortfolioMembers => {
+      console.log('______________________________________')
+      console.log(existingPortfolioMembers)
+
+      if(existingPortfolioMembers.length === 0){
+
+        portfolioMembersCollection.add(portfolioMember)
+        console.log('HE')
+        portfolioMembersCollection.ref.where('name', '==', name).get().then( portfolioMembers => portfolioMembers.docs.forEach(portfolioMember => portfolioMembersCollection.doc(portfolioMember.id).update({ portfolioMemberId: portfolioMember.id })))
+
+      }
+
+      let flag = false
+
+      existingPortfolioMembers.forEach(existingPortfolioMember => {
+
+        console.log('______________________________________')
+        console.log(existingPortfolioMember.assetId)
+        console.log(portfolioMember.assetId)
+        
+
+        if (existingPortfolioMember.assetId === portfolioMember.assetId) {
+
+          flag = false
+
+        }
+
+      })
+
+      if (flag) {
+
+        portfolioMembersCollection.add(portfolioMember)
+        portfolioMembersCollection.ref.where('name', '==', name).get().then( portfolioMembers => portfolioMembers.docs.forEach(portfolioMember => portfolioMembersCollection.doc(portfolioMember.id).update({ portfolioMemberId: portfolioMember.id })))
+
+      }
+
+
+
+    })
+    
+  }
+
+  public async closePosition(portfolioId: string, portfolioMemberId: string): Promise<void> {
   
+    await this.userService.getUser().then(user => this.user = user)
+    const portfolioMembersDocument = this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${portfolioMemberId}`)
+    portfolioMembersDocument.update({ status: 'closed', positionClosed: new Date().toDateString()})
+
   }
 
   
@@ -72,98 +116,6 @@ export class PortfolioMemberService {
   
   }
 
-
-  public async buyAsset(portfolioId: string, asset: Asset, quantity: number) {
-  
-    await this.userService.getUser().then(user => this.user = user)
-    const portfolioMember: any = { name: asset.name, symbol: asset.symbol, assetId: asset.assetId, marketId: asset.marketId, market: asset.market, quantity: quantity, buyDate: new Date().toDateString(), sellDate: '', status: 'active'}
-    const portfolioMembersCollection = this.angularFirestore.collection<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members`)
-    
-    portfolioMembersCollection.valueChanges().subscribe(existingPortfolioMembers => {
-      
-      this.existingPortfolioMembers = existingPortfolioMembers
-      
-      let oldPortfolioMember: PortfolioMember
-      
-      this.existingPortfolioMembers.forEach( existingPortfolioMember => {
-
-        if( existingPortfolioMember.assetId === portfolioMember.assetId && existingPortfolioMember.status !== 'sold') {
-
-          oldPortfolioMember = existingPortfolioMember
-
-        }
-
-      })
-
-      console.log('____________________________________________________________________________________')
-      console.log(oldPortfolioMember)
-      if (oldPortfolioMember !== undefined && oldPortfolioMember !== null) {
-
-        const oldQuantity = +this.portfolioMember.quantity
-        const quantityChange = +quantity
-        const newQuantity = oldQuantity + quantityChange
-
-        this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${oldPortfolioMember.portfolioMemberId}`).update({
-
-          'quantity' : newQuantity
-
-        })
-
-        this.setInAddMode(false)
-        return
-
-      }  else {
-
-        portfolioMembersCollection.add(portfolioMember)
-        portfolioMembersCollection.ref.where('name', '==', portfolioMember.name).get().then( portfolioMembersToUpdate => {
-          portfolioMembersToUpdate.docs.forEach(portfolioMemberToUpdate => {
-            portfolioMembersCollection.doc(portfolioMemberToUpdate.id).update( { portfolioMemberId: portfolioMemberToUpdate.id } )  
-        })
-
-        this.setInAddMode(false)
-        })
-
-      }
-    
-      return
-
-    
-    })
-  }
-
-  public async sellAsset(portfolioId: string, portfolioMemberId: string, quantity: number): Promise<void> {
-  
-    await this.userService.getUser().then(user => this.user = user)
-    const portfolioMembersDocument = this.angularFirestore.doc<PortfolioMember>(`users/${this.user.userId}/portfolios/${portfolioId}/portfolio_members/${portfolioMemberId}`)
-    await portfolioMembersDocument.valueChanges().subscribe(portfolioMember => this.portfolioMember = portfolioMember)
-      
-    const oldQuantity = +this.portfolioMember.quantity
-    const quantityChange = +quantity
-    let newQuantity = oldQuantity - quantityChange
-
-    if (newQuantity < 0) {
-
-      newQuantity = 0
-
-    }
-
-    console.log(newQuantity)
-
-    if (newQuantity === 0) {
-
-      portfolioMembersDocument.update({ quantity: newQuantity, status: 'sold', sellDate: new Date().toDateString()})
-      return new Promise<void>(resolve => resolve(null))
-
-    }
-
-    if (newQuantity > 0) {
-
-      portfolioMembersDocument.update( { quantity: newQuantity } )
-      return new Promise<void>(resolve => resolve(null))
-
-    }
-
-  }
   
   public async deletePortfolioMember(portfolioId: string, portfolioMemberId: string): Promise<void> {
   
@@ -186,13 +138,6 @@ export class PortfolioMemberService {
     return this.portfolioMembers
   
   }
-
-  public getInAddMode(): boolean {
-  
-    return this.inAddMode
-  
-  }
-
   
   /////////////
   // Setters //
@@ -208,13 +153,6 @@ export class PortfolioMemberService {
   
     this.portfolioMembers = portfolioMembers
     this.portfolioMembersSubject.next(portfolioMembers)
-  
-  }
-
-  public setInAddMode(inAddMode: boolean): void {
-  
-    this.inAddMode = inAddMode
-    this.inAddModeSubject.next(inAddMode)
   
   }
 

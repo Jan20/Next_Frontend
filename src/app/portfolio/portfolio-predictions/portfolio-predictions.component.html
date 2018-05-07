@@ -1,7 +1,8 @@
 <h1 class='secondary-headline'>{{title}}</h1>
 
-<!-- Cards -->
-<button mat-raised-button *ngFor='let asset of assets' (click)='showAssetDetails(asset)' class='card'>
-  <h1>{{asset.name}}</h1>
-  <h2>{{asset.short_term_prediction | number: '1.1'}}</h2>
-</button>
+<div *ngFor='let asset of assets'>
+  <button class='control-section' mat-raised-button (click)='portfolioMemberService.openPosition(portfolioId, asset)'>{{asset.short_term_prediction | number: '1.1'}}%</button>
+  <button class='major-section' mat-raised-button (click)='showAssetDetails(asset)'>{{asset.name}}</button>
+  <button class='major-section' mat-raised-button (click)='showAssetDetails(asset)'>{{asset.symbol}}</button>
+  <button class='control-section' mat-raised-button (click)='portfolioMemberService.openPosition("default_portfolio", asset)'><mat-icon>add</mat-icon></button>
+</div>

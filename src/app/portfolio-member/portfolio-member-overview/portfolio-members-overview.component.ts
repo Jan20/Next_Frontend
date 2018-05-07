@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 import { PortfolioMemberService } from '../portfolio-member-service/portfolio-member.service';
 
 @Component({
+
   selector: 'app-portfolio-member-overview',
   templateUrl: './portfolio-member-overview.component.html',
   styleUrls: ['./portfolio-member-overview.component.scss']
+
 })
 export class PortfolioMemberOverviewComponent implements OnInit {
 
@@ -14,7 +16,7 @@ export class PortfolioMemberOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   private marketId: string
-  public title: string = 'Portfolio Components'
+  public title: string = 'Watchlist Members'
   public portfolioMembers: PortfolioMember[] = []
       
   //////////////////
@@ -37,30 +39,16 @@ export class PortfolioMemberOverviewComponent implements OnInit {
   // Functions //
   ///////////////
   private async init2(): Promise<void>{
-    this.portfolioMembers = []
+    
     this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
     this.portfolioMemberService.portfolioMembersSubject.subscribe(portfolioMembers => {
-      
+
+      this.portfolioMembers = []
+
       portfolioMembers.forEach(portfolioMember => {
 
-        let flag = true
+        portfolioMember.status !== 'closed' ? this.portfolioMembers.push(portfolioMember) : null
 
-        for (let i = 0; i < this.portfolioMembers.length; i++) {
-
-          if (this.portfolioMembers[i].assetId === portfolioMember.assetId) {
-
-            flag = false
-
-          }
-
-        }
-        
-        if (flag) {
-
-          portfolioMember.status !== 'sold' ? this.portfolioMembers.push(portfolioMember) : null
-
-        }        
-        console.log(this.portfolioMembers)
       })
     
     })

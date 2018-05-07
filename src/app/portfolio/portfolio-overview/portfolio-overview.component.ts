@@ -19,10 +19,10 @@ export class PortfolioOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   private portfolioMembers: PortfolioMember[]
-  public portfolio: Portfolio = new Portfolio(0, 0)
+  public title: string = 'Watchlist'
+  public portfolio: Portfolio = new Portfolio('',0)
   public cash: number = 0
   public assets: number = 0
-  public title: string = 'Portfolio'
 
   //////////////////
   // Constructors //
@@ -41,7 +41,6 @@ export class PortfolioOverviewComponent implements OnInit {
     this.portfolioService.fetchPortfolio('default_portfolio')
     this.portfolioService.portfolioSubject.subscribe(portfolio => {
      
-      this.cash = +portfolio.cash
       this.portfolio = this.portfolio
       
     })

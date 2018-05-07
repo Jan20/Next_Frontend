@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { User } from '../../user/user-model/user';
-import { UserService } from '../../user/user-service/user.service';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AssetService } from '../../asset/asset-service/asset.service';
-import { Subject } from 'rxjs/Subject';
+import { Injectable } from '@angular/core'
+import { User } from '../../user/user-model/user'
+import { UserService } from '../../user/user-service/user.service'
+import { AngularFirestore } from 'angularfire2/firestore'
+import { AssetService } from '../../asset/asset-service/asset.service'
+import { Subject } from 'rxjs/Subject'
 import { Portfolio } from '../portfolio-model/portfolio' 
-import { Asset } from '../../asset/asset-model/asset';
+import { Asset } from '../../asset/asset-model/asset'
+import { GenericService } from '../../config/generic-service'
 
 @Injectable()
-export class PortfolioService {
+export class PortfolioService extends GenericService {
 
   ///////////////
   // Variables //
@@ -16,16 +17,12 @@ export class PortfolioService {
   private user: User
   private portfolio: Portfolio
   private portfolios: Portfolio[]
-  public inAddMode: boolean = false
-  
 
   //////////////
   // Subjects //
   //////////////
   public portfolioSubject: Subject<Portfolio> = new Subject<Portfolio>()
   public portfoliosSubject: Subject<Portfolio[]> = new Subject<Portfolio[]>()
-  public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
-
 
   //////////////////
   // Constructors //
@@ -35,22 +32,16 @@ export class PortfolioService {
     private angularFirestore: AngularFirestore,
     private userService: UserService,
   
-  ) {}
+  ) { 
+    
+    super() 
+  
+  }
 
   
   ///////////////
   // Functions //
   ///////////////
-  public toggleInAddMode(): void {
-  
-    this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
-  
-  }
-
-
-  ////////////////////////
-  // Portfolio Document //
-  ////////////////////////
   public async fetchPortfolio(portfolioId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
@@ -79,12 +70,9 @@ export class PortfolioService {
   }
 
 
-  public async updatePortfolio(portfolioId: string, cash: number): Promise<void> {
-    console.log('hey')
-    console.log(cash)
-    console.log(portfolioId)
+  public async updatePortfolio(portfolioId: string): Promise<void> {
+
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Portfolio>(`users/${this.user.userId}/portfolios/${portfolioId}`).update({ cash: cash })
 
   }
 
@@ -92,34 +80,18 @@ export class PortfolioService {
   /////////////
   // Getters //
   /////////////
-  public async getPortfolio(): Promise<any> {
+  public getPortfolio(): Portfolio {
 
-    if (this.user) {
-    
-      return new Promise(resolve => resolve(this.user))
-    
-    } 
-    
-    return new Promise( resolve => {
-  
-      this.angularFirestore.collection<Portfolio>(`/users/${this.user.userId}/portfolios`).valueChanges().subscribe(portfolios => resolve(portfolios[0]))
-
-    })
+    return this.portfolio
 
   }
 
   public getPortfolios(): Portfolio[] {
 
-      return this.portfolios
+    return this.portfolios
 
   }
   
-  public getInAddMode(): boolean {
-  
-    return this.inAddMode
-  
-  }
-
   /////////////
   // Setters //
   /////////////
@@ -137,10 +109,4 @@ export class PortfolioService {
 
   }
 
-  public setInAddMode(inAddMode: boolean): void {
-  
-    this.inAddMode = inAddMode
-    this.inAddModeSubject.next(inAddMode)
-  
-  }
 }

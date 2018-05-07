@@ -12,8 +12,8 @@ export class PortfolioMember {
     public marketId: string
     public market: string
     public quantity: number
-    public buyDate: string
-    public sellDate: string
+    public positionOpend: string
+    public positionClosed: string
     public status: string
 
     //////////////////
@@ -28,8 +28,8 @@ export class PortfolioMember {
         marketId: string,
         market: string,
         quantity: number,
-        buyDate: string,
-        sellDate: string,
+        positionOpend: string,
+        positionClosed: string,
         status: string
 
     ) {
@@ -41,8 +41,8 @@ export class PortfolioMember {
         this.marketId = marketId
         this.market = market
         this.quantity = quantity
-        this.buyDate = buyDate
-        this.sellDate = sellDate
+        this.positionOpend = positionOpend
+        this.positionClosed = positionClosed
         this.status = status
 
     }

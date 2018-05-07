@@ -3,18 +3,22 @@ export class Portfolio {
     ///////////////
     // Variables //
     ///////////////
-    public cash: number
+    public portfolioId: string
     public assets: number
 
     //////////////////
     // Constructors //
     //////////////////
     public constructor(
-        cash: number,
+
+        portfolioId: string,
         assets: number,
+
     ) {
-        this.cash = cash
+
+        this.portfolioId = portfolioId
         this.assets = assets
+
     }
 
 }

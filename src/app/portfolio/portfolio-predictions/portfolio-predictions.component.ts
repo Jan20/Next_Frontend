@@ -5,6 +5,7 @@ import { AssetService } from '../../asset/asset-service/asset.service';
 import { MarketService } from '../../market/market-service/market.service';
 import { Market } from '../../market/market-model/market';
 import { PortfolioService } from '../portfolio-service/portfolio.service';
+import { PortfolioMemberService } from '../../portfolio-member/portfolio-member-service/portfolio-member.service'
 
 @Component({
   selector: 'app-portfolio-predictions',
@@ -31,6 +32,7 @@ export class PortfolioPredictionsComponent implements OnInit {
     private marketService: MarketService,
     public assetService: AssetService,
     public portfolioService: PortfolioService,
+    public portfolioMemberService: PortfolioMemberService
 
   ) {
 
@@ -40,11 +42,8 @@ export class PortfolioPredictionsComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log('executed')
-    
-    // this.assetService.getAllAssets().then(assets => this.assets = assets)
-
     this.initialize()
+
   }
       
 

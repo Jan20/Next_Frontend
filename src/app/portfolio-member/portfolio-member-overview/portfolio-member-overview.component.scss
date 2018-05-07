@@ -1,24 +1,16 @@
 h1 {
+
     padding-top: 32px;
     text-align: center;
     font-size: 36px;
     max-width: 800px;
     margin: auto;
     color: rgb(128, 128, 128);
+
 }
-
-
-.title {
-    padding-top: 8px;
-    text-align: center;
-    font-size: 36px;
-    max-width: 800px;
-    margin: auto;
-    color: white;
-}
-
 
 h2 {
+
     text-align: center;
     font-weight: 300;
     font-size: 14px;
@@ -26,89 +18,86 @@ h2 {
     margin: auto;
     margin-top: -6px;
     color: rgb(128, 128, 128);
-}
 
-.banner {
-    width: 100%;
-    height: 100px;
-    border-bottom: 0.5px solid rgb(237, 237, 237);
-    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-shadow: none;
 }
 
 button{
+    
     margin: 0;
     padding: 0;
     border: none;
     box-shadow: none;
-}
 
-mat-raised-button {
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-shadow: none;
-    border-radius: 0px;
 }
 
 .banner {
+
     width: 100%;
     height: 100px;
     border-bottom: 0.5px solid rgb(237, 237, 237);
     background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
-}
-
-.card {
-    height: 100px;
-    width: 25%;
-    text-align: center;
-    border: 0.5px solid rgb(237, 237, 237);
+    margin: 0;
+    padding: 0;
+    border: none;
     box-shadow: none;
-    border-radius: 0%;
-    margin-right: -4px !important;
-}
 
-.title {
-    color: white;
 }
 
 .secondary-headline {
+
     max-width: 100%;
     width: 100%;
     color: rgb(210, 145, 88);
     border-top: 0.5px solid rgb(210, 145, 88);
     border-bottom: 0.5px solid rgb(210, 145, 88);
     padding-bottom: 30px;
-    margin-top: 100px;
+
 }
 
-h1 {
-    padding-top: 32px;
-    text-align: center;
-    font-size: 36px;
-    max-width: 800px;
-    margin: auto;
+.major-section {
+
+    width: 40%;
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 400;
     color: rgb(128, 128, 128);
-}
-
-h2 {
-    padding-top: 14px;
+    float:left;
     text-align: center;
-    font-weight: 300;
-    font-size: 14px;
-    max-width: 800px;
-    margin: auto;
-    color: rgb(128, 128, 128);
+    margin-left: -1px;
+    transition: transform .2s; /* Animation */
+
 }
 
-.banner {
-    width: 100%;
-    height: 100px;
-    border-bottom: 0.5px solid rgb(237, 237, 237);
-    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+.control-section {
+
+    width: 10%;
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 400;
+    color: rgb(128, 128, 128);
+    float:left;
+    text-align: center;
+    margin-left: -1px;
+    transition: transform .2s; /* Animation */
+    
+}
+
+.mat-raised-button {
+
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+    height: 60px;
+    box-shadow: none;
+    padding: 0;
+    border-left: 1px solid rgb(238, 238, 238);
+
 }
 
 .card {
@@ -120,8 +109,4 @@ h2 {
     border: 0.5px solid rgb(237, 237, 237);
     box-shadow: none;
     border-radius: 0%;
-}
-
-.title {
-    color: white;
 }

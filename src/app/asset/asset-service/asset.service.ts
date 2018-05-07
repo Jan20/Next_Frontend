@@ -17,6 +17,7 @@ export class AssetService {
   ///////////////
   // Variables //
   ///////////////
+  public inAddMode: boolean = false
   private user: User
   private asset: Asset = new Asset('', '', '', '')
   private assets: Asset[]
@@ -31,7 +32,7 @@ export class AssetService {
   private market: Market
   private marketDocument: AngularFirestoreDocument<Market>
   private shortTermPredictions: Prediction[]
-  public inAddMode: boolean = false
+  private shortTermTestPredictions: Prediction[]
 
 
   //////////////
@@ -44,7 +45,7 @@ export class AssetService {
   public trainPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public testPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public shortTermPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
-
+  public shortTermTestPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
 
   //////////////////
   // Constructors //
@@ -96,6 +97,13 @@ export class AssetService {
 
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/short_term_predictions`).valueChanges().subscribe(shortTermPredictions => this.setShortTermPredictions(shortTermPredictions))
+
+  }
+
+  public async fetchShortTermTestPredictions(marketId: string, assetId: string): Promise<void> {
+
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/short_term_test_predictions`).valueChanges().subscribe(shortTermTestPredictions => this.setShortTermTestPredictions(shortTermTestPredictions))
 
   }
 
@@ -233,6 +241,12 @@ export class AssetService {
 
   }
 
+  public getShortTermTestPredictions(): Prediction[] {
+
+    return this.shortTermTestPredictions
+
+  }
+
   /////////////
   // Setters //
   /////////////
@@ -289,6 +303,13 @@ export class AssetService {
     this.shortTermPredictions = shortTermPredictions
     this.shortTermPredictionsSubject.next(shortTermPredictions)
   
+  }
+
+  public setShortTermTestPredictions(shortTermTestPredictions: Prediction[]): void {
+
+    this.shortTermTestPredictions = shortTermTestPredictions
+    this.shortTermTestPredictionsSubject.next(shortTermTestPredictions)
+
   }
 
 }
