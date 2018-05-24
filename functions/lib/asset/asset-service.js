@@ -25,7 +25,11 @@ class AssetService {
             console.log(userId);
             console.log(marketId);
             console.log(this.assets);
-            this.assets.forEach(asset => this.fetchAssetFromAlphaVantage(userId, marketId, asset));
+            // this.fetchAssetFromAlphaVantage(userId, marketId, this.assets[0])
+            for (let i = 0; i < this.assets.length; i++) {
+                console.log('___________________________________________________________________________________________________');
+                yield this.fetchAssetFromAlphaVantage(userId, marketId, this.asset);
+            }
         });
     }
     /*
@@ -37,34 +41,25 @@ class AssetService {
     fetchAssetFromAlphaVantage(userId, marketId, asset) {
         return __awaiter(this, void 0, void 0, function* () {
             let chunks = [];
-            request.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${asset.symbol}&outputsize=compact&apikey=6404`).on('data', response => {
+            let values = [];
+            request.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${asset.symbol}&outputsize=full&apikey=6404`).on('data', response => {
                 chunks.push(response);
-                // if (error && response.statusCode !== 200) {
-                //     console.log('Asset data could not have been retrieved.')
-                //     return;
-                // }
-            }).on('end', function () {
+            }).on('end', () => {
                 let e = Buffer.concat(chunks);
                 const f = e;
-                let values = JSON.parse(f);
-                console.log('values');
-                console.log(values);
-                console.log('____________________________Time Series (Daily)________________________________');
-                console.log(values["Time Series (Daily)"]);
-                for (const key in values["Time Series (Daily)"]) {
-                    if (values['Time Series (Daily)'].hasOwnProperty(key)) {
-                        console.log('____________________________________________________');
-                        console.log(asset.name);
-                        console.log(values['Meta Data']['2. Symbol']);
-                        console.log(values['Time Series (Daily)'][key]['4. close']);
+                if (f) {
+                    values = JSON.parse(f);
+                    for (const key in values["Time Series (Daily)"]) {
                         console.log(key);
-                        console.log('____________________________________________________');
-                        firebase_1.fb.firestore().collection(`/users/${userId}/markets/${marketId}/assets/${asset.assetId}/series`).doc(key).set({
-                            'name': asset.name,
-                            'symbol': values['Meta Data']['2. Symbol'],
-                            'close': values['Time Series (Daily)'][key]['4. close'],
-                            'date': key,
-                        });
+                        if (values['Time Series (Daily)'].hasOwnProperty(key)) {
+                            console.log(asset.name);
+                            firebase_1.fb.firestore().collection(`/users/${userId}/markets/${marketId}/assets/${asset.assetId}/series`).doc(key).set({
+                                'name': asset.name,
+                                'symbol': values['Meta Data']['2. Symbol'],
+                                'close': values['Time Series (Daily)'][key]['4. close'],
+                                'date': key,
+                            });
+                        }
                     }
                 }
             });

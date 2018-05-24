@@ -12,7 +12,8 @@ import {
   MatTabsModule,
   MatSidenavModule,
   MatInputModule,
-  MatChipsModule
+  MatChipsModule,
+  MatListModule
 
 } from '@angular/material';
 
@@ -30,7 +31,8 @@ import {
     MatTabsModule,
     MatSidenavModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatListModule
     
   ], exports: [
 
@@ -44,7 +46,8 @@ import {
     MatTabsModule,
     MatSidenavModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatListModule
 
   ]
 

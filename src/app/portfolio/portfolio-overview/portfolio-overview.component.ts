@@ -19,7 +19,7 @@ export class PortfolioOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   private portfolioMembers: PortfolioMember[]
-  public title: string = 'Watchlist'
+  public title: string = 'Portfolio'
   public portfolio: Portfolio = new Portfolio('',0)
   public cash: number = 0
   public assets: number = 0

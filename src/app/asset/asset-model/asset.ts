@@ -14,24 +14,31 @@ export class Asset {
     public market: string
     public series: Entry[]
     public short_term_prediction: number
+    public sharpe_ratio: number
 
     //////////////////
     // Constructors //
     //////////////////
     public constructor(
+        
         assetId: string,
         name: string,
         symbol: string,
         market: string,
         short_term_prediction?: number,
-        marketId?: string
+        marketId?: string,
+        sharpe_ratio?: number,
+ 
     ) {
+        
         this.assetId = assetId
         this.name = name
         this.symbol = symbol
         this.market = market
         this.short_term_prediction = short_term_prediction
         this.marketId = marketId
+        this.sharpe_ratio = sharpe_ratio
+    
     }
 
     /////////////
@@ -73,9 +80,15 @@ export class Asset {
     
     }
 
-    public getShortTermPrediction(): Number {
+    public getShortTermPrediction(): number {
 
         return this.short_term_prediction
+
+    }
+
+    public getSharpeRatio(): number {
+
+        return this.sharpe_ratio
 
     }
 
@@ -121,6 +134,12 @@ export class Asset {
     public setShortTermPrediction(short_term_prediction: number): void {
 
         this.short_term_prediction = short_term_prediction
+
+    }
+
+    public setSharpeRatio(sharpe_ratio: number): void {
+
+        this.sharpe_ratio = sharpe_ratio
 
     }
 

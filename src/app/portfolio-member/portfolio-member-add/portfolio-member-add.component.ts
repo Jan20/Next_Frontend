@@ -49,7 +49,7 @@ export class PortfolioMemberAddComponent implements OnInit {
   ///////////////
   public addPortfolioMember(): void {
   
-    this.portfolioMemberService.buyAsset('default_portfolio', this.asset, +this.quantity)
+    this.portfolioMemberService.openPosition('default_portfolio', this.asset)
     this.quantityFormControl.reset()
     this.router.navigate(['/portfolio'])
   

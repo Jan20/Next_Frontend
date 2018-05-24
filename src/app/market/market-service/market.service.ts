@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core'
-import { Subject } from 'rxjs/Subject'
+import { Subject } from 'rxjs'
 import { Market } from '../market-model/market'
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { UserService } from '../../user/user-service/user.service';
 import { User } from '../../user/user-model/user';
+import { GenericService } from '../../config/generic-service'
+import { Asset } from '../../asset/asset-model/asset'
 
 @Injectable()
-export class MarketService {
+export class MarketService extends GenericService {
 
   ///////////////
   // Variables //
@@ -14,7 +16,6 @@ export class MarketService {
   private user: User
   private market: Market
   private markets: Market[]
-  public inAddMode: boolean = false
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
   public marketSubject: Subject<Market> = new Subject<Market>()
   public marketsSubject: Subject<any> = new Subject<any>()
@@ -27,16 +28,16 @@ export class MarketService {
     private userService: UserService,
     private angularFirestore: AngularFirestore,
   
-  ) {}
+  ) {
+
+    super()
+
+  }
 
   ///////////////
   // Functions //
   ///////////////
-  public toggleInAddMode(): void {
-  
-    this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
-  
-  }
+
 
   /////////////////////
   // CRUD Operations //
@@ -75,6 +76,21 @@ export class MarketService {
     this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}`).delete()
   
   }
+
+  public async cleanMarketData(marketId: string): Promise<void> {
+
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`).valueChanges().subscribe(assets => {
+
+      assets.forEach(asset => {
+
+        this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}/assets/series`).delete()
+
+      })
+    }) 
+  }
+
+  public async
 
   /////////////
   // Getters //

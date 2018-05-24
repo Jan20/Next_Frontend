@@ -9,27 +9,44 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MarketSettingsComponent implements OnInit {
 
+  ///////////////
+  // Variables //
+  ///////////////
+  public title = 'Market Settings'
+
   constructor(
+
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private marketService: MarketService,
+
   ) { }
 
-  ngOnInit() {
-
-
-  }
+  ngOnInit() {}
 
 
   ///////////////
   // Functions //
   ///////////////
   public deleteMarket(): void {
+    
     this.activatedRoute.params.subscribe(params => {
-      const marketId = params['marketId']
-      this.marketService.deleteMarket(marketId)
+    
+      this.marketService.deleteMarket(params['marketId'])
       this.router.navigate([`/markets`])
+    
     })
+  }
+
+  public cleanMarketData(): void {
+
+    this.activatedRoute.params.subscribe(params => {
+
+      this.marketService.cleanMarketData(params['marketId'])
+      this.router.navigate([`/markets/${params['marketId']}`])
+
+    })
+
   }
 
 

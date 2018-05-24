@@ -1,9 +1,14 @@
-
+<!-- Banner -->
 <div class='banner'>
-    <div class='wrapper'>
-        <h1>Settings</h1>
-        <button mat-raised-button (click)='deleteMarket()' class='control-button'>
-          Delete Market
-        </button>        
-    </div>
+    <h1 class='title'>{{title}}</h1>
 </div>
+
+<!-- Cards -->
+<button mat-raised-button (click)='deleteMarket()' class='card'> 
+    <h1>Delete Market</h1>
+</button>
+
+<button mat-raised-button (click)='cleanMarketData()' class='card'> 
+    <h1>Clean Market Data</h1>
+</button>
+

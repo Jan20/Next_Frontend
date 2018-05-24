@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { MenuService } from './menu/menu-service/menu.service';
 import { MatSidenavContainer, MatDrawer } from '@angular/material/sidenav'
 import { UserService } from './user/user-service/user.service';

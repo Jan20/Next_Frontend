@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Subject } from 'rxjs/Subject'
+import { Subject } from 'rxjs'
 import { Asset } from '../asset-model/asset'
 import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore'
 import { UserService } from '../../user/user-service/user.service'
@@ -143,10 +143,13 @@ export class AssetService {
   }
 
   public async deleteAsset(marketId: string, assetId: string): Promise<void> {
+  
     await this.userService.getUser().then(user => this.user = user)
     this.angularFirestore.doc(`users/${this.user.userId}/markets/'${marketId}/assets/${assetId}`).delete()
     this.router.navigate([`/markets/${marketId}`])
+  
   }
+
 
   /////////////
   // Getters //

@@ -46,8 +46,7 @@ export class PortfolioGraphComponent implements OnInit {
   // Variables //
   ///////////////
   public asset: Asset = this.assetService.getAsset()
-  public portfolio: Portfolio = new Portfolio(0,0)
-  public cash: number = 0
+  public portfolio: Portfolio = new Portfolio('',0)
 
   //////////////////
   // Constructors //
@@ -66,9 +65,6 @@ export class PortfolioGraphComponent implements OnInit {
     this.portfolioService.fetchPortfolio('default_portfolio')
     this.portfolioService.portfolioSubject.subscribe(portfolio => {
      
-      this.cash = +portfolio.cash
-      console.log('__________________________________')
-      console.log(portfolio.cash)
       this.portfolio = this.portfolio
       
     })
@@ -142,13 +138,5 @@ export class PortfolioGraphComponent implements OnInit {
       this.router.navigate([`/markets/${params['marketId']}`])
     })
   }
-
-  
-  public showCash(): void {
-
-    this.router.navigate(['/portfolio/cash'])
-
-  }
-
 
 }

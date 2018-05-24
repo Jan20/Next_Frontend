@@ -50,10 +50,7 @@ export class PortfolioMemberBuyComponent implements OnInit {
   ///////////////
   public buyAsset(): void {
   
-    console.log('_________Buy Asset_______________')
-    console.log(this.asset)
-    console.log(this.quantity)
-    this.portfolioMemberService.buyAsset('default_portfolio', this.asset, +this.quantity)
+    this.portfolioMemberService.openPosition('default_portfolio', this.asset)
     this.quantityFormControl.reset()
     this.router.navigate(['/portfolio'])
   

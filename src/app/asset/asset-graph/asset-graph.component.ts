@@ -14,11 +14,11 @@ export class AssetGraphComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public series: any[] = []
   private line_ChartData: any
   private line_ChartOptions: any
-  public lineChartLabels:Array<any> = []
   private timeSeries: any = null
+  public lineChartLabels:Array<any> = []
+  public series: any[] = []
 
   //////////////////
   // Constructors //
@@ -42,6 +42,9 @@ export class AssetGraphComponent implements OnInit {
     })
     
     this.assetService.timeSeriesSubject.subscribe(timeSeries => {
+
+      console.log('timeSeries______________________________________________________________________________')
+      console.log(timeSeries)
       
       let series: any[] = [['Date', 'Value', 'Prediction', 'TestPrediction']]
 

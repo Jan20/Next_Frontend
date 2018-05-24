@@ -54,7 +54,7 @@ export class PortfolioMemberSellComponent implements OnInit {
   ///////////////
   public sellAsset(): void {
   
-    this.portfolioMemberService.sellAsset('default_portfolio', this.portfolioMember.portfolioMemberId, +this.quantity)
+    this.portfolioMemberService.closePosition('default_portfolio', this.portfolioMember.portfolioMemberId)
     this.quantityFormControl.reset()
     this.router.navigate(['/portfolio'])
   

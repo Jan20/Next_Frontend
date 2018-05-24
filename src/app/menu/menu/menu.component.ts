@@ -32,9 +32,12 @@ export class MenuComponent implements OnInit {
   
     this.items = [];
     this.items.push(
+
+      new MenuItem('Momentum', 'lock_open', '/momentum'),
       new MenuItem('Portfolio', 'grain', '/portfolio'),
       new MenuItem('Markets', 'grain', '/markets'),
       new MenuItem('User', 'lock_open', '/user'),
+
     );
   
   }

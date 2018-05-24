@@ -29,7 +29,7 @@ export class AssetOverviewComponent implements OnInit {
   ngOnInit() {
     
     this.activatedRoute.params.subscribe(params => this.assetService.fetchAssets(params['marketId']))
-    this.assetService.assetsSubject.subscribe(assets => { this.assets = assets })
+    this.assetService.assetsSubject.subscribe(assets => this.assets = assets)
 
   }
 

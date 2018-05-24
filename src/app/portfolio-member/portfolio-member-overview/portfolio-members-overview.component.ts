@@ -16,7 +16,7 @@ export class PortfolioMemberOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   private marketId: string
-  public title: string = 'Watchlist Members'
+  public title: string = 'Members'
   public portfolioMembers: PortfolioMember[] = []
       
   //////////////////

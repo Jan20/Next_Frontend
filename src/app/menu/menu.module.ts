@@ -10,19 +10,27 @@ import { MenuSidenavComponent } from './menu-sidenav/menu-sidenav.component';
 
 @NgModule({
   imports: [
+    
     CommonModule,
     MaterialModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES, { enableTracing: false }),
+  
   ],declarations: [
+  
     MenuComponent,
     MenuSidenavComponent,
+  
   ], providers: [
+  
     MenuService
+  
   ], exports: [
+  
     MenuComponent,
     RouterModule,
     MenuSidenavComponent,
+  
   ]
 })
 export class MenuModule { }

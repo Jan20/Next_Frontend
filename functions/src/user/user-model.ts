@@ -9,8 +9,12 @@ export class User {
     // Constructors //
     //////////////////
     public constructor(
+    
         userId: string
+    
     ){
+    
         this.userId = userId
+    
     }
 }

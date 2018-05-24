@@ -42,15 +42,23 @@ class Exe {
 
 }
 
-express_app.get("*", async (req, res) => {
+express_app.get("*", (req, res) => {
 
 	const exe = new Exe()
 
-	await exe.callAlphaVantage()
-		.then( success => console.log(success))
-		.catch(err => console.log(err))
+	exe.callAlphaVantage()
+		.then( success => {
+		
+			console.log(success)
+			res.send('stock cloud function executed 15')
+		
+		})
+		.catch(err => {
+			res.send('stock cloud function executed 15')
+			console.log(err)
+		})
 
-	res.send('stock cloud function executed 15')
+	
 
 })
 

@@ -38,13 +38,18 @@ class Exe {
         });
     }
 }
-express_app.get("*", (req, res) => __awaiter(this, void 0, void 0, function* () {
+express_app.get("*", (req, res) => {
     const exe = new Exe();
-    yield exe.callAlphaVantage()
-        .then(success => console.log(success))
-        .catch(err => console.log(err));
-    res.send('stock cloud function executed 15');
-}));
+    exe.callAlphaVantage()
+        .then(success => {
+        console.log(success);
+        res.send('stock cloud function executed 15');
+    })
+        .catch(err => {
+        res.send('stock cloud function executed 15');
+        console.log(err);
+    });
+});
 exports.fetchStockMarkets = functions.https.onRequest((req, res) => {
     !req.path ? req.url = `/${req.url}` : null;
     return express_app(req, res);

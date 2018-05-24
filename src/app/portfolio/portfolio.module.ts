@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { PortfolioMemberModule } from './../portfolio-member/portfolio-member.module'
 // Components
 import { PortfolioOverviewComponent } from './portfolio-overview/portfolio-overview.component'
-import { PortfolioCashComponent } from './portfolio-cash/portfolio-cash.component'
 import { PortfolioPredictionsComponent } from './portfolio-predictions/portfolio-predictions.component'
 import { PortfolioAddComponent } from './portfolio-add/portfolio-add.component'
 // Serivces
@@ -30,7 +29,7 @@ import { PortfolioGraphComponent } from './portfolio-graph/portfolio-graph.compo
     PortfolioOverviewComponent, 
     PortfolioPredictionsComponent, 
     PortfolioAddComponent, 
-    PortfolioCashComponent, PortfolioGraphComponent,
+    PortfolioGraphComponent,
   
   ],
   providers: [

@@ -1,0 +1,29 @@
+<div class='banner'>
+  <h1 class='title'>{{title}}</h1>
+</div>
+
+<div class='card'>
+
+  <h1 class='asset-name'>{{asset.name}}</h1>
+
+  <div class='button-wrapper'>
+    <button mat-raised-button class='control-button-left'>Sharpe Ratio</button>
+    <button mat-raised-button class='control-button-right'>{{asset.sharpe_ratio | number:'1.0'}}</button>
+  <div>    
+
+  <div class='button-wrapper'>
+    <button mat-raised-button class='control-button-left'>Monthly Forcast:</button>
+    <button mat-raised-button class='control-button-right'>20 %</button>
+  <div>    
+
+  <div class='button-wrapper'>
+    <button mat-raised-button class='control-button-left'>Weekly Forcast:</button>
+    <button mat-raised-button class='control-button-right'>20 %</button>
+  <div>    
+
+</div>
+
+<div class='outer-button-wrapper'>
+  <button mat-raised-button class='control-button-left' (click)='switchToPreviousAsset()'><</button>
+  <button mat-raised-button class='control-button-right' (click)='switchToNextAsset()'>></button>
+<div>
