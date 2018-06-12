@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core'
 import { HttpModule } from '@angular/http'
 import { BrowserModule } from '@angular/platform-browser'
 import { APP_BASE_HREF } from '@angular/common'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'
 
 // Angular Material
 import { MaterialModule } from './config/material.module'
@@ -18,15 +18,19 @@ import { AppComponent } from './app.component'
 import { ConfigModule } from './config/config.module'
 import { UserModule } from './user/user.module'
 import { MenuModule } from './menu/menu.module'
+
+import { LandingModule } from './landing/landing.module'
 import { AssetModule } from './asset/asset.module'
 import { MarketModule } from './market/market.module'
 import { PortfolioModule } from './portfolio/portfolio.module'
 import { PortfolioMemberModule } from './portfolio-member/portfolio-member.module'
 import { MomentumModule } from './momentum/momentum.module'
+import { FooterModule } from './footer/footer.module'
+import { ApiModule } from './api/api.module'
 
 // Directives
-import {NgxChartsModule} from '@swimlane/ngx-charts';
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts'
+import { Ng2GoogleChartsModule } from 'ng2-google-charts'
 
 
 @NgModule({
@@ -49,11 +53,14 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     ConfigModule,
     UserModule,
     MenuModule,
+    LandingModule,
     MarketModule,
     AssetModule,
     PortfolioModule,
     PortfolioMemberModule,
-    MomentumModule
+    MomentumModule,
+    FooterModule,
+    ApiModule
 
   ], providers: [
     

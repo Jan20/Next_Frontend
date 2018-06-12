@@ -1,9 +1,9 @@
-export class SharpeRatio {
+export class LongTermSharpeRatio {
 
     ///////////////
     // Variables //
     ///////////////
-    public sharpeRatioId: string
+    public LongTermSharpeRatioId: string
     public date: any
     public value: number
 

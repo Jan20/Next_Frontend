@@ -1,0 +1,52 @@
+* {
+    font-size: 0
+}
+
+h1 {
+
+    padding-top: 24px;
+    padding-bottom: 24px;
+    text-align: center;
+    font-size: 36px;
+    max-width: 800px;
+    margin: auto;
+    color: rgb(128, 128, 128);
+    text-align: left;
+    margin-top: 6px;
+    margin-bottom: 30px;
+    font-weight: 100;
+    border-bottom: 1px solid rgb(237, 237, 237);
+    text-align: center;
+
+}
+
+.card {
+
+    width: 800px;
+    text-align: center;
+    border: 1px solid rgb(237, 237, 237);
+    box-shadow: none;
+    border-radius: 0%;
+    margin: auto;
+    margin-top: 50px;
+    height: 200px;
+
+}
+
+button {
+
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+    color: rgb(128, 128, 128);
+
+}
+
+mat-raised-button  {
+
+    margin: 0px;
+    padding: 0px;
+    box-shadow: none;
+    color: rgb(128, 128, 128);
+
+}

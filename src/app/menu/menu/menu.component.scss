@@ -8,9 +8,11 @@ mat-toolbar {
 }	
 
 span {
+
 	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
 	color: rgb(128, 128, 128);
+    font-weight: 300;
+
 }
 
 
@@ -24,4 +26,12 @@ span {
 	.desktop-menu {
 		display: none;
 	}
+}
+
+.title {
+
+	color: rgb(128, 128, 128);
+	font-size: 24px;
+	font-weight: 100;
+
 }

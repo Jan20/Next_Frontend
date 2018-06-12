@@ -4,7 +4,7 @@ import { UserService } from '../../user/user-service/user.service'
 import { AngularFirestore } from 'angularfire2/firestore'
 import { Subject } from 'rxjs'
 import { GenericService } from '../../config/generic-service'
-import { SharpeRatio } from '../momentum-model/SharpeRatio';
+import { LongTermSharpeRatio } from '../momentum-model/LongTermSharpeRatio';
 import { Asset } from '../../asset/asset-model/asset';
 
 @Injectable()
@@ -108,7 +108,7 @@ export class MomentumService extends GenericService{
 
 
   // Split the array into halves and merge them recursively 
-  public mergeSort (arr: Asset[]) {
+  public mergeSort(arr: Asset[]) {
 
     if (arr.length === 1) {
       // return once we hit an array with a single item
@@ -120,8 +120,10 @@ export class MomentumService extends GenericService{
     const right = arr.slice(middle) // items on the right side
 
     return this.merge(
+    
       this.mergeSort(left),
       this.mergeSort(right)
+    
     )
   }
 
@@ -133,12 +135,17 @@ export class MomentumService extends GenericService{
     let indexRight = 0
 
     while (indexLeft < left.length && indexRight < right.length) {
-      if (left[indexLeft].sharpe_ratio > right[indexRight].sharpe_ratio) {
+      
+      if (left[indexLeft].longTermSharpeRatio > right[indexRight].longTermSharpeRatio) {
+      
         result.push(left[indexLeft])
         indexLeft++
+      
       } else {
+      
         result.push(right[indexRight])
         indexRight++
+      
       }
     }
 

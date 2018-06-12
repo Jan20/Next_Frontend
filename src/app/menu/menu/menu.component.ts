@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 
 // Models
-import { MenuItem } from '../menu-model/menu.item';
+import { MenuItem } from '../menu-model/menu.item'
 
 // Services
-import { MenuService } from '../menu-service/menu.service';
+import { MenuService } from '../menu-service/menu.service'
 
 @Component({
   selector: 'app-menu',
@@ -17,8 +17,8 @@ export class MenuComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: String = 'Next';
-  public items: MenuItem[];
+  public title: String = 'Momentum'
+  public items: MenuItem[]
 
   //////////////////
   // Constructors //
@@ -30,15 +30,14 @@ export class MenuComponent implements OnInit {
   
   ) {
   
-    this.items = [];
+    this.items = []
     this.items.push(
 
       new MenuItem('Momentum', 'lock_open', '/momentum'),
-      new MenuItem('Portfolio', 'grain', '/portfolio'),
       new MenuItem('Markets', 'grain', '/markets'),
       new MenuItem('User', 'lock_open', '/user'),
 
-    );
+    )
   
   }
 
@@ -48,7 +47,15 @@ export class MenuComponent implements OnInit {
   // Functions //
   ///////////////
   public navigateToMenuEntry(item: MenuItem): void {
-    this.router.navigate([item.getLink()]);
+
+    this.router.navigate([item.getLink()])
+
+  }
+
+  public switchToLandingPage(): void {
+
+    this.router.navigate([''])
+
   }
 
 }

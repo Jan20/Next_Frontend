@@ -1,0 +1,11 @@
+<h1 class='title'>Start now</h1>
+
+<div class='card-wrapper' *ngFor='let startItem of startItems'>
+    <button mat-raised-button class='card' (click)='switchToMomentum()'>
+  
+      <h1>{{startItem.title}}</h1>
+      <div class='text'>{{startItem.description}}</div>
+  
+    </button>
+</div>
+  
