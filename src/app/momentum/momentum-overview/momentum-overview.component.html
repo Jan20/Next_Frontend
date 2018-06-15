@@ -1,29 +1,41 @@
-<div class='banner'>
-  <h1 class='title'>{{title}}</h1>
-</div>
 
-<div class='card'>
+<mat-sidenav-container class='example-container'>
 
-  <h1 class='asset-name'>{{asset.name}}</h1>
+  <app-momentum-markets></app-momentum-markets>
 
-  <div class='button-wrapper'>
-    <button mat-raised-button class='control-button-left'>Long Term Sharpe Ratio</button>
+
+  <div class='banner'>
+    <div mat-raised-button class='title'>Name</div>
+    <div mat-raised-button class='title'>Score</div>
+  </div>
+
+
+
+
+  <div *ngFor='let asset of assets'>
+    
+    <button mat-raised-button class='control-button-left'>{{asset.name}}</button>
     <button mat-raised-button class='control-button-right'>{{asset.longTermSharpeRatio | number:'1.0'}}</button>
-  <div>    
 
-  <div class='button-wrapper'>
-    <button mat-raised-button class='control-button-left'>Monthly Forcast:</button>
-    <button mat-raised-button class='control-button-right'>20 %</button>
-  <div>    
+  </div>
 
-  <div class='button-wrapper'>
-    <button mat-raised-button class='control-button-left'>Weekly Forcast:</button>
-    <button mat-raised-button class='control-button-right'>20 %</button>
-  <div>    
+</mat-sidenav-container>
 
-</div>
 
-<div class='outer-button-wrapper'>
-  <button mat-raised-button class='control-button-left' (click)='switchToPreviousAsset()'><</button>
-  <button mat-raised-button class='control-button-right' (click)='switchToNextAsset()'>></button>
-<div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

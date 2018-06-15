@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MaterialModule } from '../config/material.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ParticlesModule } from 'angular-particle';
 
 // Modules
 import { AssetModule } from '../asset/asset.module'
@@ -14,7 +15,8 @@ import { MarketAddComponent } from './market-add/market-add.component'
 // Services
 import { MarketService } from './market-service/market.service'
 import { MarketSettingsComponent } from './market-settings/market-settings.component';
-import { MarketStatsComponent } from './market-stats/market-stats.component'
+import { MarketStatsComponent } from './market-stats/market-stats.component';
+import { MarketParticlesComponent } from './market-particles/market-particles.component'
 
 @NgModule({
   imports: [
@@ -22,13 +24,18 @@ import { MarketStatsComponent } from './market-stats/market-stats.component'
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    AssetModule
+    AssetModule,
+    ParticlesModule
+
   ], declarations: [
+    
     MarketOverviewComponent, 
     MarketDetailsComponent,
     MarketAddComponent,
     MarketSettingsComponent,
-    MarketStatsComponent, 
+    MarketStatsComponent,
+    MarketParticlesComponent, 
+  
   ], providers: [
     MarketService
   ]

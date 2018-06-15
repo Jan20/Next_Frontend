@@ -19,6 +19,7 @@ export class MenuComponent implements OnInit {
   ///////////////
   public title: String = 'Momentum'
   public items: MenuItem[]
+  public user: MenuItem
 
   //////////////////
   // Constructors //
@@ -33,11 +34,13 @@ export class MenuComponent implements OnInit {
     this.items = []
     this.items.push(
 
-      new MenuItem('Momentum', 'lock_open', '/momentum'),
+      new MenuItem('Predictions', 'lock_open', '/predictions'),
       new MenuItem('Markets', 'grain', '/markets'),
-      new MenuItem('User', 'lock_open', '/user'),
 
     )
+
+    this.user = new MenuItem('User', 'account_circle', '/user')
+    
   
   }
 

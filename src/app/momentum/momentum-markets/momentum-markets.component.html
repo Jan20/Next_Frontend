@@ -1,0 +1,22 @@
+<mat-sidenav #sidenav mode="side" opened="false" class="scrolling-content">
+    <button mat-button class="control-button" (mouseover)='sidenav.toggle()'> 
+      <mat-icon>dehaze</mat-icon>
+    </button>
+    
+    <!-- Button to open the newTopic form -->
+    <button mat-button class="control-button" (click)='toggleFlag()' *ngIf='!flag' (keyup.enter)='onKey($event)'> 
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  
+    <!-- Add Entry Form -->
+    <div *ngIf='flag'>
+      <button mat-button class="control-button" (click)='toggleFlag()'> 
+        <mat-icon>expand_less</mat-icon>
+      </button>
+    </div>        
+  
+</mat-sidenav>
+
+<button mat-button (click)="sidenav.toggle()" class='hidden-button' (mouseover)='sidenav.toggle()'> 
+</button>  
+  

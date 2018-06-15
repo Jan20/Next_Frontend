@@ -26,7 +26,7 @@ export const ROUTES: Routes = [
   { path: 'portfolio', component: PortfolioOverviewComponent },
   { path: 'portfolio/buy/market/:marketId/assets/:assetId', component: PortfolioMemberBuyComponent },
   { path: 'portfolio/sell/:portfolioMemberId', component: PortfolioMemberSellComponent },
-  { path: 'momentum', component: MomentumOverviewComponent },
+  { path: 'predictions', component: MomentumOverviewComponent },
   { path: 'user', component: UserLoginComponent },
 
   { path: 'api/series', component: ApiOverviewComponent },

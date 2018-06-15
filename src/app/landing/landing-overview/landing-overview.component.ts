@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing-overview',
@@ -10,12 +11,22 @@ export class LandingOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'Momentum'
-  public subtitle: string = 'An Algorithmic Trading Approach'
+  public title: string = 'Core'
+  public subtitle: string = 'Momentum Strategies'
 
-  constructor() { }
+  constructor(
+
+    private router: Router
+
+  ) { }
 
   ngOnInit() {
+  }
+
+  public switchToPredictions(): void {
+
+    this.router.navigate(['markets'])
+
   }
 
 }

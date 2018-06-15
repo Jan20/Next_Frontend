@@ -12,6 +12,13 @@
     </button>
   </div>
 
+
+  <div class='desktop-menu'>
+    <button mat-menu-item (click)="navigateToMenuEntry(user)" class='user'>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+
   <button class='mobile-menu' mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
   </button>

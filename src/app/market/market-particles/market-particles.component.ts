@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-landing-particles',
-  templateUrl: './landing-particles.component.html',
-  styleUrls: ['./landing-particles.component.scss']
+  selector: 'app-market-particles',
+  templateUrl: './market-particles.component.html',
+  styleUrls: ['./market-particles.component.scss']
 })
-export class LandingParticlesComponent implements OnInit {
+export class MarketParticlesComponent implements OnInit {
 
-  myStyle: object = {};
-  myParams: object = {};
-  width: number = 100;
+  public myStyle: object = {};
+  public myParams: object = {};
 
   ngOnInit() {
   

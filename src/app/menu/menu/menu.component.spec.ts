@@ -11,7 +11,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Custom Components
 import { MenuComponent } from './menu.component';
-import { LoginComponent } from './../login/login.component';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -21,7 +20,6 @@ describe('MenuComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MenuComponent,
-        LoginComponent
       ],
       imports: [
         FormsModule,

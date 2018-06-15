@@ -1,0 +1,50 @@
+@import '~@angular/material/theming';
+
+.scrolling-content {
+    
+    height: 100%;
+    width: 325px;
+    background: linear-gradient(to right bottom, rgb(100, 218, 163),rgb(194, 200, 104));
+
+}
+
+#sidenav {
+
+    height: 100%;
+
+}
+
+.control-button{
+
+    font-size: 15px;
+    margin-top: 1px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(33, 33, 33);
+    font-weight: 300;
+    width: 100%;
+    border-radius: 3px;
+    background-color: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+
+}
+
+.add-button-container {
+    
+    margin: auto;
+    width: 54px;
+    
+}
+    
+.scrolling-content {
+    padding: 3px;
+}
+
+.hidden-button {
+    height: 80%;
+    width: 20px;
+    position: fixed;
+    
+}
+
+mat-sidenav {
+    
+}

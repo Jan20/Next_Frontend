@@ -13,7 +13,7 @@ export class MarketOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'Markets'
+  public title: string = 'In which markets do you like to invest in?'
   public markets: Market[] = []
 
   //////////////////

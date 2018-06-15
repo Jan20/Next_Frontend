@@ -11,6 +11,7 @@ import { MomentumDetailsComponent } from './momentum-details/momentum-details.co
 // Serivces
 import { MomentumService } from './momentum-service/momentum.service';
 import { MomentumPerformanceComponent } from './momentum-performance/momentum-performance.component';
+import { MomentumMarketsComponent } from './momentum-markets/momentum-markets.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { MomentumPerformanceComponent } from './momentum-performance/momentum-pe
   declarations: [
     
     MomentumOverviewComponent, 
-    MomentumDetailsComponent, MomentumPerformanceComponent
+    MomentumDetailsComponent, MomentumPerformanceComponent, MomentumMarketsComponent
   
   ],
   providers: [
