@@ -4,7 +4,7 @@ import { Market } from '../market-model/market'
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { UserService } from '../../user/user-service/user.service';
 import { User } from '../../user/user-model/user';
-import { GenericService } from '../../config/generic-service'
+import { GenericService } from '../../shared/services/generic-service'
 import { Asset } from '../../asset/asset-model/asset'
 
 @Injectable()
@@ -45,16 +45,13 @@ export class MarketService extends GenericService {
   public async fetchMarket(marketId: string): Promise<void> {
   
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => {
-      this.setMarket(market)
-    })
+    this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => this.setMarket(market))
   
   }
 
   public async fetchMarkets(): Promise<void> {
   
     await this.userService.getUser().then(user => this.user = user)
-    console.log(this.user.userId)
     this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => this.setMarkets(markets))
   
   }

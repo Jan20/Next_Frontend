@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core'
-import { User } from '../../user/user-model/user'
-import { UserService } from '../../user/user-service/user.service'
-import { AngularFirestore } from 'angularfire2/firestore'
-import { Subject } from 'rxjs'
-import { GenericService } from '../../config/generic-service'
-import { LongTermSharpeRatio } from '../momentum-model/LongTermSharpeRatio';
+import { GenericService } from '../../shared/services/generic-service'
 import { Asset } from '../../asset/asset-model/asset';
 
 @Injectable()

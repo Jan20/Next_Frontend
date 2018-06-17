@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Asset } from '../asset-model/asset'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AssetService } from '../asset-service/asset.service'
-import { BackendService } from '../../config/backend/backend.service'
 import { Entry } from '../asset-model/entry'
-import { PortfolioMemberService } from '../../portfolio-member/portfolio-member-service/portfolio-member.service';
 
 @Component({
   selector: 'app-asset-details',
@@ -16,7 +14,6 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private portfolioMemberId: string
   public asset: Asset = new Asset('', '', '', '',)
   public quantity = 0
   public prediction = 0
@@ -29,7 +26,6 @@ export class AssetDetailsComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private assetService: AssetService,
-    private portfolioMemberService: PortfolioMemberService,
   
   ) {}
 
@@ -55,19 +51,6 @@ export class AssetDetailsComponent implements OnInit {
         this.asset = asset
         this.prediction = asset.short_term_prediction
 
-        this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
-        this.portfolioMemberService.portfolioMembersSubject.subscribe( portfolioMembers => {
-
-          portfolioMembers.forEach(portfolioMember => {
-
-            if (portfolioMember.assetId === asset.assetId && portfolioMember.status !== 'sold') {
-
-              this.quantity = portfolioMember.quantity
-              this.portfolioMemberId = portfolioMember.portfolioMemberId
-
-            }
-          })
-        })
 
       }
     })
@@ -86,7 +69,7 @@ export class AssetDetailsComponent implements OnInit {
   public sellAsset(asset: Asset): void {
     console.log('___________Asset Details______________')
     console.log(asset)
-    this.router.navigate([`portfolio/sell/${this.portfolioMemberId}`])
+    // this.router.navigate([`portfolio/sell/${this.portfolioMemberId}`])
 
   }
 

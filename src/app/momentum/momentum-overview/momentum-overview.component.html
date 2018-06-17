@@ -1,27 +1,17 @@
+<h1 class='title'>
+  {{title}}
+</h1>
 
-<mat-sidenav-container class='example-container'>
+<div class='card-container'>
+  <button mat-raised-button *ngFor='let asset of assets' (click)='switch(asset)' class='card'>
 
-  <app-momentum-markets></app-momentum-markets>
+      <h1 class='market-name'>{{asset.symbol}}</h1>
+      <h1 class='market-name'>{{asset.longTermSharpeRatio | number:'1.0'}}</h1>
 
+  </button>
+</div>
 
-  <div class='banner'>
-    <div mat-raised-button class='title'>Name</div>
-    <div mat-raised-button class='title'>Score</div>
-  </div>
-
-
-
-
-  <div *ngFor='let asset of assets'>
-    
-    <button mat-raised-button class='control-button-left'>{{asset.name}}</button>
-    <button mat-raised-button class='control-button-right'>{{asset.longTermSharpeRatio | number:'1.0'}}</button>
-
-  </div>
-
-</mat-sidenav-container>
-
-
+<app-particles></app-particles>
 
 
 

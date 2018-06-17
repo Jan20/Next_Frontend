@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import { AssetService } from '../../asset/asset-service/asset.service'
 import { MarketService } from '../../market/market-service/market.service'
@@ -16,14 +16,11 @@ export class MomentumOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title = 'Momentum'
-  // private portfolioMemberId: string
-  // public asset: Asset = new Asset('', '', '', '',)
-  // public quantity = 0
-  // public prediction = 0
+  public title = 'Please choose a stock to invest in'
   private assets: Asset[] = []
   public asset: Asset = new Asset('', '', '', '')
   public position = 0
+  private marketId: string
 
   //////////////////
   // Constructors //
@@ -32,7 +29,6 @@ export class MomentumOverviewComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private marketService: MarketService,
     private assetService: AssetService,
     private momentumService: MomentumService,
 
@@ -40,110 +36,29 @@ export class MomentumOverviewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.marketService.fetchMarkets()
-    this.marketService.marketsSubject.subscribe(markets => {
-      console.log(markets)
+    this.activatedRoute.params.subscribe(params => {
 
-      for (let i = 0; i < markets.length; i++) {
+      this.marketId = params['marketId']
+      this.assetService.fetchAssets(this.marketId)
 
-        this.assetService.fetchAssets(markets[i].marketId)
-      
-      }
-    
     })
 
     this.assetService.assetsSubject.subscribe(assets => {
       
-      console.log(assets)
       this.assets = this.momentumService.mergeSort(assets)
-      this.asset = this.assets[0]
 
     })
     
   }
 
-
   ///////////////
   // Functions //
   ///////////////
-  public switchToNextAsset() {
+  public switch(asset: Asset): void {
 
-    if (this.position + 1 > this.assets.length-1) {
+    this.router.navigate([`markets/${this.marketId}/predictions/${asset.assetId}`])
 
-      return
-
-    } 
-
-    this.asset = this.assets[this.position + 1]
-    this.position = this.position + 1
-    
   }
-
-  public switchToPreviousAsset() {
-
-    if (this.position - 1 < 0) {
-
-      return
-
-    } 
-
-    this.asset = this.assets[this.position - 1]
-    this.position = this.position - 1
-    
-  }
-
-
-  // private async initialize() {
-
-  //   await this.activatedRoute.params.subscribe(params => this.assetService.fetchAsset(params['marketId'], params['assetId']))
-
-  //   this.assetService.assetSubject.subscribe(asset => {
-      
-  //     if (asset !== null && asset !== undefined) {
-
-  //       this.asset = asset
-  //       this.prediction = asset.short_term_prediction
-
-  //       this.portfolioMemberService.fetchPortfolioMembers('default_portfolio')
-  //       this.portfolioMemberService.portfolioMembersSubject.subscribe( portfolioMembers => {
-
-  //         portfolioMembers.forEach(portfolioMember => {
-
-  //           if (portfolioMember.assetId === asset.assetId && portfolioMember.status !== 'sold') {
-
-  //             this.quantity = portfolioMember.quantity
-  //             this.portfolioMemberId = portfolioMember.portfolioMemberId
-
-  //           }
-  //         })
-  //       })
-
-  //     }
-  //   })
-
-  // }
-
-
-  // public buyAsset(asset: Asset): void {
-
-  //   console.log('___________Asset Details______________')
-  //   console.log(asset)
-  //   this.router.navigate([`portfolio/buy/market/${asset.marketId}/assets/${asset.assetId}`])
-    
-  // }
-
-  // public sellAsset(asset: Asset): void {
-  //   console.log('___________Asset Details______________')
-  //   console.log(asset)
-  //   this.router.navigate([`portfolio/sell/${this.portfolioMemberId}`])
-
-  // }
-
-  // public showAssetOverview(): void {
-  
-  //   this.activatedRoute.params.subscribe( params => this.router.navigate([`/markets/${params['marketId']}`]))
-  
-  // }
   
 }
 

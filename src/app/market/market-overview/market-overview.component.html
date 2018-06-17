@@ -1,24 +1,11 @@
-<h1>
-{{title}}
+<h1 class='title'>
+    {{title}}
 </h1>
-
-<h2>
-{{subtitle}}
-</h2>
-
-<div class='button-container'>
-<button mat-raised-button (click)='switchToPredictions()'>Start now</button>
-</div>
-      
-<!-- Cards -->
-<div *ngIf='marketService.inAddMode === false'>
+  
+<div *ngIf='marketService.inAddMode === false' class='card-container'>
     <button mat-raised-button *ngFor='let market of markets' (click)='showMarketDetails(market)' class='card'> 
-        <h1>{{market.name}}</h1>
-        <h2>{{market.category}}</h2>
+        <h1 class='market-name'>{{market.name}}</h1>
     </button>
 </div>
 
-<!-- Add Market -->
-<app-market-add></app-market-add>
-
-<app-market-particles></app-market-particles>
+<app-particles></app-particles>

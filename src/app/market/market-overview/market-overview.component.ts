@@ -13,26 +13,32 @@ export class MarketOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'In which markets do you like to invest in?'
+  public title: string = 'In which markets do you intend to invest in?'
   public markets: Market[] = []
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
+
     private router: Router,
     public marketService: MarketService,
+
   ) {}
 
   ngOnInit() {
+
     this.marketService.fetchMarkets()
     this.marketService.marketsSubject.subscribe(markets => this.markets = markets)
+
   }
 
   ///////////////
   // Functions //
   ///////////////
   public showMarketDetails(market: Market): void {
-    this.router.navigate(['/markets', market.marketId]);
+
+    this.router.navigate([`markets/${market.marketId}/predictions`]);
+
   }
 } 

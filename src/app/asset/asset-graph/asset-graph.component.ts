@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Asset } from '../asset-model/asset';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AssetService } from '../asset-service/asset.service';
-import { BackendService } from '../../config/backend/backend.service';
 
 @Component({
   selector: 'app-asset-graph',

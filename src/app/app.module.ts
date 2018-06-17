@@ -22,11 +22,8 @@ import { MenuModule } from './menu/menu.module'
 import { LandingModule } from './landing/landing.module'
 import { AssetModule } from './asset/asset.module'
 import { MarketModule } from './market/market.module'
-import { PortfolioModule } from './portfolio/portfolio.module'
-import { PortfolioMemberModule } from './portfolio-member/portfolio-member.module'
 import { MomentumModule } from './momentum/momentum.module'
-import { FooterModule } from './footer/footer.module'
-import { ApiModule } from './api/api.module'
+import { SharedModule } from './shared/shared.module'
 
 // Directives
 import { NgxChartsModule } from '@swimlane/ngx-charts'
@@ -56,11 +53,8 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts'
     LandingModule,
     MarketModule,
     AssetModule,
-    PortfolioModule,
-    PortfolioMemberModule,
+    SharedModule,
     MomentumModule,
-    FooterModule,
-    ApiModule
 
   ], providers: [
     
