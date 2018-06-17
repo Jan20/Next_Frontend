@@ -22,27 +22,18 @@ h2 {
     color: white;
     width: 80%;
     margin-left: 10%;
-    margin-top: 150px;
+    margin-top: 75px;
     position: absolute;
     font-size: 36px;
 
 }
 
-button {
-
-    color: white;
-    background: transparent;
-    font-weight: 300;
-    font-size: 30px;
-
-}
-
 .card-container {
 
-    height: 60%;
+    height: 70%;
     width: 82%;
     margin-left: 10%;
-    margin-top: 200px;
+    margin-top: 125px;
     position: absolute;
     overflow: scroll;
 
@@ -57,16 +48,6 @@ button {
     background: rgba(255, 255, 255, 0.2);
     margin-right: 10px;
     margin-bottom: 10px;
-
-}
-
-.card-active {
-
-    color: white;
-    height: 100px;
-    width: 25%;
-    background: transparent;
-    background: rgba(255, 255, 255, 0.2)
 
 }
 

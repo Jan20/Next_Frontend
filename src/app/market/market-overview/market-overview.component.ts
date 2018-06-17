@@ -13,7 +13,7 @@ export class MarketOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'In which markets do you intend to invest in?'
+  public title: string = 'In which market do you like to invest in?'
   public markets: Market[] = []
 
   //////////////////
@@ -36,9 +36,9 @@ export class MarketOverviewComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public showMarketDetails(market: Market): void {
+  public switchView(market: Market): void {
 
-    this.router.navigate([`markets/${market.marketId}/predictions`]);
+    this.router.navigate([`markets/${market.marketId}/assets`]);
 
   }
 } 

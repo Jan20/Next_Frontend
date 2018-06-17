@@ -1,26 +1,19 @@
-<div class='banner'>
-  <h1 class='title'>{{asset.name}}</h1>
+<h1 class='title'>
+  {{asset.name}} {{asset.symbol}}
+</h1>
+
+<div class='card-container'>
+  <button mat-raised-button class='card'> 
+  
+      <h1 class='market-name'>Prediction</h1>
+      <h1 class='market-name'>{{asset.longTermSharpeRatio | number:'1.0'}}</h1>
+  
+  </button>
 </div>
 
-<!-- Control Buttons -->
-<div *ngIf='true'>
-  <button mat-raised-button class='card'> 
-      <h1>{{prediction | number: '1.1'}}</h1>
-      <h2>Short Term Prediction</h2>
-  </button>
-  <button mat-raised-button class='large-card' (click)='buyAsset(asset)' *ngIf='quantity === 0'> 
-    <h1 class='link'>Buy Asset</h1>
-  </button>
-  <button mat-raised-button class='small-card' (click)='buyAsset(asset)' *ngIf='quantity !== 0'> 
-    <h1 class='link'>Buy Asset</h1>
-  </button>
-  <button mat-raised-button class='small-card' (click)='sellAsset(asset)' *ngIf='quantity !== 0'> 
-    <h1 class='link'>Sell Asset</h1>
-  </button>
-  <button mat-raised-button class='card'> 
-      <h1>{{quantity}}</h1>
-      <h2>Owned Quantity</h2>
-  </button>
-</div>
+<h1 class='secondTitle'>
+  {{secondTitle}}
+</h1>
 
 <app-asset-graph></app-asset-graph>
+<app-particles></app-particles>

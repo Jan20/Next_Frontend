@@ -44,41 +44,49 @@ export class AssetGraphComponent implements OnInit {
       console.log('timeSeries______________________________________________________________________________')
       console.log(timeSeries)
       
-      let series: any[] = [['Date', 'Value', 'Prediction', 'TestPrediction']]
+      let series: any[] = [['Date', 'Value']]
 
-      timeSeries.forEach(value => series.push([new Date(value.date), +value.close, undefined, +value.close]))
+      timeSeries.forEach(entry => {
+        
+        series.push([new Date(entry.date), +entry.value])
+        
+      })
       
-      this.assetService.shortTermPredictionsSubject.subscribe(shortTermPredictions => {
+      console.log(series)
+      this.drawChart(series)
+      
 
-        shortTermPredictions.forEach(shortTermPrediction => {
+      // this.assetService.shortTermPredictionsSubject.subscribe(shortTermPredictions => {
 
-          series.push([new Date(shortTermPrediction.date), undefined, +shortTermPrediction.predicted_close, undefined])
+      //   shortTermPredictions.forEach(shortTermPrediction => {
 
-        })
+      //     series.push([new Date(shortTermPrediction.date), undefined, +shortTermPrediction.predicted_close, undefined])
+
+      //   })
 
         
-      })
+      // })
         
-      this.assetService.shortTermTestPredictionsSubject.subscribe(shortTermTestPredictions => {
+      // this.assetService.shortTermTestPredictionsSubject.subscribe(shortTermTestPredictions => {
 
-          shortTermTestPredictions.forEach(shortTermTestPrediction => {
+      //     shortTermTestPredictions.forEach(shortTermTestPrediction => {
 
-            for (let i = 0; i < series.length - 1; i++) {
+      //       for (let i = 0; i < series.length - 1; i++) {
 
-              if (new Date(shortTermTestPrediction.date).toDateString() === series[i+1][0].toDateString()) {
+      //         if (new Date(shortTermTestPrediction.date).toDateString() === series[i+1][0].toDateString()) {
 
-                series[i][3] = +shortTermTestPrediction.predicted_close
+      //           series[i][3] = +shortTermTestPrediction.predicted_close
 
-              }
+      //         }
 
-            }
+      //       }
 
-            this.drawChart(series)
+      //       this.drawChart(series)
 
-        })
+      //   })
 
 
-      })
+      // })
 
       
     })
@@ -98,8 +106,10 @@ export class AssetGraphComponent implements OnInit {
         minorTicks: 5,
         majorTicks: ['0', '1', '2', '3', '4', '5'],
         backgroundColor: 'transparent',
-        colors: ['#D2965A', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+        colors: ['rgb(255, 255, 255)', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
         legend: 'none',
+        hAxis: {gridlines: {color: '#FFFFFF'}},
+        vAxis: {gridlines: {color: '#FFFFFF'}}
       } ,
       animation: {
         duration: 1500,

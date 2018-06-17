@@ -1,10 +1,13 @@
 <h1 class='title'>
     {{title}}
 </h1>
-  
-<div *ngIf='marketService.inAddMode === false' class='card-container'>
-    <button mat-raised-button *ngFor='let market of markets' (click)='showMarketDetails(market)' class='card'> 
+
+
+<div class='card-container'>
+    <button mat-raised-button *ngFor='let market of markets' (click)='switchView(market)' class='card'> 
+    
         <h1 class='market-name'>{{market.name}}</h1>
+    
     </button>
 </div>
 

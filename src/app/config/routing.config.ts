@@ -17,9 +17,8 @@ export const ROUTES: Routes = [
   { path: 'markets', component: MarketOverviewComponent },
   { path: 'markets/:marketId', component: MarketDetailsComponent },
   { path: 'markets/:marketId/settings', component: MarketSettingsComponent },
+  { path: 'markets/:marketId/assets', component: MomentumOverviewComponent },
   { path: 'markets/:marketId/assets/:assetId', component: AssetDetailsComponent },
-  { path: 'markets/:marketId/predictions', component: MomentumOverviewComponent },
-  { path: 'markets/:marketId/predictions/:assetId', component: AssetDetailsComponent },
 
   { path: 'predictions', component: MomentumOverviewComponent },
   { path: 'user', component: UserLoginComponent },

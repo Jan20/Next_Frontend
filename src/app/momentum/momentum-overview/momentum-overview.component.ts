@@ -54,9 +54,9 @@ export class MomentumOverviewComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public switch(asset: Asset): void {
+  public switchView(asset: Asset): void {
 
-    this.router.navigate([`markets/${this.marketId}/predictions/${asset.assetId}`])
+    this.router.navigate([`markets/${this.marketId}/assets/${asset.symbol}`])
 
   }
   
