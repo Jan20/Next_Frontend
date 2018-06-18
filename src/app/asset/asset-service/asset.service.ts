@@ -2,38 +2,26 @@ import { Injectable } from '@angular/core'
 import { Subject } from 'rxjs'
 import { Asset } from '../asset-model/asset'
 import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore'
-import { UserService } from '../../user/user-service/user.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MarketService } from '../../market/market-service/market.service'
 import { Market } from '../../market/market-model/market'
 import { Entry } from '../asset-model/entry'
 import { Prediction } from '../asset-model/prediction'
-import { User } from '../../user/user-model/user'
 
 @Injectable()
 export class AssetService {
-
 
   ///////////////
   // Variables //
   ///////////////
   public inAddMode: boolean = false
-  private user: User
   private asset: Asset = new Asset('', '', '', '')
   private assets: Asset[]
-  private assetDocument: AngularFirestoreDocument<Asset>
-  private assetCollection: AngularFirestoreCollection<Asset>
   private timeSeries: Entry[]
-  private seriesCollection: AngularFirestoreCollection<Entry>
   private trainPredictions: Prediction[] = []
-  private trainPredictionsCollection: AngularFirestoreCollection<Prediction>
   private testPredictions: Prediction[] = []
-  private testPredictionsCollection: AngularFirestoreCollection<Prediction>
-  private market: Market
-  private marketDocument: AngularFirestoreDocument<Market>
   private shortTermPredictions: Prediction[]
   private shortTermTestPredictions: Prediction[]
-
 
   //////////////
   // Subjects //
@@ -52,7 +40,6 @@ export class AssetService {
   //////////////////
   constructor(
   
-    private userService: UserService,
     private angularFirestore: AngularFirestore,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -74,36 +61,36 @@ export class AssetService {
   //////////////////////////
   public async fetchTimeSeries(marketId: string, assetId: string): Promise<void> {
 
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Entry>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/series`).valueChanges().subscribe(entries => this.setTimeSeries(entries))
+    
+    this.angularFirestore.collection<Entry>(`markets/${marketId}/assets/${assetId}/series`).valueChanges().subscribe(entries => this.setTimeSeries(entries))
 
   }
 
   public async fetchTrainPredictions(marketId: string, assetId: string): Promise<void> {
 
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/train_predictions`).valueChanges().subscribe(trainPredictions => this.setTrainPredictions(trainPredictions))
+    
+    this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/train_predictions`).valueChanges().subscribe(trainPredictions => this.setTrainPredictions(trainPredictions))
 
   }
 
   public async fetchTestPredictions(marketId: string, assetId: string): Promise<void> {
 
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/test_predictions`).valueChanges().subscribe(testPredictions => this.setTestPredictions(testPredictions))
+    
+    this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/test_predictions`).valueChanges().subscribe(testPredictions => this.setTestPredictions(testPredictions))
 
   }
 
   public async fetchShortTermPredictions(marketId: string, assetId: string): Promise<void> {
 
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/short_term_predictions`).valueChanges().subscribe(shortTermPredictions => this.setShortTermPredictions(shortTermPredictions))
+    
+    this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/short_term_predictions`).valueChanges().subscribe(shortTermPredictions => this.setShortTermPredictions(shortTermPredictions))
 
   }
 
   public async fetchShortTermTestPredictions(marketId: string, assetId: string): Promise<void> {
 
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Prediction>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}/short_term_test_predictions`).valueChanges().subscribe(shortTermTestPredictions => this.setShortTermTestPredictions(shortTermTestPredictions))
+    
+    this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/short_term_test_predictions`).valueChanges().subscribe(shortTermTestPredictions => this.setShortTermTestPredictions(shortTermTestPredictions))
 
   }
 
@@ -112,24 +99,23 @@ export class AssetService {
   /////////////////////
   public async fetchAsset(marketId: string, assetId: string): Promise<void> {
   
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Asset>(`users/${this.user.userId}/markets/${marketId}/assets/${assetId}`).valueChanges().subscribe( asset => this.setAsset(asset))
+    this.angularFirestore.doc<Asset>(`markets/${marketId}/assets/${assetId}`).valueChanges().subscribe( asset => this.setAsset(asset))
   
   }
   
   public async fetchAssets(marketId: string): Promise<void> {
   
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`).valueChanges().subscribe(assets => this.setAssets(assets))
+    
+    this.angularFirestore.collection<Asset>(`markets/${marketId}/assets`).valueChanges().subscribe(assets => this.setAssets(assets))
   
   }
 
   public async addAsset(marketId: string, name: string, symbol: string): Promise<void> {
   
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => {
-      const asset: any = { name: name, symbol: symbol, market: market.name, marketId: market.marketId }
-      const assetCollection = this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`)  
+    
+    this.angularFirestore.doc<Market>(`markets/${marketId}`).valueChanges().subscribe(market => {
+      const asset: any = { name: name, symbol: symbol, market: market.name, marketId: market.market_id }
+      const assetCollection = this.angularFirestore.collection<Asset>(`markets/${marketId}/assets`)  
       assetCollection.add(asset)
       assetCollection.ref.where('name', '==', asset.name).get().then( assetToUpdate => {
         assetToUpdate.docs.forEach(assetToUpdate => {
@@ -144,8 +130,8 @@ export class AssetService {
 
   public async deleteAsset(marketId: string, assetId: string): Promise<void> {
   
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc(`users/${this.user.userId}/markets/'${marketId}/assets/${assetId}`).delete()
+    
+    this.angularFirestore.doc(`markets/'${marketId}/assets/${assetId}`).delete()
     this.router.navigate([`/markets/${marketId}`])
   
   }
@@ -185,13 +171,13 @@ export class AssetService {
   public async getAllAssets(): Promise<any>{
 
     this.assets = []
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => {
+    
+    this.angularFirestore.collection<Market>(`markets`).valueChanges().subscribe(markets => {
 
       markets.forEach(market => {
 
 
-          this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${market.marketId}/assets`).valueChanges().subscribe(assets => {
+          this.angularFirestore.collection<Asset>(`markets/${market.market_id}/assets`).valueChanges().subscribe(assets => {
             console.log(assets)
 
             this.assets.forEach(existingAsset => {

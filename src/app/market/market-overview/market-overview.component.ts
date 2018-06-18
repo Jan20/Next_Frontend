@@ -38,7 +38,7 @@ export class MarketOverviewComponent implements OnInit {
   ///////////////
   public switchView(market: Market): void {
 
-    this.router.navigate([`markets/${market.marketId}/assets`]);
+    this.router.navigate([`markets/${market.market_id}/assets`]);
 
   }
 } 

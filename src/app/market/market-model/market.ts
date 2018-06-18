@@ -3,7 +3,7 @@ export class Market{
     ///////////////
     // Variables //
     ///////////////
-    public marketId: string
+    public market_id: string
     public name: string
     public category: string
 
@@ -11,43 +11,17 @@ export class Market{
     // Constructors //
     //////////////////
     public constructor(
-        marketId: string,
+    
+        market_id: string,
         name: string,
         category: string,
+    
     ){
-        this.marketId = marketId
+    
+        this.market_id = market_id
         this.name = name
         this.category = category
-    }
-
-    /////////////
-    // Getters //
-    /////////////
-    public getMarketId(): string {
-        return this.marketId
-    }
-
-    public getName(): string {
-        return this.name
-    }
-
-    public getCategory(): string {
-        return this.category
-    }
-
-    /////////////
-    // Setters //
-    /////////////
-    public setMarketId(marketId: string): void {
-        this.marketId = marketId
-    }
-
-    public setName(name: string): void {
-        this.name = name
-    }
-
-    public setCategory(category: string): void {
-        this.category = category
+    
     }
 
 }

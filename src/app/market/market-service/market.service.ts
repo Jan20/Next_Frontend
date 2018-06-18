@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core'
 import { Subject } from 'rxjs'
 import { Market } from '../market-model/market'
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { UserService } from '../../user/user-service/user.service';
-import { User } from '../../user/user-model/user';
 import { GenericService } from '../../shared/services/generic-service'
 import { Asset } from '../../asset/asset-model/asset'
 
@@ -13,7 +11,6 @@ export class MarketService extends GenericService {
   ///////////////
   // Variables //
   ///////////////
-  private user: User
   private market: Market
   private markets: Market[]
   public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
@@ -25,7 +22,6 @@ export class MarketService extends GenericService {
   //////////////////
   constructor(
   
-    private userService: UserService,
     private angularFirestore: AngularFirestore,
   
   ) {
@@ -44,22 +40,19 @@ export class MarketService extends GenericService {
   /////////////////////
   public async fetchMarket(marketId: string): Promise<void> {
   
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Market>(`users/${this.user.userId}/markets/${marketId}`).valueChanges().subscribe(market => this.setMarket(market))
+    this.angularFirestore.doc<Market>(`markets/${marketId}`).valueChanges().subscribe(market => this.setMarket(market))
   
   }
 
   public async fetchMarkets(): Promise<void> {
-  
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => this.setMarkets(markets))
+    
+    this.angularFirestore.collection<Market>(`markets`).valueChanges().subscribe(markets => this.setMarkets(markets))
   
   }
 
   public async addMarket(name: string, category: string): Promise<void> {
-  
-    await this.userService.getUser().then(user => this.user = user)
-    const marketCollection = this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`)
+    
+    const marketCollection = this.angularFirestore.collection<Market>(`markets`)
     const object: any = {name: name, category: category}
     marketCollection.add(object)
     marketCollection.ref.where('name', '==', name).get().then( markets => markets.docs.forEach(market => marketCollection.doc(market.id).update({ marketId: market.id })))
@@ -69,19 +62,18 @@ export class MarketService extends GenericService {
 
   public async deleteMarket(marketId: string): Promise<void> {
   
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}`).delete()
+    
+    this.angularFirestore.doc(`markets/${marketId}`).delete()
   
   }
 
   public async cleanMarketData(marketId: string): Promise<void> {
-
-    await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.collection<Asset>(`users/${this.user.userId}/markets/${marketId}/assets`).valueChanges().subscribe(assets => {
+    
+    this.angularFirestore.collection<Asset>(`markets/${marketId}/assets`).valueChanges().subscribe(assets => {
 
       assets.forEach(asset => {
 
-        this.angularFirestore.doc(`users/${this.user.userId}/markets/${marketId}/assets/series`).delete()
+        this.angularFirestore.doc(`markets/${marketId}/assets/series`).delete()
 
       })
     }) 
@@ -108,8 +100,8 @@ export class MarketService extends GenericService {
     }
 
     let returnMarkets: Market[]
-    await this.userService.getUser().then(user => this.user = user)
-    await this.angularFirestore.collection<Market>(`users/${this.user.userId}/markets`).valueChanges().subscribe(markets => {
+    
+    await this.angularFirestore.collection<Market>(`markets`).valueChanges().subscribe(markets => {
     
       console.log(markets)
       returnMarkets = markets
@@ -118,7 +110,6 @@ export class MarketService extends GenericService {
 
     return new Promise<Market[]>( resolve => {
       resolve(returnMarkets)})
-
 
   }
   
