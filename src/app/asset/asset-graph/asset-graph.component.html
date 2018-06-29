@@ -1,6 +1,30 @@
-<button mat-raised-button class='wrapper'>
+<h1 class='secondTitle'>
+  {{secondTitle}}
+</h1>
+
+<button mat-raised-button class='graph'>
 
   <google-chart [data]="seriesData"></google-chart>
 
 </button>
 
+
+<div class='card-container'>
+  
+  <button mat-raised-button (click)='showChart(100)' class='card'> 
+    <h1 class='market-name'>100 Days</h1>
+  </button>
+
+  <button mat-raised-button (click)='showChart(30)' class='card'> 
+    <h1 class='market-name'>1 Month</h1>
+  </button>
+
+  <button mat-raised-button (click)='showChart(14)' class='card'> 
+    <h1 class='market-name'>2 Weeks</h1>
+  </button>
+
+  <button mat-raised-button (click)='showChart(7)' class='card'> 
+    <h1 class='market-name'>1 Week</h1>
+  </button>
+
+</div>

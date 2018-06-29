@@ -17,7 +17,7 @@ export class MomentumOverviewComponent implements OnInit {
   // Variables //
   ///////////////
   public title = 'Please choose a stock to invest in'
-  private assets: Asset[] = []
+  public assets: Asset[] = []
   public asset: Asset = new Asset('', '', '', '')
   public position = 0
   private marketId: string

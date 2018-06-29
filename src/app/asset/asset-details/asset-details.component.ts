@@ -14,7 +14,6 @@ export class AssetDetailsComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public secondTitle: string = 'Performance'
   public asset: Asset = new Asset('', '', '', '',)
   public quantity = 0
   public prediction = 0

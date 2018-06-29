@@ -11,8 +11,8 @@ export class LandingOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'Core'
-  public subtitle: string = 'Momentum Strategies'
+  public title: string = 'Momentum'
+  public subtitle: string = 'Advanced Financial Algorithms'
 
   constructor(
 

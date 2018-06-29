@@ -1,6 +1,14 @@
-.wrapper {
+h1 {
 
-    height: 300px;
+    color: white;
+    width: 100%;
+    font-weight: 100;
+
+}
+
+.graph {
+
+    height: 250px;
     margin-top: 311px;
     padding-bottom: 50px;
     margin-left: 10%;
@@ -9,5 +17,38 @@
     background: transparent;
     background: rgba(255, 255, 255, 0.2);
 
+}
+
+.secondTitle {
+
+    color: white;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 255px;
+    position: absolute;
+    font-size: 36px;
+
+}
+
+.card-container {
+
+    height: 54px;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 563px;
+    position: absolute;
+
+}
+
+.card {
+
+    color: white;
+    height: 50px;
+    width: calc(25% - 2px);
+    background: transparent;
+    background: rgba(255, 255, 255, 0.2);
+    margin-right: 2px;
+    margin-bottom: 10px;
+    padding-top: 10px;
 
 }

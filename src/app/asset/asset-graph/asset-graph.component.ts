@@ -16,6 +16,7 @@ export class AssetGraphComponent implements OnInit {
   private line_ChartOptions: any
   private timeSeries: any = null
   public lineChartLabels:Array<any> = []
+  public secondTitle: string = 'Performance'
   public series: any[] = []
 
   //////////////////
@@ -40,10 +41,7 @@ export class AssetGraphComponent implements OnInit {
     })
     
     this.assetService.timeSeriesSubject.subscribe(timeSeries => {
-
-      console.log('timeSeries______________________________________________________________________________')
-      console.log(timeSeries)
-      
+ 
       let series: any[] = [['Date', 'Value']]
 
       timeSeries.forEach(entry => {
@@ -52,42 +50,7 @@ export class AssetGraphComponent implements OnInit {
         
       })
       
-      console.log(series)
       this.drawChart(series)
-      
-
-      // this.assetService.shortTermPredictionsSubject.subscribe(shortTermPredictions => {
-
-      //   shortTermPredictions.forEach(shortTermPrediction => {
-
-      //     series.push([new Date(shortTermPrediction.date), undefined, +shortTermPrediction.predicted_close, undefined])
-
-      //   })
-
-        
-      // })
-        
-      // this.assetService.shortTermTestPredictionsSubject.subscribe(shortTermTestPredictions => {
-
-      //     shortTermTestPredictions.forEach(shortTermTestPrediction => {
-
-      //       for (let i = 0; i < series.length - 1; i++) {
-
-      //         if (new Date(shortTermTestPrediction.date).toDateString() === series[i+1][0].toDateString()) {
-
-      //           series[i][3] = +shortTermTestPrediction.predicted_close
-
-      //         }
-
-      //       }
-
-      //       this.drawChart(series)
-
-      //   })
-
-
-      // })
-
       
     })
 
@@ -134,6 +97,14 @@ export class AssetGraphComponent implements OnInit {
       colors: ['#D2965A', '#e6693e', '#800000', '#800000', '#f6c7b6'],
       legend: 'none',
     }
+  }
+
+  public showChart(days: number) {
+
+    console.log(this.series)
+    // let short_series = this.series
+    // console.log(days)
+
   }
 
 
