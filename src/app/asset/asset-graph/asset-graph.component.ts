@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AssetService } from '../asset-service/asset.service';
 
 @Component({
+
   selector: 'app-asset-graph',
   templateUrl: './asset-graph.component.html',
   styleUrls: ['./asset-graph.component.scss']
+
 })
 export class AssetGraphComponent implements OnInit {
 
   ///////////////
   // Variables //
   ///////////////
-  private line_ChartData: any
-  private line_ChartOptions: any
-  private timeSeries: any = null
-  public lineChartLabels:Array<any> = []
+  public lineChartLabels: Array<any> = []
   public secondTitle: string = 'Performance'
   public series: any[] = []
 
@@ -28,7 +27,7 @@ export class AssetGraphComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private assetService: AssetService,
 
-  ) {}
+  ) { }
 
   ngOnInit() {
 
@@ -39,19 +38,19 @@ export class AssetGraphComponent implements OnInit {
       this.assetService.fetchShortTermTestPredictions(params['marketId'], params['assetId'])
 
     })
-    
+
     this.assetService.timeSeriesSubject.subscribe(timeSeries => {
- 
-      let series: any[] = [['Date', 'Value']]
+
+      this.series = [['Date', 'Value']]
 
       timeSeries.forEach(entry => {
-        
-        series.push([new Date(entry.date), +entry.value])
-        
+
+        this.series.push([new Date(entry.date), +entry.value])
+
       })
-      
-      this.drawChart(series)
-      
+
+      this.drawChart(this.series)
+
     })
 
   }
@@ -61,36 +60,40 @@ export class AssetGraphComponent implements OnInit {
   ////////////
   private drawChart(series: any): void {
 
-    this.seriesData =  {
+    this.seriesData = {
+
       chartType: 'LineChart',
       dataTable: series,
       options: {
-        animation: {easing: 'out'},
+
+        animation: { easing: 'out' },
         minorTicks: 5,
         majorTicks: ['0', '1', '2', '3', '4', '5'],
         backgroundColor: 'transparent',
         colors: ['rgb(255, 255, 255)', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
         legend: 'none',
-        hAxis: {gridlines: {color: '#FFFFFF'}},
-        vAxis: {gridlines: {color: '#FFFFFF'}}
-      } ,
+        hAxis: { gridlines: { color: '#FFFFFF' } },
+        vAxis: { gridlines: { color: '#FFFFFF' } }
+
+      },
       animation: {
+
         duration: 1500,
         easing: 'linear',
         startup: true
+
       },
     }
-
   }
 
-  public seriesData: any =  {
+  public seriesData: any = {
 
     chartType: 'LineChart',
     dataTable: [
       ['Task', 'Hours per Day', 'Prediction', 'Test'],
     ],
     options: {
-      animation: {easing: 'out'},
+      animation: { easing: 'out' },
       minorTicks: 5,
       majorTicks: ['0', '1', '2', '3', '4', '5'],
       backgroundColor: 'transparent',
@@ -101,9 +104,16 @@ export class AssetGraphComponent implements OnInit {
 
   public showChart(days: number) {
 
-    console.log(this.series)
-    // let short_series = this.series
-    // console.log(days)
+    let series: any[] = []
+    series[0] = this.series[0]
+
+    for (let i = this.series.length - days; i < this.series.length; i++) {
+
+      series.push(this.series[i])
+
+    }
+
+    this.drawChart(series)
 
   }
 

@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core'
-import { Subject } from 'rxjs'
-import { Asset } from '../asset-model/asset'
-import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore'
-import { Router, ActivatedRoute } from '@angular/router'
-import { MarketService } from '../../market/market-service/market.service'
-import { Market } from '../../market/market-model/market'
-import { Entry } from '../asset-model/entry'
-import { Prediction } from '../asset-model/prediction'
+import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Subject } from 'rxjs';
+import { Market } from '../../market/market-model/market';
+import { MarketService } from '../../market/market-service/market.service';
+import { Asset } from '../asset-model/asset';
+import { Entry } from '../asset-model/entry';
+import { Prediction } from '../asset-model/prediction';
 
 @Injectable()
 export class AssetService {

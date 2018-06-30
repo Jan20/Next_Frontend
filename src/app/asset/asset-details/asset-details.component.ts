@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core'
 import { Asset } from '../asset-model/asset'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AssetService } from '../asset-service/asset.service'
-import { Entry } from '../asset-model/entry'
 
 @Component({
+
   selector: 'app-asset-details',
   templateUrl: './asset-details.component.html',
   styleUrls: ['./asset-details.component.scss']
+
 })
 export class AssetDetailsComponent implements OnInit {
 

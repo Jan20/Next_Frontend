@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../user/user-service/user.service';
 import { AssetService } from '../asset-service/asset.service';
 import { Asset } from '../asset-model/asset';
 
@@ -37,8 +36,12 @@ export class AssetOverviewComponent implements OnInit {
   // Functions //
   ///////////////
   public showAssetDetails(assetId: string): void {
+  
     this.activatedRoute.params.subscribe(params => {
+  
       this.router.navigate([`/markets/${params['marketId']}/assets/${assetId}`]);
+  
     })
   }
+
 }

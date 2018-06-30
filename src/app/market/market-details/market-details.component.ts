@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Market } from '../market-model/market';
 import { MarketService } from '../market-service/market.service';
 
