@@ -1,4 +1,4 @@
-<div class='card-container' *ngIf='assetService.inAddMode === true'>
+<div class='card-container' *ngIf='assetService.inUpdateMode === true'>
   
   <form class='form'>
     <mat-form-field class='full-width'>
@@ -13,7 +13,7 @@
     <button mat-raised-button (click)='addAsset()' class='control-button submit-button'>
       <mat-icon>done</mat-icon>
     </button>    
-    <button mat-raised-button (click)='assetService.setInAddMode(false)' class='control-button cancel-button'>
+    <button mat-raised-button (click)='assetService.setInUpdateMode(false)' class='control-button cancel-button'>
       <mat-icon>close</mat-icon>
     </button>
   </div>

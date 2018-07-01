@@ -5,16 +5,16 @@ import { MarketService } from "../../market/market-service/market.service";
 import { AssetService } from "../asset-service/asset.service";
 
 @Component({
-  selector: 'app-asset-add',
-  templateUrl: './asset-add.component.html',
-  styleUrls: ['./asset-add.component.scss']
+  selector: 'app-asset-update',
+  templateUrl: './asset-update.component.html',
+  styleUrls: ['./asset-update.component.scss']
 })
-export class AssetAddComponent implements OnInit {
+export class AssetUpdateComponent implements OnInit {
 
   ///////////////
   // Variables //
   ///////////////
-  public title = 'Add Asset'
+  public title = 'Update Asset'
   private name: string
   private symbol: string
 
@@ -48,5 +48,4 @@ export class AssetAddComponent implements OnInit {
       this.symbolFormControl.reset()
     })
   }
-
 }

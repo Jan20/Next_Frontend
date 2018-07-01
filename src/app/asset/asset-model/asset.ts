@@ -1,6 +1,4 @@
-import { Time } from '@angular/common'
-import { Optional } from '@angular/core';
-import { Entry } from './entry'
+import { Entry } from './entry';
 
 export class Asset {
 
@@ -15,6 +13,7 @@ export class Asset {
     public series: Entry[]
     public short_term_prediction: number
     public longTermSharpeRatio: number
+    public market_id: string
 
     //////////////////
     // Constructors //
@@ -28,6 +27,7 @@ export class Asset {
         short_term_prediction?: number,
         marketId?: string,
         longTermSharpeRatio?: number,
+        market_id?: string,
  
     ) {
         
@@ -38,6 +38,7 @@ export class Asset {
         this.short_term_prediction = short_term_prediction
         this.marketId = marketId
         this.longTermSharpeRatio = longTermSharpeRatio
+        this.market_id = market_id
     
     }
 

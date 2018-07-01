@@ -1,0 +1,61 @@
+@import '../../shared/styles/generic-style.scss';
+
+.card-container {
+
+    height: 62%;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 190px;
+    position: absolute;
+    overflow: scroll;
+    border: 1px solid rgb(238, 238, 238);
+    background: rgba(255, 255, 255, 0.2);
+
+}
+
+.major-section {
+
+    width: calc(50% - 86px);
+    border-right: 1px solid rgb(238, 238, 238);;
+    border-bottom: 1px solid rgb(238, 238, 238);;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 400;
+    float: left;
+    text-align: center;
+    margin-left: -1px;
+    transition: transform .2s;
+    font-weight: 100;
+    font-size: 20px;
+    color: white;
+
+}
+
+.control-section {
+  
+    border-left: 1px solid rgb(238, 238, 238);;
+    border-bottom: 1px solid rgb(238, 238, 238);;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 400;
+    float: left;
+    text-align: center;
+    margin-left: -1px;
+    transition: transform .2s;
+    font-weight: 100;
+    font-size: 20px;
+    color: white;
+    width: 30px;
+
+}
+
+.mat-raised-button {
+
+    height: 60px;
+    box-shadow: none;
+    padding: 0;
+    font-weight: 300;
+    font-size: 20px;
+    color: white;
+
+}

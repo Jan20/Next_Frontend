@@ -1,25 +1,27 @@
-<div class='add-button-container' *ngIf='marketService.inAddMode === false'>
-  <button mat-fab class='add-button' (click)='marketService.toggleInAddMode()'>
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
+<h1 class='title' *ngIf='marketService.inAddMode === true'>
 
-<div class='outline' *ngIf='marketService.inAddMode === true'>
+  {{title}}
+
+</h1>
+
+<div class='card-container' *ngIf='marketService.inAddMode === true'>
   
-  <!-- Form Title -->
-  <h2>{{title}}</h2>
-  
-  <!-- Form -->
   <form class='form'>
+    
     <mat-form-field class='full-width'>
-      <input matInput placeholder='Name' [formControl]='nameFormControl'>
+      <input  matInput placeholder='Market Name' [formControl]='nameFormControl'>
     </mat-form-field>
+    
     <mat-form-field class='full-width'>
-      <input matInput placeholder='category' [formControl]='categoryFormControl'>
+      <input  matInput placeholder='Market Id' [formControl]='idFormControl'>
     </mat-form-field>
+    
+    <mat-form-field class='full-width'>
+      <input  matInput placeholder='category' [formControl]='categoryFormControl'>
+    </mat-form-field>
+  
   </form>
 
-  <!-- Control Buttons -->
   <div class='wrapper'>
     <button class='control-button submit-button' mat-raised-button (click)='addMarket()' >
       <mat-icon>done</mat-icon>

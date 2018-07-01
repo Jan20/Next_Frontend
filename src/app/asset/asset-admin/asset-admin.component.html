@@ -1,0 +1,22 @@
+<div class='card-container' *ngIf='assetService.inAddMode === false && assetService.inUpdateMode === false'>
+
+  <div *ngFor='let asset of assets'>
+
+    <button mat-raised-button class='major-section' (click)='showAssetDetails(asset.symbol)'>{{asset.name}}</button>
+    <button mat-raised-button class='major-section' (click)='showAssetDetails(asset.symbol)'>{{asset.symbol}}</button>
+
+    <button mat-raised-button class='control-section' (click)='updateAsset(asset)'>
+      <mat-icon>create</mat-icon>
+    </button>
+  
+    <button mat-raised-button class='control-section' (click)='deleteAsset(asset)'>
+      <mat-icon>delete</mat-icon>
+    </button>
+  
+  </div>
+  
+</div>
+
+<app-asset-add></app-asset-add>
+<app-asset-update></app-asset-update>
+  

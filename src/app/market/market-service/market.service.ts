@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core'
-import { Subject } from 'rxjs'
-import { Market } from '../market-model/market'
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { GenericService } from '../../shared/services/generic-service'
-import { Asset } from '../../asset/asset-model/asset'
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Subject } from 'rxjs';
+import { Asset } from '../../asset/asset-model/asset';
+import { GenericService } from '../../shared/services/generic-service';
+import { Market } from '../market-model/market';
 
 @Injectable()
 export class MarketService extends GenericService {
@@ -13,7 +13,6 @@ export class MarketService extends GenericService {
   ///////////////
   private market: Market
   private markets: Market[]
-  public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
   public marketSubject: Subject<Market> = new Subject<Market>()
   public marketsSubject: Subject<any> = new Subject<any>()
 
@@ -50,12 +49,10 @@ export class MarketService extends GenericService {
   
   }
 
-  public async addMarket(name: string, category: string): Promise<void> {
+  public async addMarket(name: string, id: string, category: string): Promise<void> {
     
-    const marketCollection = this.angularFirestore.collection<Market>(`markets`)
-    const object: any = {name: name, category: category}
-    marketCollection.add(object)
-    marketCollection.ref.where('name', '==', name).get().then( markets => markets.docs.forEach(market => marketCollection.doc(market.id).update({ marketId: market.id })))
+    const object: any = {name: name, market_id: id, category: category}
+    this.angularFirestore.collection<Market>(`markets`).doc(id).set(object)
     this.setInAddMode(false)
   
   }
@@ -79,8 +76,6 @@ export class MarketService extends GenericService {
     }) 
   }
 
-  public async
-
   /////////////
   // Getters //
   /////////////
@@ -90,7 +85,6 @@ export class MarketService extends GenericService {
   
   }
   
-
   public async getMarkets(): Promise<Market[]> { 
     
     if (this.markets !== null && this.markets !== undefined) {
@@ -113,13 +107,6 @@ export class MarketService extends GenericService {
 
   }
   
-  
-  public getInAddMode(): boolean { 
-    
-    return this.inAddMode 
-  
-  }
-  
   /////////////
   // Setters //
   /////////////
@@ -130,7 +117,6 @@ export class MarketService extends GenericService {
   
   }
   
-  
   public setMarkets(markets: Market[]): void { 
     
     this.markets = markets
@@ -138,11 +124,4 @@ export class MarketService extends GenericService {
   
   }
 
-  
-  public setInAddMode(inAddMode: boolean): void {
-    
-    this.inAddMode = inAddMode
-    this.inAddModeSubject.next(inAddMode)}
-
-  }
-
+}

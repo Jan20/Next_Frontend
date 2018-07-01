@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Subject } from 'rxjs';
 import { Market } from '../../market/market-model/market';
-import { MarketService } from '../../market/market-service/market.service';
+import { GenericService } from '../../shared/services/generic-service';
 import { Asset } from '../asset-model/asset';
 import { Entry } from '../asset-model/entry';
 import { Prediction } from '../asset-model/prediction';
 
 @Injectable()
-export class AssetService {
+export class AssetService extends GenericService {
 
   ///////////////
   // Variables //
   ///////////////
-  public inAddMode: boolean = false
   private asset: Asset = new Asset('', '', '', '')
   private assets: Asset[]
   private timeSeries: Entry[]
@@ -22,6 +20,7 @@ export class AssetService {
   private testPredictions: Prediction[] = []
   private shortTermPredictions: Prediction[]
   private shortTermTestPredictions: Prediction[]
+  public inUpdateMode: boolean = false
 
   //////////////
   // Subjects //
@@ -29,11 +28,11 @@ export class AssetService {
   public assetSubject: Subject<Asset> = new Subject<Asset>()
   public assetsSubject: Subject<Asset[]> = new Subject<Asset[]>()
   public timeSeriesSubject: Subject<Entry[]> = new Subject<Entry[]>()
-  public inAddModeSubject: Subject<boolean> = new Subject<boolean>()
   public trainPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public testPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public shortTermPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
   public shortTermTestPredictionsSubject: Subject<Prediction[]> = new Subject<Prediction[]>()
+  public inUpdateModeSubject: Subject<Boolean> = new Subject<Boolean>()
 
   //////////////////
   // Constructors //
@@ -41,19 +40,11 @@ export class AssetService {
   constructor(
   
     private angularFirestore: AngularFirestore,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private marketService: MarketService
   
-  ) {}
+  ) {
 
-  ///////////////
-  // Functions //
-  ///////////////
-  public toggleInAddMode(): void {
-  
-    this.inAddMode === false ? this.setInAddMode(true) : this.setInAddMode(false)
-  
+    super()
+
   }
 
   //////////////////////////
@@ -110,30 +101,27 @@ export class AssetService {
   
   }
 
-  public async addAsset(marketId: string, name: string, symbol: string): Promise<void> {
+  public async addAsset(market_id: string, name: string, symbol: string): Promise<void> {
   
-    
-    this.angularFirestore.doc<Market>(`markets/${marketId}`).valueChanges().subscribe(market => {
-      const asset: any = { name: name, symbol: symbol, market: market.name, marketId: market.market_id }
-      const assetCollection = this.angularFirestore.collection<Asset>(`markets/${marketId}/assets`)  
-      assetCollection.add(asset)
-      assetCollection.ref.where('name', '==', asset.name).get().then( assetToUpdate => {
-        assetToUpdate.docs.forEach(assetToUpdate => {
-          assetCollection.doc(assetToUpdate.id).update({ 
-            marketId: marketId,
-            assetId: assetToUpdate.id })  
-        })
-        this.setInAddMode(false)
-      })   
-    })
-  }
+    const asset: any = { name: name, symbol: symbol, market_id: market_id}
+    this.angularFirestore.collection<Asset>(`markets/${market_id}/assets`).doc(symbol).set(asset)
+    this.setInAddMode(false)
 
+  }
   public async deleteAsset(marketId: string, assetId: string): Promise<void> {
   
-    
-    this.angularFirestore.doc(`markets/'${marketId}/assets/${assetId}`).delete()
-    this.router.navigate([`/markets/${marketId}`])
-  
+    this.angularFirestore.doc(`markets/${marketId}/assets/${assetId}`).delete()
+    // this.fetchAssets(marketId)
+
+  }
+
+  ///////////////
+  // Functions //
+  ///////////////
+  public toggleInUpdateMode(): void {
+
+    this.inAddMode === true ? this.setInUpdateMode(false) : this.setInUpdateMode(true)
+
   }
 
 
@@ -196,13 +184,6 @@ export class AssetService {
   }
 
 
-  public getInAddMode(): boolean {
-
-    return this.inAddMode
-
-  }
-
-
   public getTimeSeries(): Entry[] {
 
     return this.timeSeries
@@ -255,14 +236,6 @@ export class AssetService {
   }
 
   
-  public setInAddMode(inAddMode: boolean): void {
-  
-    this.inAddMode = inAddMode
-    this.inAddModeSubject.next(inAddMode)
-  
-  }
- 
-  
   public setTimeSeries(timeSeries: Entry[]): void {
   
     this.timeSeries = timeSeries
@@ -299,6 +272,13 @@ export class AssetService {
     this.shortTermTestPredictions = shortTermTestPredictions
     this.shortTermTestPredictionsSubject.next(shortTermTestPredictions)
 
+  }
+
+  public setInUpdateMode(inUpdateMode: boolean): void {
+
+    this.inUpdateMode = inUpdateMode
+    this.inUpdateModeSubject.next(inUpdateMode)
+    
   }
 
 }

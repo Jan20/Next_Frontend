@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { UserService } from '../user-service/user.service';
 import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../user-model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-login',
@@ -23,11 +24,22 @@ export class UserLoginComponent implements OnInit {
   // Constructors //
   //////////////////
   constructor(
+
     public userService: UserService,
+    public router: Router,
+
   ) {}
 
-  async ngOnInit(): Promise<void> {    
+  public async ngOnInit(): Promise<void> {    
+    
     await this.userService.getUser().then(user => this.user = user)
+  
+  }
+
+  public switchToAdmin(): void {
+
+    this.router.navigate(['admin/markets'])
+
   }
 
 }

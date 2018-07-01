@@ -5,15 +5,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { MaterialModule } from '../config/material.module';
-// Modules
 import { SharedModule } from '../shared/shared.module';
 import { AssetAddComponent } from './asset-add/asset-add.component';
+import { AssetAdminComponent } from './asset-admin/asset-admin.component';
 import { AssetDetailsComponent } from './asset-details/asset-details.component';
 import { AssetGraphComponent } from './asset-graph/asset-graph.component';
-// Components
 import { AssetOverviewComponent } from './asset-overview/asset-overview.component';
-// Services
 import { AssetService } from './asset-service/asset.service';
+import { AssetUpdateComponent } from './asset-update/asset-update.component';
 
 @NgModule({
   imports: [
@@ -33,6 +32,8 @@ import { AssetService } from './asset-service/asset.service';
     AssetDetailsComponent,
     AssetAddComponent,
     AssetGraphComponent,
+    AssetAdminComponent,
+    AssetUpdateComponent,
 
   ], providers: [
 
@@ -42,7 +43,8 @@ import { AssetService } from './asset-service/asset.service';
 
     AssetOverviewComponent,
     AssetDetailsComponent,
-    AssetAddComponent
+    AssetAddComponent,
+    AssetAdminComponent
 
   ]
 })

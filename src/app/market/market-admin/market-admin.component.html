@@ -1,0 +1,17 @@
+<h1 class='title' *ngIf='marketService.inAddMode === false'>{{title}}</h1>
+
+<div class='card-container' *ngIf='marketService.inAddMode === false'>
+
+    <button mat-raised-button *ngFor='let market of markets' (click)='switchView(market)' class='card'> 
+        <h1 class='market-name'>{{market.name}}</h1>
+    </button>
+
+    <button mat-raised-button (click)='marketService.toggleInAddMode()' class='card'> 
+        <h1 class='market-name'>Add Market</h1>
+    </button>
+
+</div>
+
+<app-market-add></app-market-add>
+
+<app-particles></app-particles>

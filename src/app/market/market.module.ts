@@ -1,19 +1,14 @@
-import { NgModule } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { MaterialModule } from '../config/material.module'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
-// Modules
-import { SharedModule } from '../shared/shared.module'
-import { AssetModule } from '../asset/asset.module'
-
-// Components
-import { MarketOverviewComponent } from './market-overview/market-overview.component'
-import { MarketDetailsComponent } from './market-details/market-details.component'
-import { MarketAddComponent } from './market-add/market-add.component'
-
-// Services
-import { MarketService } from './market-service/market.service'
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AssetModule } from '../asset/asset.module';
+import { MaterialModule } from '../config/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { MarketAddComponent } from './market-add/market-add.component';
+import { MarketAdminDetailsComponent } from './market-admin-details/market-admin-details.component';
+import { MarketAdminComponent } from './market-admin/market-admin.component';
+import { MarketOverviewComponent } from './market-overview/market-overview.component';
+import { MarketService } from './market-service/market.service';
 import { MarketSettingsComponent } from './market-settings/market-settings.component';
 import { MarketStatsComponent } from './market-stats/market-stats.component';
 
@@ -29,10 +24,11 @@ import { MarketStatsComponent } from './market-stats/market-stats.component';
   ], declarations: [
     
     MarketOverviewComponent, 
-    MarketDetailsComponent,
     MarketAddComponent,
     MarketSettingsComponent,
     MarketStatsComponent,
+    MarketAdminComponent,
+    MarketAdminDetailsComponent
   
   ], providers: [
   

@@ -1,0 +1,21 @@
+<h1 class='title'>{{market.name}}</h1>
+
+<div class='card-container'>
+
+  <button mat-raised-button class='card' (click)='deleteMarket()'> 
+    <h2>Delete Market</h2>
+  </button>
+
+  <button mat-raised-button class='card' (click)='cleanMarketData()'> 
+    <h2>Clean Market Data</h2>
+  </button>
+
+  <button mat-raised-button class='card' (click)='assetService.toggleInAddMode()'>
+    <h2>Add Asset</h2>
+  </button>
+
+</div>
+
+<app-asset-admin></app-asset-admin>
+
+<app-particles></app-particles>
