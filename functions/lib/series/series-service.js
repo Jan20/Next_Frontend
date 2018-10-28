@@ -78,17 +78,12 @@ class SeriesService {
     getDatapoint(market, symbol, date) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield database_service_1.DatabaseService.getInstance().getFirestore().doc(`/markets/${market}/assets/${symbol}/series/${date}`).get().then((d) => __awaiter(this, void 0, void 0, function* () {
-                console.log('++++++++++++++++++++++++++++++++++++++++++++++++-');
-                console.log(d.data());
-                console.log('++++++++++++++++++++++++++++++++++++++++++++++++-');
                 if (d.data() === undefined) {
                     return new Promise(resolve => resolve(new datapoint_1.Datapoint('false', 0)));
                 }
                 return new Promise(resolve => resolve(new datapoint_1.Datapoint(d.data().date, d.data().value)));
             }));
-            console.log('++++++++++++++++++++++++++++++++++++++++++++++++-');
             console.log(result);
-            console.log('++++++++++++++++++++++++++++++++++++++++++++++++-');
             return new Promise(resolve => resolve(result));
         });
     }

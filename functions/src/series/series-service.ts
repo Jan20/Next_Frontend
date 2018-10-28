@@ -93,10 +93,6 @@ export class SeriesService {
 
         const result: Datapoint = await DatabaseService.getInstance().getFirestore().doc(`/markets/${market}/assets/${symbol}/series/${date}`).get().then(async d => {
 
-            console.log('++++++++++++++++++++++++++++++++++++++++++++++++-')
-            console.log(d.data())
-            console.log('++++++++++++++++++++++++++++++++++++++++++++++++-')
-
             if (d.data() === undefined) {
                 
                 return new Promise<Datapoint>(resolve => resolve(new Datapoint('false', 0)))
@@ -107,9 +103,7 @@ export class SeriesService {
 
         })
 
-        console.log('++++++++++++++++++++++++++++++++++++++++++++++++-')
         console.log(result)
-        console.log('++++++++++++++++++++++++++++++++++++++++++++++++-')
         return new Promise<Datapoint>(resolve => resolve(result))
 
     }

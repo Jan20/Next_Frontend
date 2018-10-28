@@ -69,12 +69,17 @@ export class UpdateService {
      */
     private async executeMarketCall(markets: Market[], date: string, index: number): Promise<boolean> {
 
+        console.log('________________________________________________________________')
+        console.log(index)
+        console.log('________________________________________________________________')
         // Retrieves all assets of the market the index is pointing to.
         const assets: Asset[] = await AssetService.getInstance().getAssets(markets[index].getMarketId())
 
         // Initializes a series of Alphavantage calls until
         // every asset of the current market has been updated.
-        const result: boolean = await this.executeAlphavantageCall(markets[index], assets, date, 0, 0)
+        const i: number = await this.checkForOutdatedDatapoints(markets[index], assets, date)
+
+        const result: boolean = await this.executeAlphavantageCall(markets[index], assets, date, i, 0)
 
         if (!result) {
 
@@ -86,7 +91,7 @@ export class UpdateService {
         // udpated, a recursive function call is trcallediggered
         // with an incremented index pointing to the next
         // market within the markets array.
-        if (index < markets.length) {
+        if (index < markets.length - 1) {
             console.log('..........................................')
             console.log(index)
             console.log('..........................................')
@@ -111,53 +116,45 @@ export class UpdateService {
      * @param date 
      * @param index 
      */
-    private async executeAlphavantageCall(market: Market, assets: Asset[], date: string, index: number, assetsRetrieved: number): Promise<boolean> {
+    private async executeAlphavantageCall(market: Market, assets: Asset[], date: string, index: number, assetsRetrieved: number): Promise<any> {
+
+        // Checks for not yet updated assets within the
+        // assets array. The index i will point to the
+        // last asset that has not yet been updated.
+
+        if (index === assets.length) {
+
+            return new Promise<boolean>(resolve => resolve(true))
+
+        }
 
         // If 15 assets has been retrieved in the current
         // cloud function call, executeMarketCall() returns
         // false, thus inforcing a new cloud function
         // invocation.
-        if (assetsRetrieved > 12) {
+        // if (assetsRetrieved > 12) {
 
-            return new Promise<boolean>(resolve => resolve(false))
+        //     return new Promise<boolean>(resolve => resolve(false))
 
-        }
+        // }
 
-        // Checks for not yet updated assets within the
-        // assets array. The index i will point to the
-        // last asset that has not yet been updated.
-        const i = await this.checkForOutdatedDatapoints(market, assets, index, date)
-            
-        // Ugly workaround to insure that Alphavantage's API
-        // is not complaining about too many requests at a time.
+
         await setTimeout( async () => {
-            console.log('______________________________________________')
-            console.log(i)
-            console.log(assets[i])
+            
+            console.log(assets[index])
             // Executes a call to Alphavantage's API and stores
             // the retrieved results in the connected Firestore
             // database.
-            await AlphaService.getInstance().callAlphaProject(assets[i].getMarketId(), assets[i].getSymbol())
-
-            // After an asset has been updated, 'assetsRetrieved'
-            // will be incremented by 1 in order to ensure that
-            // not more than 15 assets are retrieved within one
-            // cloud function invocation.
-            
-            // If no errors have been occured within the
-            // import process, the next asset will be updated.
-            if (i < assets.length) {
-
-                this.executeAlphavantageCall(market, assets, date, i + 1, assetsRetrieved + 1)
-            
-            }
+            await AlphaService.getInstance().callAlphaProject(assets[index].getMarketId(), assets[index].getSymbol())
+            assetsRetrieved = assetsRetrieved + 1
 
         }, 20000)
 
-        // If all assets of the current market has been
-        // updated, the function returns true.
-        return new Promise<boolean>(resolve => resolve(true))
+        this.executeAlphavantageCall(market, assets , date, index + 1, assetsRetrieved + 1)
+        // Ugly workaround to insure that Alphavantage's API
+        // is not complaining about too many requests at a time.
         
+
     }
 
     /**
@@ -169,39 +166,24 @@ export class UpdateService {
      * @param date 
      * 
      */
-    private async checkForOutdatedDatapoints(market: Market, assets: Asset[], index: number, date: string): Promise<number> {
+    private async checkForOutdatedDatapoints(market: Market, assets: Asset[], date: string): Promise<number> {
+    
+        for(let i = 0; i < assets.length; i++) {
 
-        console.log(index)
-        console.log(assets.length)
+            const datapoint = await SeriesService.getInstance().getDatapoint(market.getMarketId(), assets[i].getSymbol(), date)
+            
+            // If there is no datapoint that corresponds to the
+            // date paramter, the function returns false.
+            if (datapoint.getDate() === 'false') {
 
-        // NOTE: Retrieves a single datepoint that corresponds to the date
-        // parameter in the time series of a given asset, not the entire
-        // time series.
-        const datapoint = await SeriesService.getInstance().getDatapoint(market.getMarketId(), assets[index].getSymbol(), date)
+                return new Promise<number>(resolve => resolve(i))
 
-        // If there is no datapoint that corresponds to the
-        // date paramter, the function returns false.
-        if (datapoint.getDate() === 'false') {
-
-            return new Promise<number>(resolve => resolve(index))
-
-        }
-        
-        // If the parameter index is equals to the length
-        // of the assets array, there is nothing more to check,
-        // thus the function returns true.
-        if (index < assets.length - 1) {
-
-            // Recursive call of the function with an increased index
-            // intending to check all assets within the assets array
-            // until the array's end is reached.
-            await this.checkForOutdatedDatapoints(market, assets, index + 1, date)
-
+            }
+            
         }
 
-        // if index is greater than assets.length, the default
-        // promise is returned.
-        return new Promise<number>(resolve => resolve(index + 1))
+        console.log('Should have been called.')
+        return new Promise<number>(resolve => resolve(30))
 
     }
 

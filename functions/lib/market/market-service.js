@@ -36,7 +36,6 @@ class MarketService {
         return __awaiter(this, void 0, void 0, function* () {
             const markets = [];
             yield database_service_1.DatabaseService.getInstance().getFirestore().collection(`/markets`).get().then(newMarkets => {
-                newMarkets.forEach(market => console.log(market.data()));
                 newMarkets.forEach(market => markets.push(new market_model_1.Market(market.data().market_id, market.data().category, market.data().name)));
             });
             return new Promise(resolve => resolve(markets));
