@@ -11,9 +11,11 @@ import { MarketOverviewComponent } from './market-overview/market-overview.compo
 import { MarketService } from './market-service/market.service';
 import { MarketSettingsComponent } from './market-settings/market-settings.component';
 import { MarketStatsComponent } from './market-stats/market-stats.component';
+import { MarketUpdateComponent } from './market-update/market-update.component';
 
 @NgModule({
   imports: [
+  
     CommonModule,
     MaterialModule,
     FormsModule,
@@ -28,8 +30,9 @@ import { MarketStatsComponent } from './market-stats/market-stats.component';
     MarketSettingsComponent,
     MarketStatsComponent,
     MarketAdminComponent,
-    MarketAdminDetailsComponent
-  
+    MarketAdminDetailsComponent,
+    MarketUpdateComponent,
+
   ], providers: [
   
     MarketService

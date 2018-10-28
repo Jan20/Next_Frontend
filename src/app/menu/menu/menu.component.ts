@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-
-// Models
 import { MenuItem } from '../menu-model/menu.item'
-
-// Services
 import { MenuService } from '../menu-service/menu.service'
 
 @Component({
@@ -17,7 +13,8 @@ export class MenuComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  public title: String = 'Momentum'
+  public title: string = 'ECO'
+  public two: string = '2.0'
   public items: MenuItem[]
   public user: MenuItem
 

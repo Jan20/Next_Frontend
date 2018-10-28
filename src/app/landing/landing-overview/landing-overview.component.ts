@@ -14,15 +14,20 @@ export class LandingOverviewComponent implements OnInit {
   public title: string = 'Momentum'
   public subtitle: string = 'Advanced Financial Algorithms'
 
+  //////////////////
+  // Constructors //
+  //////////////////
   constructor(
 
     private router: Router
 
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {} 
 
+  ///////////////
+  // Functions //
+  ///////////////
   public switchToPredictions(): void {
 
     this.router.navigate(['markets'])

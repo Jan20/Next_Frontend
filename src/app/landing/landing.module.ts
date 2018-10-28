@@ -1,18 +1,14 @@
-import { NgModule } from '@angular/core'
-import { CommonModule } from '@angular/common'
-
-// Modules
-import { SharedModule } from '../shared/shared.module'
-
-// Components
-import { LandingOverviewComponent } from './landing-overview/landing-overview.component'
-
-// Services
-import { LandingService } from './landing-service/landing.service'
-import { ParticlesModule } from 'angular-particle'
-import { LandingBenefitsComponent } from './landing-benefits/landing-benefits.component'
-import { MaterialModule } from '../config/material.module'
-import { LandingStartComponent } from './landing-start/landing-start.component'
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ParticlesModule } from 'angular-particle';
+import { MaterialModule } from '../config/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { LandingBenefitsComponent } from './landing-benefits/landing-benefits.component';
+import { LandingOverviewComponent } from './landing-overview/landing-overview.component';
+import { LandingService } from './landing-service/landing.service';
+import { LandingStartComponent } from './landing-start/landing-start.component';
+import { LandingPortfolioComponent } from './landing-portfolio/landing-portfolio.component';
+import { LandingPerformanceComponent } from './landing-performance/landing-performance.component';
 
 @NgModule({
   imports: [
@@ -27,7 +23,9 @@ import { LandingStartComponent } from './landing-start/landing-start.component'
     
     LandingOverviewComponent,
     LandingBenefitsComponent,
-    LandingStartComponent
+    LandingStartComponent,
+    LandingPortfolioComponent,
+    LandingPerformanceComponent
   
   ],
   providers: [

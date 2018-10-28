@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import { AssetService } from '../../asset/asset-service/asset.service'
-import { MarketService } from '../../market/market-service/market.service'
-import { Market } from '../../market/market-model/market'
 import { Asset } from '../../asset/asset-model/asset'
 import { MomentumService } from '../../momentum/momentum-service/momentum.service'
 

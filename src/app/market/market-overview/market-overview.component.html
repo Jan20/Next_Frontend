@@ -4,11 +4,9 @@
 
 
 <div class='card-container'>
-    <button mat-raised-button *ngFor='let market of markets' (click)='switchView(market)' class='card'> 
+    <button mat-raised-button class='card' *ngFor='let market of markets' (click)='switchView(market)'> 
     
         <h1 class='market-name'>{{market.name}}</h1>
     
     </button>
 </div>
-
-<app-particles></app-particles>
