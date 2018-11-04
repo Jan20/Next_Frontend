@@ -1,9 +1,8 @@
 import * as functions from 'firebase-functions'
 import * as express from 'express'
-import { MarketService } from './market/market-service'
-import { AssetService } from './asset/asset-service'
-import { UpdateService } from './update/update-service'
-
+import { MarketService } from './services/market-service'
+import { AssetService } from './services/asset-service'
+import { UpdateService } from './services/update-service'
 
 const router = express()
 

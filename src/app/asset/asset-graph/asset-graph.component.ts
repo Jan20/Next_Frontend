@@ -70,10 +70,11 @@ export class AssetGraphComponent implements OnInit {
         minorTicks: 5,
         majorTicks: ['0', '1', '2', '3', '4', '5'],
         backgroundColor: 'transparent',
-        colors: ['rgb(255, 255, 255)', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+        colors: ['rgb(50, 50, 50)', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
         legend: 'none',
         hAxis: { gridlines: { color: '#FFFFFF' } },
-        vAxis: { gridlines: { color: '#FFFFFF' } }
+        vAxis: { gridlines: { color: '#FFFFFF' } },
+        height: 800,
 
       },
       animation: {
@@ -99,6 +100,8 @@ export class AssetGraphComponent implements OnInit {
       backgroundColor: 'transparent',
       colors: ['#D2965A', '#e6693e', '#800000', '#800000', '#f6c7b6'],
       legend: 'none',
+      height: 800,
+
     }
   }
 

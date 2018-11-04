@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request");
-const series_service_1 = require("../series/series-service");
-const series_1 = require("../series/series");
-const datapoint_1 = require("../series/datapoint");
+const series_service_1 = require("./series-service");
+const series_model_1 = require("../models/series-model");
+const datapoint_model_1 = require("../models/datapoint-model");
 class AlphaService {
     //////////////////
     // Constructors //
@@ -45,9 +45,9 @@ class AlphaService {
             const url = `https://us-central1-alpha-002.cloudfunctions.net/api/alpha/${symbol}`;
             yield request.post(url).on('data', response => chunks.push(response)).on('end', () => __awaiter(this, void 0, void 0, function* () {
                 const json = JSON.parse(Buffer.concat(chunks).toString());
-                const series = new series_1.Series();
+                const series = new series_model_1.Series();
                 for (let key in json) {
-                    json.hasOwnProperty(key) ? series.getData().push(new datapoint_1.Datapoint(key, json[key]['4. close'])) : null;
+                    json.hasOwnProperty(key) ? series.getData().push(new datapoint_model_1.Datapoint(key, json[key]['4. close'])) : null;
                 }
                 yield series_service_1.SeriesService.getInstance().addSeries(market, symbol, series);
                 return new Promise(resolve => resolve(true));

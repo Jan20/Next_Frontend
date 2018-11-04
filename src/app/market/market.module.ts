@@ -12,6 +12,7 @@ import { MarketService } from './market-service/market.service';
 import { MarketSettingsComponent } from './market-settings/market-settings.component';
 import { MarketStatsComponent } from './market-stats/market-stats.component';
 import { MarketUpdateComponent } from './market-update/market-update.component';
+import { MomentumModule } from '../momentum/momentum.module'
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { MarketUpdateComponent } from './market-update/market-update.component';
     ReactiveFormsModule,
     SharedModule,
     AssetModule,
+    MomentumModule,
 
   ], declarations: [
     

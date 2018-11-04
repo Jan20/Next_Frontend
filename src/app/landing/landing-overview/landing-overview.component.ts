@@ -30,7 +30,7 @@ export class LandingOverviewComponent implements OnInit {
   ///////////////
   public switchToPredictions(): void {
 
-    this.router.navigate(['markets'])
+    this.router.navigate(['markets/nasdaq/assets'])
 
   }
 

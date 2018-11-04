@@ -32,7 +32,7 @@ export class MenuComponent implements OnInit {
     this.items.push(
 
       // new MenuItem('Predictions', 'lock_open', '/predictions'),
-      new MenuItem('Markets', 'grain', '/markets'),
+      // new MenuItem('Markets', 'grain', '/markets'),
 
     )
 

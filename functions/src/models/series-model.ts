@@ -1,4 +1,4 @@
-import { Datapoint } from './datapoint'
+import { Datapoint } from './datapoint-model'
 
 export class Series {
 

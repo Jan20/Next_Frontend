@@ -8,14 +8,9 @@ h1 {
 
 .graph {
 
-    height: 250px;
-    margin-top: 311px;
-    padding-bottom: 50px;
     margin-left: 10%;
     width: 80%;
-    position: absolute;
-    background: transparent;
-    background: rgba(255, 255, 255, 0.2);
+    height: 800px;
 
 }
 
@@ -32,7 +27,7 @@ h1 {
 
 .card-container {
 
-    height: 54px;
+    height: 80%;
     width: 80%;
     margin-left: 10%;
     margin-top: 563px;
@@ -43,7 +38,7 @@ h1 {
 .card {
 
     color: white;
-    height: 50px;
+    height: 80%;
     width: calc(25% - 2px);
     background: transparent;
     background: rgba(255, 255, 255, 0.2);

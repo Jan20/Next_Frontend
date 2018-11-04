@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const express = require("express");
-const market_service_1 = require("./market/market-service");
-const asset_service_1 = require("./asset/asset-service");
-const update_service_1 = require("./update/update-service");
+const market_service_1 = require("./services/market-service");
+const asset_service_1 = require("./services/asset-service");
+const update_service_1 = require("./services/update-service");
 const router = express();
 const asyncMiddleware = fn => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);

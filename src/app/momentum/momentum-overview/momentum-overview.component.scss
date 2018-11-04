@@ -1,8 +1,8 @@
 h1 {
 
-    color: white;
     width: 100%;
     font-weight: 100;
+    font-size: 16px;
 
 }
 
@@ -17,43 +17,33 @@ h2 {
 
 }
 
-.title {
+.container {
 
-    color: white;
-    width: 80%;
-    margin-left: 10%;
-    margin-top: 75px;
-    position: absolute;
-    font-size: 36px;
-
-}
-
-.card-container {
-
-    height: 70%;
-    width: 82%;
-    margin-left: 10%;
-    margin-top: 125px;
+    margin-left: 100px;
+    width: calc(100% - 100px);
     position: absolute;
     overflow: scroll;
+    border-right: 1px solid rgb(237, 237, 237);
+    height: calc(96% - 34px);
+    background: linear-gradient(to right bottom, rgb(150, 210, 150),rgb(194, 200, 104))
 
 }
+
 
 .card {
 
-    color: white;
+    color: black;
     height: 100px;
-    width: calc(25% - 10px);
-    background: transparent;
-    background: rgba(255, 255, 255, 0.2);
-    margin-right: 10px;
-    margin-bottom: 10px;
+    width: calc(25% - 13px);
+    // background: rgba(255, 255, 255, 0.2);
+    margin-left: 10px;
+    margin-top: 10px;
 
 }
 
 .market-name {
 
-    color: white;
+    color: black;
     width: 100%;
     font-weight: 100;
     text-align: center;

@@ -52,20 +52,17 @@ export class AssetService extends GenericService {
   //////////////////////////
   public async fetchTimeSeries(marketId: string, assetId: string): Promise<void> {
 
-    
     this.angularFirestore.collection<Entry>(`markets/${marketId}/assets/${assetId}/series`).valueChanges().subscribe(entries => this.setTimeSeries(entries))
 
   }
 
   public async fetchTrainPredictions(marketId: string, assetId: string): Promise<void> {
-
     
     this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/train_predictions`).valueChanges().subscribe(trainPredictions => this.setTrainPredictions(trainPredictions))
 
   }
 
   public async fetchTestPredictions(marketId: string, assetId: string): Promise<void> {
-
     
     this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/test_predictions`).valueChanges().subscribe(testPredictions => this.setTestPredictions(testPredictions))
 
@@ -73,14 +70,12 @@ export class AssetService extends GenericService {
 
   public async fetchShortTermPredictions(marketId: string, assetId: string): Promise<void> {
 
-    
     this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/short_term_predictions`).valueChanges().subscribe(shortTermPredictions => this.setShortTermPredictions(shortTermPredictions))
 
   }
 
   public async fetchShortTermTestPredictions(marketId: string, assetId: string): Promise<void> {
 
-    
     this.angularFirestore.collection<Prediction>(`markets/${marketId}/assets/${assetId}/short_term_test_predictions`).valueChanges().subscribe(shortTermTestPredictions => this.setShortTermTestPredictions(shortTermTestPredictions))
 
   }

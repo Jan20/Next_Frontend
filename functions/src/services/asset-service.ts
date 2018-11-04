@@ -1,5 +1,5 @@
-import { DatabaseService } from '../database/database-service'
-import { Asset } from './asset-model'
+import { DatabaseService } from './database-service'
+import { Asset } from '../models/asset-model'
 
 export class AssetService {
 

@@ -1,5 +1,5 @@
-import { DatabaseService } from '../database/database-service'
-import { Market } from './market-model'
+import { DatabaseService } from '../services/database-service'
+import { Market } from '../models/market-model'
 
 export class MarketService {
 

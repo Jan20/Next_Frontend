@@ -1,11 +1,7 @@
-<h1 class='title'>
-  {{title}}
-</h1>
-
-<div class='card-container'>
+<div class='container'>
   <button mat-raised-button *ngFor='let asset of assets' (click)='switchView(asset)' class='card'>
 
-      <h1 class='market-name'>{{asset.symbol}}</h1>
+      <h1 class='market-name'>{{asset.name}}</h1>
       <h1 class='market-name'>{{asset.longTermSharpeRatio | number:'1.0'}}</h1>
 
   </button>

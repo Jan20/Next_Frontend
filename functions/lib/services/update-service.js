@@ -8,11 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const market_service_1 = require("../market/market-service");
-const asset_service_1 = require("../asset/asset-service");
-const alpha_service_1 = require("../alpha/alpha-service");
-const series_service_1 = require("../series/series-service");
-const datapoint_1 = require("../series/datapoint");
+const datapoint_model_1 = require("../models/datapoint-model");
+const asset_service_1 = require("./asset-service");
+const alpha_service_1 = require("./alpha-service");
+const market_service_1 = require("./market-service");
+const series_service_1 = require("./series-service");
 class UpdateService {
     //////////////////
     // Constructors //
@@ -65,9 +65,11 @@ class UpdateService {
      * @param markets: Array of 'Market' objects
      * @param date: The date of the most recent datapoint to be retrieved
      * @param index: Indicates the position of the current market within the markets array.
+     *
      */
     executeMarketCall(markets, date, index) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('executeMarketCall');
             // Retrieves all assets of the market, the index is pointing to.
             const assets = yield asset_service_1.AssetService.getInstance().getAssets(markets[index].getMarketId());
             // Initializes a series of Alphavantage calls until
@@ -169,7 +171,7 @@ class UpdateService {
             // with the January 1st 1970 in order to insure that
             // the date-comparison does not encounter something along
             // the lines of 'undefined is not an object'-
-            let latestDatapoint = new datapoint_1.Datapoint('1970-01-01', 0);
+            let latestDatapoint = new datapoint_model_1.Datapoint('1970-01-01', 0);
             // Calls Alphavantage's API and waits until all retrieved
             // datapoints are important in a given Firestore database.
             yield alpha_service_1.AlphaService.getInstance().callAlphaProject('nasdaq', 'AAPL');

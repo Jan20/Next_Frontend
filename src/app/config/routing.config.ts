@@ -13,7 +13,7 @@ export const ROUTES: Routes = [
 
   { path: '', component: LandingOverviewComponent },
   { path: 'markets', component: MarketOverviewComponent },
-  { path: 'markets/:marketId/assets', component: MomentumOverviewComponent },
+  { path: 'markets/:marketId/assets', component: MarketOverviewComponent },
   { path: 'markets/:marketId/assets/:assetId', component: AssetDetailsComponent },
 
   { path: 'admin/markets', component: MarketAdminComponent },

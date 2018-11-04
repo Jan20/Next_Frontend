@@ -1,6 +1,6 @@
-import { DatabaseService } from '../database/database-service'
-import { Series } from './series'
-import { Datapoint } from './datapoint';
+import { DatabaseService } from './database-service'
+import { Series } from '../models/series-model'
+import { Datapoint } from '../models/datapoint-model'
 
 export class SeriesService {
 
@@ -39,7 +39,7 @@ export class SeriesService {
      * 
      */
     public addSeries(market: string, symbol: string, series: Series): void {
-        
+
         series.getData().forEach(datapoint => {
 
             DatabaseService.getInstance().getFirestore().doc(`/markets/${market}/assets/${symbol}/series/${datapoint.getDate()}`).set(datapoint.getObject())
@@ -88,6 +88,7 @@ export class SeriesService {
      * @param market: A string reference a market_id like 'dax' or 'nasdaq'
      * @param symbol: A stock symbol like 'AAPL'
      * @param date: A date folowing the format 'JJJJ-MM-DD'
+     * 
      */
     public async getDatapoint(market: string, symbol: string, date: string): Promise<Datapoint> {
 
@@ -103,7 +104,6 @@ export class SeriesService {
 
         })
 
-        console.log(result)
         return new Promise<Datapoint>(resolve => resolve(result))
 
     }
